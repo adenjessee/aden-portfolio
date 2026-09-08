@@ -416,6 +416,13 @@ nav a[aria-current="page"] {
   font-size: var(--fs-label);
 }
 
+.scene-caption {
+  margin: var(--sp-2) 0 var(--sp-3);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .avatar-stage {
   position: relative;
   min-height: 420px;

@@ -13,6 +13,7 @@
     "retarget-mixamo": "tsx scripts/retarget-mixamo.ts",
     "render-demo-audio": "tsx scripts/render-demo-audio.ts",
     "generate-og": "tsx scripts/generate-og.ts",
+    "probe-ask": "tsx scripts/probe-ask.ts",
     "test": "vitest run",
     "test:e2e": "playwright test",
     "astro": "astro"

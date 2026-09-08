@@ -1,22 +1,17 @@
-import { Html } from "@react-three/drei";
 import type { SceneObject } from "../registry";
-import { worldPosition } from "./positions";
+import { Panel } from "./Panel";
 
 export function ComparisonPrimitive({ object }: { object: SceneObject }) {
   return (
-    <group position={worldPosition(object.position)}>
-      <Html center transform distanceFactor={2.4}>
-        <div className="cards" style={{ width: 360, gridTemplateColumns: "1fr 1fr" }}>
-          <article className="card">
-            <p className="meta">{object.left?.title}</p>
-            <p>{object.left?.body}</p>
-          </article>
-          <article className="card">
-            <p className="meta">{object.right?.title}</p>
-            <p>{object.right?.body}</p>
-          </article>
-        </div>
-      </Html>
-    </group>
+    <Panel object={object} accent="#ffb32b">
+      <mesh position={[-0.28, 0, 0.04]}>
+        <boxGeometry args={[0.42, 0.55, 0.02]} />
+        <meshStandardMaterial color="#10203a" />
+      </mesh>
+      <mesh position={[0.28, 0, 0.04]}>
+        <boxGeometry args={[0.42, 0.55, 0.02]} />
+        <meshStandardMaterial color="#10203a" />
+      </mesh>
+    </Panel>
   );
 }

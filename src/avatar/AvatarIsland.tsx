@@ -65,9 +65,27 @@ export default function AvatarIsland({
   const commands = live?.sceneCommands ?? cue.scene;
   const scene = applyCommands(emptyScene(), commands);
 
+  const caption = sceneCaption(scene);
+
   return (
-    <div className="avatar-stage" data-demo={playing ? "on" : "off"}>
-      <Canvas performance={performance} scene={scene} talking={Boolean(live?.talking || playing)} />
+    <div>
+      <div className="avatar-stage" data-demo={playing ? "on" : "off"}>
+        <Canvas performance={performance} scene={scene} talking={Boolean(live?.talking || playing)} />
+      </div>
+      {caption ? <p className="status scene-caption">{caption}</p> : null}
     </div>
   );
+}
+
+function sceneCaption(scene: SceneState): string {
+  return scene.objects
+    .map((object) => {
+      if (object.kind === "text") return object.text;
+      if (object.kind === "comparison") return `${object.left?.title} / ${object.right?.title}`;
+      if (object.kind === "timeline") return (object.items ?? []).join(" → ");
+      if (object.kind === "code") return object.title || "code";
+      return object.title || object.id;
+    })
+    .filter(Boolean)
+    .join(" · ");
 }

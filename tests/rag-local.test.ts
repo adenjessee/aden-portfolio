@@ -33,6 +33,16 @@ describe("local retrieval", () => {
   it("does not invent a position on unrelated questions", () => {
     const chunks = chunkMarkdown("graph.md", sample);
     const hits = scoreLocal("what is your favorite pizza topping", chunks, 4);
+    expect(hits).toEqual([]);
     expect(hasPosition(hits)).toBe(false);
+  });
+
+  it("answers from the top hit only", async () => {
+    const { extractiveAnswer } = await import("../src/rag/localIndex");
+    const chunks = chunkMarkdown("graph.md", sample);
+    const hits = scoreLocal("graph engineering blast radius", chunks, 4);
+    const speech = extractiveAnswer(hits);
+    expect(speech).toContain("Graph comprehension");
+    expect(speech.includes("A model can write")).toBe(speech.length > 80);
   });
 });

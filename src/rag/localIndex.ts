@@ -29,6 +29,21 @@ const STOP = new Set([
   "i",
   "you",
   "we",
+  "what",
+  "why",
+  "how",
+  "who",
+  "when",
+  "where",
+  "your",
+  "my",
+  "does",
+  "can",
+  "already",
+  "if",
+  "do",
+  "did",
+  "about",
 ]);
 
 function tokens(text: string): string[] {
@@ -68,10 +83,11 @@ export function scoreLocal(query: string, chunks: KbChunk[], topK: number): Retr
 }
 
 export function extractiveAnswer(hits: Retrieved[], maxChars = 900): string {
-  const parts = hits.slice(0, 3).map((hit) => hit.text.replace(/\s+/g, " ").trim());
-  const joined = parts.join(" ");
-  if (joined.length <= maxChars) return joined;
-  return `${joined.slice(0, maxChars - 1).trimEnd()}.`;
+  const top = hits[0];
+  if (!top) return "";
+  const text = top.text.replace(/\s+/g, " ").trim();
+  if (text.length <= maxChars) return text;
+  return `${text.slice(0, maxChars - 1).trimEnd()}.`;
 }
 
 export { chunkMarkdown };

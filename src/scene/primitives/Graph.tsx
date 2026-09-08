@@ -1,33 +1,45 @@
-import { Html } from "@react-three/drei";
 import type { SceneObject } from "../registry";
-import { worldPosition } from "./positions";
+import { Panel } from "./Panel";
 
 const nodes = [
-  { id: "app", x: -0.35, y: 0.25 },
-  { id: "graph", x: 0.2, y: 0.3 },
-  { id: "hiddenDependency", x: 0.15, y: -0.15 },
-  { id: "tests", x: -0.25, y: -0.2 },
+  { id: "app", x: -0.32, y: 0.18 },
+  { id: "graph", x: 0.22, y: 0.22 },
+  { id: "hiddenDependency", x: 0.16, y: -0.16 },
+  { id: "tests", x: -0.22, y: -0.18 },
+];
+
+const edges: Array<[number, number]> = [
+  [0, 1],
+  [0, 3],
+  [1, 2],
 ];
 
 export function GraphPrimitive({ object, highlight }: { object: SceneObject; highlight: string | null }) {
   return (
-    <group position={worldPosition(object.position)}>
-      {nodes.map((node) => (
-        <mesh key={node.id} position={[node.x, node.y, 0]}>
-          <sphereGeometry args={[0.05, 16, 16]} />
-          <meshStandardMaterial
-            color={highlight === node.id || node.id === "hiddenDependency" && highlight === "hiddenDependency" ? "#ff5a6a" : "#28e1ff"}
-            emissive={highlight === node.id ? "#ff5a6a" : "#145866"}
-          />
-        </mesh>
-      ))}
-      <mesh>
-        <boxGeometry args={[1.05, 0.82, 0.02]} />
-        <meshStandardMaterial color="#071018" transparent opacity={0.55} />
-      </mesh>
-      <Html position={[0, 0.48, 0]} center>
-        <div className="chip">{object.title || "graph"}</div>
-      </Html>
-    </group>
+    <Panel object={object}>
+      {edges.map(([from, to], index) => {
+        const a = nodes[from];
+        const b = nodes[to];
+        const mid: [number, number, number] = [(a.x + b.x) / 2, (a.y + b.y) / 2, 0.04];
+        const len = Math.hypot(b.x - a.x, b.y - a.y);
+        const angle = Math.atan2(b.y - a.y, b.x - a.x);
+        const hot = highlight === "hiddenDependency" && from === 1 && to === 2;
+        return (
+          <mesh key={`e-${index}`} position={mid} rotation={[0, 0, angle]}>
+            <boxGeometry args={[len, 0.012, 0.012]} />
+            <meshStandardMaterial color={hot ? "#ff5a6a" : "#28e1ff"} />
+          </mesh>
+        );
+      })}
+      {nodes.map((node) => {
+        const hot = highlight === node.id || (highlight === "hiddenDependency" && node.id === "hiddenDependency");
+        return (
+          <mesh key={node.id} position={[node.x, node.y, 0.06]}>
+            <sphereGeometry args={[0.055, 16, 16]} />
+            <meshStandardMaterial color={hot ? "#ff5a6a" : "#28e1ff"} emissive={hot ? "#ff5a6a" : "#145866"} />
+          </mesh>
+        );
+      })}
+    </Panel>
   );
 }
