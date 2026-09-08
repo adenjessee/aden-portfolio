@@ -1,0 +1,22 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../config/site";
+---
+
+<Base title={`Privacy · ${site.name}`} description="What this site stores. Almost nothing." path="/privacy">
+  <main class="section">
+    <div class="wrap prose">
+      <p class="kicker">Privacy</p>
+      <h1>Almost nothing is kept</h1>
+      <p>
+        Questions are processed to produce an answer and then dropped. There is no account. There is no transcript archive. A session cookie remembers only how many live questions you have used today.
+      </p>
+      <p>
+        Rate limits use the connecting IP. Daily spend is a counter, not a dossier. Telemetry, when Cloudflare Analytics Engine is bound, records cost and degradation path. It does not record the text of the question.
+      </p>
+      <p>
+        Voice audio is synthesized on demand and not stored. If you do not want a model in the loop, stay on the static pages. They are the product.
+      </p>
+    </div>
+  </main>
+</Base>

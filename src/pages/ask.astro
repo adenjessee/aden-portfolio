@@ -1,0 +1,31 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../config/site";
+import AskPanel from "../components/AskPanel.tsx";
+---
+
+<Base
+  title={`Talk to AI Aden · ${site.name}`}
+  description="Ask questions answered from Aden's public corpus. Works as text without WebGL or voice."
+  path="/ask"
+>
+  <main class="section">
+    <div class="wrap">
+      <p class="kicker">Ask</p>
+      <h1>Talk to AI Aden</h1>
+      <p class="lead">
+        Answers come from writing I have signed. If I have not taken a position, it will say so. Live voice and the 3D scene are extras. This page still works as text.
+      </p>
+
+      <section class="panel prose" id="faq">
+        <h2>Without the live model</h2>
+        <p><strong>What is GridSchool?</strong> A 12-month residency for graduates who can code and still cannot get hired. Live at <a href={site.gridschool}>gridschool.org</a>.</p>
+        <p><strong>What is GridSeak?</strong> A structural graph engine for repositories. Callers, blast radius, cycles, evidence tiers. <a href={site.gridseak}>Source</a>.</p>
+        <p><strong>Why graphs if models can read code?</strong> Generation is cheap. Knowing what a change reaches is not. A context window fails when it was never given the graph.</p>
+        <p><strong>Will this avatar invent your opinions?</strong> No. Below a retrieval threshold it says the position is not on record.</p>
+      </section>
+
+      <AskPanel client:visible />
+    </div>
+  </main>
+</Base>

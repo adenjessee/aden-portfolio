@@ -1,0 +1,77 @@
+---
+import "../styles/tokens.css";
+import { site } from "../config/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  path?: string;
+}
+
+const {
+  title = site.title,
+  description = site.description,
+  path = "/",
+} = Astro.props;
+
+const canonical = new URL(path, site.url).toString();
+const og = new URL(site.ogImage, site.url).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#010306" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={og} />
+    <meta property="og:locale" content={site.locale} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={og} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap nav-row">
+        <a class="mark" href="/">{site.name}</a>
+        <nav aria-label="Primary">
+          <a href="/#work">Work</a>
+          <a href="/#receipts">Receipts</a>
+          <a href="/resume">Resume</a>
+          <a href="/ask">Ask Aden</a>
+        </nav>
+      </div>
+    </header>
+    <slot />
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>
+          {site.name}. The page works without JavaScript, WebGL, voice, or the model.
+          <a href="/privacy">Privacy</a>.
+        </p>
+        <p>
+          <a href={site.github}>GitHub</a>
+          ·
+          <a href={site.linkedin}>LinkedIn</a>
+          ·
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

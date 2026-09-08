@@ -1,0 +1,94 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import { site } from "../config/site";
+
+const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base>
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="kicker">Software engineer · GridSchool founder</p>
+          <h1>{site.name}</h1>
+          <p class="lead">
+            I build graph tools that make a repository understandable, and I run a residency for people who can already code and still cannot get hired.
+          </p>
+          <p class="lead">
+            This page is the work. The 3D Aden is optional. If your browser, budget, or patience says no, you still get the receipts.
+          </p>
+          <div class="actions">
+            <a class="btn btn-solid" href="/ask">Talk to AI Aden</a>
+            <a class="btn" href="/resume">Resume</a>
+            <a class="btn" href={site.github}>GitHub</a>
+          </div>
+          <noscript>
+            <p class="noscript-note">JavaScript is off. The work below is complete. Questions: <a href="/ask">the text FAQ</a>.</p>
+          </noscript>
+        </div>
+        <div class="poster">
+          <img src={site.posterImage} alt="Stylized standing portrait of Aden Jessee" width="640" height="720" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="work">
+      <div class="wrap">
+        <p class="kicker">Work</p>
+        <h2>Three things a stranger can check</h2>
+        <div class="cards">
+          {projects.map((project) => (
+            <article class="card">
+              <p class="meta">{project.data.role}</p>
+              <h3><a href={`/projects/${project.id}`}>{project.data.title}</a></h3>
+              <p>{project.data.summary}</p>
+              <div class="chips">
+                {project.data.stack.map((item) => <span class="chip">{item}</span>)}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="receipts">
+      <div class="wrap">
+        <p class="kicker">Receipts</p>
+        <h2>URLs, not claims</h2>
+        <div class="panel receipts">
+          <div class="receipt">
+            <span>GridSchool, live</span>
+            <a href={site.gridschool}>{site.gridschool.replace("https://", "")}</a>
+          </div>
+          <div class="receipt">
+            <span>GridSeak, source</span>
+            <a href={site.gridseak}>github.com/adenjessee/gridseak</a>
+          </div>
+          <div class="receipt">
+            <span>This site, source</span>
+            <a href={`${site.github}/aden-portfolio`}>github.com/adenjessee/aden-portfolio</a>
+          </div>
+          <div class="receipt">
+            <span>LinkedIn</span>
+            <a href={site.linkedin}>linkedin.com/in/adenjessee</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="method">
+      <div class="wrap prose">
+        <p class="kicker">Method</p>
+        <h2>Why an employer should care about the fallbacks</h2>
+        <p>
+          Anyone can embed a chatbot. The engineering is the failure domain. The first paint is HTML. The avatar loads only when the island is visible and the device can take WebGL. Live questions are retrieved from a corpus I can edit. The model fills a schema. It does not write JavaScript.
+        </p>
+        <p>
+          Anonymous visitors get five questions, then text. A daily dollar ceiling turns a traffic spike into cached demonstrations instead of a surprise invoice. That is the same discipline I teach: specify the bound before you enjoy the demo.
+        </p>
+      </div>
+    </section>
+  </main>
+</Base>

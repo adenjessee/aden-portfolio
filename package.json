@@ -1,0 +1,46 @@
+{
+  "name": "aden-portfolio",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Aden Jessee's employer-first portfolio. Static HTML by default; AI Aden and the 3D scene load only when asked.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "npm run index-kb && astro build",
+    "preview": "astro preview",
+    "index-kb": "tsx scripts/index-kb.ts",
+    "embed-kb": "tsx scripts/embed-kb.ts",
+    "retarget-mixamo": "tsx scripts/retarget-mixamo.ts",
+    "render-demo-audio": "tsx scripts/render-demo-audio.ts",
+    "generate-og": "tsx scripts/generate-og.ts",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^12.6.12",
+    "@astrojs/react": "^4.4.2",
+    "@pixiv/three-vrm": "^3.4.4",
+    "@pixiv/three-vrm-animation": "^3.4.4",
+    "@react-three/drei": "^10.7.6",
+    "@react-three/fiber": "^9.4.0",
+    "astro": "^5.16.6",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "three": "^0.180.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "latest",
+    "@playwright/test": "^1.56.1",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@types/three": "^0.180.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

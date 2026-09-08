@@ -1,0 +1,44 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { site } from "../../config/site";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<Base title={`${project.data.title} · ${site.name}`} description={project.data.summary} path={`/projects/${project.id}`}>
+  <main class="section">
+    <div class="wrap prose">
+      <p class="kicker">{project.data.role}</p>
+      <h1>{project.data.title}</h1>
+      <p class="lead">{project.data.summary}</p>
+      <div class="chips">
+        {project.data.stack.map((item) => <span class="chip">{item}</span>)}
+      </div>
+      <p>
+        {project.data.href ? <a href={project.data.href}>Live / home</a> : null}
+        {project.data.repo ? <> · <a href={project.data.repo}>Source</a></> : null}
+      </p>
+      <Content />
+      {project.data.receipts.length > 0 ? (
+        <div class="panel receipts">
+          {project.data.receipts.map((receipt) => (
+            <div class="receipt">
+              <span>{receipt.label}</span>
+              <a href={receipt.href}>{receipt.href.replace("https://", "")}</a>
+            </div>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  </main>
+</Base>

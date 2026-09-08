@@ -1,0 +1,37 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../config/site";
+---
+
+<Base title={`Resume · ${site.name}`} description="Public resume for Aden Jessee." path="/resume">
+  <main class="section">
+    <div class="wrap prose">
+      <p class="kicker">Resume</p>
+      <h1>{site.name}</h1>
+      <p class="lead">
+        Software engineer. Founder of GridSchool. Building GridSeak, a structural graph engine for repositories.
+      </p>
+      <p><a href={`mailto:${site.email}`}>{site.email}</a> · <a href={site.github}>GitHub</a> · <a href={site.linkedin}>LinkedIn</a></p>
+
+      <h2>Now</h2>
+      <p>
+        <strong>GridSchool</strong> — Founder. 12-month engineering residency for graduates who can code and cannot get hired. Curriculum, live site, coaching, and the public evidence map at <a href={site.gridschool}>gridschool.org</a>.
+      </p>
+      <p>
+        <strong>GridSeak</strong> — Founder / engineer. Local deterministic call graph, blast radius, cycles, and ranked risk, exposed as tools an agent can cite by evidence tier.
+      </p>
+
+      <h2>Selected work</h2>
+      <ul>
+        <li>Designed a progressive-enhancement portfolio with a constrained 3D scene language, RAG, and hard cost ceilings. This site.</li>
+        <li>Shipped GridSchool's public site and residency operating system: evidence nodes, defense, no job-guarantee language.</li>
+        <li>Built graph-engineering tooling so models stop rediscovering structure that a parser already knows.</li>
+      </ul>
+
+      <h2>How I work</h2>
+      <p>
+        Deterministic structure first. Models as directors, not sources of truth. Receipts a stranger can open. I will not invent employment dates that are not on this page. If you need a longer work history, email me.
+      </p>
+    </div>
+  </main>
+</Base>
