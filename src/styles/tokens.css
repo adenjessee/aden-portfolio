@@ -1420,3 +1420,22 @@ body.bare::before {
 @keyframes pulse-ring {
   50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--cyan) 20%, transparent); }
 }
+
+/* A hairline at the top while the model downloads. */
+.stage-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 2;
+}
+
+.stage-loading span {
+  display: block;
+  height: 100%;
+  background: var(--cyan);
+  box-shadow: 0 0 12px var(--cyan);
+  transform-origin: left;
+  transition: transform 200ms linear;
+}

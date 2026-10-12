@@ -9,6 +9,7 @@ export type AvatarCanvasProps = {
   scene: SceneState;
   talking: boolean;
   voice?: SpeechPlayer;
+  onLoadProgress?: (fraction: number) => void;
 };
 
 /**

@@ -32,6 +32,7 @@ export default function Stage() {
   const listener = useRef<Listener | null>(null);
   const [mic, setMic] = useState<"off" | "idle" | "listening" | "transcribing">("off");
   const [level, setLevel] = useState(0);
+  const [loaded, setLoaded] = useState(0);
 
   useEffect(() => {
     player.current = new SpeechPlayer();
@@ -144,11 +145,17 @@ export default function Stage() {
     <div className="stage">
       <div className="stage-avatar" aria-hidden="true">
         {Canvas ? (
-          <Canvas performance={pose} scene={emptyScene()} talking={false} voice={player.current ?? undefined} />
+          <Canvas performance={pose} scene={emptyScene()} talking={false} voice={player.current ?? undefined} onLoadProgress={setLoaded} />
         ) : noWebgl ? (
           <img className="stage-poster" src="/avatar-poster.svg" alt="" />
         ) : null}
       </div>
+
+      {Canvas && loaded < 1 ? (
+        <div className="stage-loading" role="progressbar" aria-label="Loading avatar" aria-valuenow={Math.round(loaded * 100)}>
+          <span style={{ transform: `scaleX(${loaded})` }} />
+        </div>
+      ) : null}
 
       <div className="stage-dock">
         {caption ? <p className="stage-caption">{caption}</p> : null}

@@ -9,7 +9,8 @@ import { AnimationController } from "./AnimationController";
 import { ExpressionController } from "./ExpressionController";
 import { GazeController } from "./GazeController";
 import { LipSync, type MouthSource } from "./LipSync";
-import { loadVrm, VRM_CANDIDATES } from "./loadVrm";
+import { firstAvailable, loadVrm, VRM_CANDIDATES } from "./loadVrm";
+import { TronStage } from "./TronStage";
 
 type Props = {
   performance: DirectorOutput["performance"];
@@ -17,9 +18,11 @@ type Props = {
   talking: boolean;
   /** Speech currently playing; drives the mouth. */
   voice?: MouthSource & { speaking: boolean };
+  /** 0..1 while the model downloads. */
+  onLoadProgress?: (fraction: number) => void;
 };
 
-function AdenRig({ performance, talking, voice }: { performance: DirectorOutput["performance"]; talking: boolean; voice?: Props["voice"] }) {
+function AdenRig({ performance, talking, voice, onLoadProgress }: Omit<Props, "scene">) {
   const [vrm, setVrm] = useState<VRM | null>(null);
   const anim = useRef(new AnimationController());
   const face = useRef(new ExpressionController());
@@ -30,9 +33,9 @@ function AdenRig({ performance, talking, voice }: { performance: DirectorOutput[
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      for (const url of VRM_CANDIDATES) {
+      for (const url of await firstAvailable(VRM_CANDIDATES)) {
         try {
-          const loaded = await loadVrm(url);
+          const loaded = await loadVrm(url, onLoadProgress);
           if (!cancelled) {
             gaze.current.attach(loaded);
             frameHead(loaded, camera);
@@ -91,20 +94,12 @@ function frameHead(vrm: VRM, camera: import("three").Camera) {
   camera.lookAt(target);
 }
 
-export function AvatarCanvas({ performance, scene, talking, voice }: Props) {
+export function AvatarCanvas({ performance, scene, talking, voice, onLoadProgress }: Props) {
   return (
-    <Canvas camera={{ position: [0, 1.35, 2.6], fov: 32 }} gl={{ antialias: true, alpha: true }} dpr={[1, 1.5]}>
-      <color attach="background" args={["#02060c"]} />
-      <ambientLight intensity={0.45} />
-      <directionalLight position={[2, 3, 2]} intensity={1.1} color="#d7f6ff" />
-      <spotLight position={[-2, 4, 2]} intensity={0.6} color="#28e1ff" />
-      <AdenRig performance={performance} talking={talking} voice={voice} />
+    <Canvas camera={{ position: [0, 1.35, 2.6], fov: 32 }} gl={{ antialias: false, alpha: false }} dpr={[1, 1.5]}>
+      <TronStage />
+      <AdenRig performance={performance} talking={talking} voice={voice} onLoadProgress={onLoadProgress} />
       <SceneObjects scene={scene} />
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-        <circleGeometry args={[3.2, 48]} />
-        <meshStandardMaterial color="#071018" />
-      </mesh>
     </Canvas>
   );
 }
-
