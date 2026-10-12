@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { budgetRemaining } from "../../guard/budget";
 import { peekSession } from "../../guard/sessionCap";
-import { llmModel, llmProvider, sessionId, sessionQuestionCap } from "../../lib/env";
+import { llmModel, llmProvider, sessionId, sessionQuestionCap, sttProvider } from "../../lib/env";
 import { json } from "../../lib/http";
 
 export const prerender = false;
@@ -19,5 +19,6 @@ export const GET: APIRoute = async ({ request, locals }) => {
     questionCap: sessionQuestionCap(env),
     spentUsd: budget.state.spentUsd,
     ceilingUsd: budget.ceiling,
+    stt: sttProvider(env),
   });
 };

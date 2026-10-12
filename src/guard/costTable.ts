@@ -12,7 +12,9 @@ export const modelPrices: Record<string, ModelPrice> = {
 const fallbackPrice = modelPrices["claude-opus-5-5"];
 
 export const costUsd = {
-  ttsPer1kChars: 0.05,
+  /** Flash models bill half a credit per character; v3/v4 and Multilingual a full credit. Creator-plan estimates. */
+  ttsPer1kCharsFlash: 0.05,
+  ttsPer1kChars: 0.1,
   /** Retrieval plus the extractive answer runs inside the Worker; Workers AI embeddings are a rounding error. */
   extractiveQuestion: 0,
 } as const;
@@ -44,6 +46,7 @@ export function estimateAskCost(opts: { usedLlm: boolean } & Partial<Usage>): nu
   return Number(usd.toFixed(6));
 }
 
-export function estimateTtsCost(characters: number): number {
-  return (characters / 1000) * costUsd.ttsPer1kChars;
+export function estimateTtsCost(characters: number, model = "eleven_v4_turbo"): number {
+  const rate = model.includes("flash") ? costUsd.ttsPer1kCharsFlash : costUsd.ttsPer1kChars;
+  return (characters / 1000) * rate;
 }

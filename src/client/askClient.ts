@@ -115,7 +115,7 @@ export async function sendMessage(draft: MessageDraft): Promise<{ ok: true } | {
   return response.ok && payload.ok ? { ok: true } : { error: payload.error || "The message did not send." };
 }
 
-export type Status = Omit<Meter, "freeReason"> & { model: string | null; provider: string };
+export type Status = Omit<Meter, "freeReason"> & { model: string | null; provider: string; stt: "browser" | "elevenlabs" };
 
 export async function fetchStatus(): Promise<Status | null> {
   const response = await fetch("/api/status").catch(() => null);

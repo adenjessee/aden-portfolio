@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ComponentType } from "react";
-import { askAden, type AskEvent } from "../client/askClient";
+import { askAden, fetchStatus, type AskEvent } from "../client/askClient";
+import { BrowserListener, ServerListener, SttFallback, type Listener } from "../voice/listeners";
 import type { HistoryTurn } from "../director/prompt";
 import { detectCapability } from "../avatar/capability";
 import { emptyScene } from "../scene/registry";
@@ -36,6 +37,9 @@ export default function Stage() {
   const inflight = useRef<AbortController | null>(null);
   const input = useRef<HTMLTextAreaElement>(null);
   const nextId = useRef(1);
+  const listener = useRef<Listener | null>(null);
+  const [mic, setMic] = useState<"off" | "idle" | "listening" | "transcribing">("off");
+  const [level, setLevel] = useState(0);
 
   useEffect(() => {
     player.current = new SpeechPlayer();
@@ -46,6 +50,12 @@ export default function Stage() {
     let cancelled = false;
     void import("../avatar/AvatarCanvas").then((mod) => {
       if (!cancelled) setCanvas(() => mod.AvatarCanvas as ComponentType<CanvasProps>);
+    });
+    void fetchStatus().then((status) => {
+      const canRecord = typeof MediaRecorder !== "undefined" && Boolean(navigator.mediaDevices?.getUserMedia);
+      const preferServer = status?.stt === "elevenlabs" && canRecord;
+      listener.current = preferServer ? new ServerListener() : BrowserListener.available() ? new BrowserListener() : canRecord ? new ServerListener() : null;
+      setMic(listener.current ? "idle" : "off");
     });
     const prefill = new URLSearchParams(window.location.search).get("q");
     if (prefill) setQuestion(prefill.slice(0, 500));
@@ -59,8 +69,48 @@ export default function Stage() {
     setRows((current) => current.map((row) => (row.id === id ? { ...row, ...change } : row)));
   }
 
-  async function send() {
-    const text = question.trim();
+  /** Talking interrupts the avatar, like it would in conversation; a pause ends the question. */
+  async function toggleMic() {
+    if (mic === "listening") {
+      listener.current?.stop();
+      return;
+    }
+    if (mic !== "idle" || !listener.current) return;
+    player.current?.unlock();
+    player.current?.stop();
+    inflight.current?.abort();
+    setMic("listening");
+    setQuestion("");
+    const hear = (l: Listener) =>
+      l.listen({
+        onLevel: setLevel,
+        onPartial: (text) => setQuestion(text),
+      });
+    try {
+      let text: string;
+      try {
+        const pending = hear(listener.current);
+        if (listener.current.kind === "server") pending.then(() => undefined, () => undefined);
+        text = await pending.then((t) => {
+          if (listener.current?.kind === "server") setMic("transcribing");
+          return t;
+        });
+      } catch (error) {
+        // The server cannot transcribe (no permission yet, or the day's budget is spent): use the browser.
+        if (!(error instanceof SttFallback) || !BrowserListener.available()) throw error;
+        listener.current = new BrowserListener();
+        text = await hear(listener.current);
+      }
+      setMic("idle");
+      if (text.trim()) await send(text);
+      else setQuestion("");
+    } catch {
+      setMic(listener.current ? "idle" : "off");
+    }
+  }
+
+  async function send(spoken?: string) {
+    const text = (spoken ?? question).trim();
     if (!text) return;
     // Inside the key press, so the browser lets the audio play.
     player.current?.unlock();
@@ -147,16 +197,34 @@ export default function Stage() {
             rows={1}
             value={question}
             maxLength={500}
-            placeholder="Ask Aden anything"
+            placeholder={mic === "listening" ? "Listening…" : mic === "transcribing" ? "One moment…" : "Ask Aden anything"}
             onChange={(event) => setQuestion(event.target.value)}
             onKeyDown={(event) => {
+              if (event.key === "Escape" && mic === "listening") listener.current?.cancel();
               if (event.key === "Enter" && !event.shiftKey) {
                 event.preventDefault();
                 void send();
               }
             }}
           />
-          <button type="submit" aria-label="Send" disabled={!question.trim()}>
+          {mic !== "off" ? (
+            <button
+              type="button"
+              className="stage-mic"
+              data-state={mic}
+              aria-label={mic === "listening" ? "Stop listening" : "Talk"}
+              aria-pressed={mic === "listening"}
+              onClick={() => void toggleMic()}
+              disabled={mic === "transcribing"}
+              style={{ ["--level" as string]: level.toFixed(2) }}
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                <rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor" />
+                <path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+            </button>
+          ) : null}
+          <button type="submit" aria-label="Send" disabled={!question.trim() || mic === "listening"}>
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
               <path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>

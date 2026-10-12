@@ -108,7 +108,7 @@ export class SpeechPipeline {
     this.closed = true;
     this.wake?.();
     await this.done;
-    return { characters: this.characters, costUsd: estimateTtsCost(this.characters), failure: this.failure };
+    return { characters: this.characters, costUsd: estimateTtsCost(this.characters, elevenModel(this.env)), failure: this.failure };
   }
 
   /** Starts sentences after the one playing, up to the lookahead. Sentence 0 is never prefetched. */

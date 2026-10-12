@@ -1389,3 +1389,34 @@ body.bare::before {
   opacity: 0.25;
   cursor: default;
 }
+
+.stage-input .stage-mic {
+  position: relative;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
+}
+
+.stage-input .stage-mic:hover {
+  color: var(--white);
+  border-color: color-mix(in srgb, var(--text) 40%, transparent);
+}
+
+/* While listening, a ring that grows with the visitor's voice. */
+.stage-input .stage-mic[data-state="listening"] {
+  color: var(--bg);
+  background: var(--cyan);
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 calc(4px + var(--level, 0) * 14px) color-mix(in srgb, var(--cyan) 28%, transparent);
+  transition: box-shadow 80ms linear;
+}
+
+.stage-input .stage-mic[data-state="transcribing"] {
+  color: var(--cyan);
+  border-color: var(--cyan);
+  animation: pulse-ring 1s ease-in-out infinite;
+}
+
+@keyframes pulse-ring {
+  50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--cyan) 20%, transparent); }
+}
