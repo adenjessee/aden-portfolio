@@ -3,10 +3,10 @@ export const site = {
   title: "Aden Jessee. Software engineer.",
   description:
     "Founder of GridSchool. I build graph tools that make repositories understandable, and I teach engineers to defend their work.",
-  url: "https://adenjessee.dev",
+  url: "https://adenjessee.com",
   locale: "en_US",
   github: "https://github.com/adenjessee",
-  linkedin: "https://www.linkedin.com/in/adenjessee",
+  linkedin: "https://www.linkedin.com/in/aden-jessee-4b3815189",
   email: "aden@gridschool.org",
   gridschool: "https://gridschool.org",
   gridseak: "https://github.com/adenjessee/gridseak",

@@ -39,7 +39,7 @@ Confirm `src/config/site.ts` before a public launch: LinkedIn slug, email, and d
 1. Export a VRoid VRM to `public/models/aden.vrm` (`docs/MODEL.md`).
 2. Record ~30 minutes and train the ElevenLabs clone (`docs/VOICE.md`).
 3. `npx wrangler login`, create the KV namespace and Vectorize index, replace the placeholder IDs in `wrangler.jsonc`, then `npx wrangler deploy`.
-4. Point a domain when you have one. The config currently names `adenjessee.dev`.
+4. Point `adenjessee.com` at the Worker (see `docs/DEPLOY.md`).
 
 ## Stack
 

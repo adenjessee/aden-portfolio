@@ -3,7 +3,7 @@ import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
 
 export default defineConfig({
-  site: "https://adenjessee.dev",
+  site: "https://adenjessee.com",
   output: "static",
   adapter: cloudflare({
     imageService: "passthrough",

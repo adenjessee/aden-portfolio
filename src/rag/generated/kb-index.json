@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-05T02:58:55.802Z",
+  "generatedAt": "2026-10-12T17:36:40.119Z",
   "chunks": [
     {
       "id": "beliefs/ai.md#0",
@@ -107,7 +107,7 @@
       "source": "Aden / positions/hiring.md",
       "confidence": "high",
       "lastUpdated": "2026-09-04",
-      "text": "I hire, and I teach people who want to be hired, on the same rule: show me a URL I can check in under a minute.\n\nTake-home clones and certificate walls do not do that. A live system, a failure log, a graph of a change, a recorded defense: those do.\n\nI will not tell a student that a job is guaranteed. I will tell them whether the work in front of me would survive a skeptical engineer."
+      "text": "I have reviewed interns' work and I teach people who want to be hired, on the same rule: show me a URL I can check in under a minute. I do not run a hiring loop today, and I do not claim to.\n\nTake-home clones and certificate walls do not do that. A live system, a failure log, a graph of a change, a recorded defense: those do.\n\nI will not tell a student that a job is guaranteed. I will tell them whether the work in front of me would survive a skeptical engineer."
     },
     {
       "id": "positions/software-engineering-future.md#0",
