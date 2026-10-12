@@ -1,21 +1,52 @@
-# Avatar model
+# Avatar model: anime-style Aden in a TRON suit
 
-Ready Player Me shut down in January 2026. The supported path is VRM 1.0.
+The site loads `public/models/aden.vrm` if it exists, otherwise the sample model. Anything that exports VRM 1.0 works: the code relies only on the VRM contract (humanoid bones, the five mouth shapes `aa ih ou ee oh`, blink, look-at).
 
-## Make Aden (or yourself)
+The stage is already built for a TRON suit: a near-black room, cyan and violet rim lights that outline a dark suit, a glowing grid floor, and bloom set so only emissive parts glow. Paint the suit's lines as emissive and they light up (`src/avatar/loadVrm.ts` boosts emissive intensity past the bloom threshold).
 
-1. Install [VRoid Studio](https://vroid.com/en/studio) (free).
-2. Build a stylized figure: glasses, hair, ordinary clothes. Do not chase photorealism.
-3. Fill license metadata. You own the likeness.
-4. Export VRM 1.0 with visemes `aa ih ou ee oh`, blink, and lookAt.
-5. Save as `public/models/aden.vrm`.
+## Step 0. Nail the look before modeling (30 minutes)
 
-Optional: a $7.99 VTubeMe pass for a likeness reference, then restyle in VRoid so you stay out of the uncanny valley.
+Collect 4 to 6 photos of yourself: front, three-quarter, side, usual hair. Note hair color and cut, brow shape, eye color, skin tone, glasses or not, jaw and face shape. Then make 3 to 5 concept images of you in anime style wearing the suit (Claude can generate these with you from your photos). Pick one; every later step is "match the concept".
+
+The suit in one sentence: a fitted near-black bodysuit (`#0a0d12`) with thin cyan (`#28e1ff`) light lines tracing the shoulders, chest seam, outer arms and outer legs, a glowing disc on the back, matte panels, no logos.
+
+## Path A. Build it in VRoid Studio (free, an evening or two)
+
+1. Install VRoid Studio (v2 exports VRM 1.0). New model, masculine base.
+2. **Face:** match eyes, brows, nose, mouth and jaw to your front photo. Keep it anime; aim for "recognizably you" at a glance. Check the three-quarter view as often as the front.
+3. **Hair:** use the hair editor with guides. Match the silhouette first, then the color. Turn on hair physics so it moves when the avatar gestures.
+4. **Suit:** start from fitted tops, bottoms and shoes. In each texture editor:
+   - base layer: near-black with subtle panel shading
+   - a separate layer: the cyan lines, 4 to 8 px wide on a 2048 texture, following the seams
+   - export that line layer alone as `suit-lines.png` (cyan lines on black) for step 5
+5. **Make the lines glow:** if your VRoid version lets you set an emission texture, use `suit-lines.png`. If not, open the exported VRM in Blender with the VRM add-on (saturday06/VRM-Addon-for-Blender), set each suit material's MToon emissive texture to `suit-lines.png` and the emissive factor to white, and export VRM 1.0 again.
+6. **Export:** VRM 1.0, texture atlas 2048 (1024 if the file is over 8 MB), keep blend shapes. Fill in the license fields: you, all rights reserved, no redistribution.
+7. Save it as `public/models/aden.vrm`, run `npm run dev`, and open `/ask`.
+
+## Path B. Commission it ($150 to $600, one to two weeks)
+
+Search VGen, Booth or Fiverr for "custom VRoid model" or "VRM avatar commission". Send:
+
+- the photos and the chosen concept image
+- the suit sentence and colors above
+- the deliverable: VRM 1.0, MToon shading, emissive suit lines on their own texture, the five visemes plus blink and the standard expressions (happy, angry, sad, relaxed, surprised), hair spring bones, under 10 MB, full rights for your own use
+- one revision round after you test it on the site
+
+## Refinement loop (either path)
+
+Check in `/ask` on desktop and phone, and fix one thing per round:
+
+1. **Silhouette:** hair and shoulders should read as you as a dark shape in a dark room. The rim lights sell this.
+2. **Face at small size:** on a phone the head is about 200 px tall. Eyes and brows carry likeness at that size.
+3. **Glow:** lines glow, panels don't. If the whole suit blooms, the base texture is too bright; if the lines don't glow, the emission texture isn't set.
+4. **Talking:** ask a long question and watch the mouth. Wrong shapes are fixed in the model's blend shapes, not the code.
+5. **Weight:** under 8 MB loads in about 2 to 3 seconds on a good connection; the 10 MB sample takes 8.
+6. **Poster:** screenshot the finished avatar for `public/avatar-poster.svg` (or a PNG) and the OG image, so LinkedIn previews show the real thing.
 
 ## Animations
 
-v1 uses a procedural humanoid FSM (`src/avatar/AnimationController.ts`). Mixamo clips are optional. Drop FBX into `raw-animations/` and run `npm run retarget-mixamo` for the conversion notes. The bone contract does not change.
+Gestures are procedural poses on a rest pose (`src/avatar/AnimationController.ts`). For more life, convert Mixamo clips (idle breathing, talking hands, nod) to VRMA; `npm run retarget-mixamo` has the notes. That's later polish; face and voice matter more.
 
-## Placeholder
+## The file
 
-`public/models/placeholder.vrm` is a public sample from the pixiv three-vrm examples, used only until the personal export exists. Replace it before calling this site finished in public.
+`public/models/aden.vrm` is gitignored so a work-in-progress model is never published by accident. When you're happy with it, remove that line from `.gitignore` and commit it, or host it on R2 and point `VRM_CANDIDATES` at the URL.

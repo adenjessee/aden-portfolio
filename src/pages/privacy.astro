@@ -12,6 +12,10 @@ import { site } from "../config/site";
       <p>
         A question you ask AI Aden is sent to the model provider (Anthropic by default) with the few turns before it, used to write the answer, and not stored by this site. There is no account and no transcript archive. A session cookie counts the live questions you have used today and expires after a day.
       </p>
+      <h2>Your voice</h2>
+      <p>
+        If you press the mic, your speech is turned into text for that one question. By default your browser does this (Chrome sends the audio to Google for recognition; Safari may do it on the device). When this site uses ElevenLabs instead, the recording is sent to ElevenLabs, transcribed, and not stored here. The mic is only on while the button is lit.
+      </p>
       <h2>Messages</h2>
       <p>
         If you send Aden a message or a call request, the site stores what you typed (name, email, optional company, message) and the last few turns of the conversation, so he has the context. It is kept for 30 days and only Aden can read it. Nothing is sent anywhere automatically.
@@ -22,7 +26,7 @@ import { site } from "../config/site";
       </p>
       <h2>Voice</h2>
       <p>
-        When voice is enabled, the answer text is sent to ElevenLabs to synthesize audio, which is played once and not stored. The voice only ever speaks answers this site produced.
+        Answers are spoken by ElevenLabs: the answer text is sent there to make audio, which is played once and not stored. The voice only ever speaks answers this site produced, never text a visitor typed.
       </p>
       <p>If you would rather keep a model out of the loop, the static pages and <a href="/notes">the notes</a> have everything.</p>
     </div>
