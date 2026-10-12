@@ -1,20 +1,10 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
 import { anthropicKey, gatewayUrl, llmModel, type WorkerEnv } from "../lib/env";
+import type { LlmResult } from "./llm";
 import type { HistoryTurn } from "./prompt";
-import type { Wire } from "./wire";
 import type { z } from "zod";
 
-export type ProviderCall<T> = {
-  value: T | null;
-  model: string;
-  inputTokens: number;
-  outputTokens: number;
-  cacheReadTokens: number;
-  cacheWriteTokens: number;
-  /** Set when the call failed or the model declined; the caller falls back to the extractive path. */
-  failure?: string;
-};
 
 // Haiku 5.5 may run with thinking off (at effort high or below). For a short spoken answer that is
 // the difference between the avatar starting to talk at once or after a pause.
@@ -53,7 +43,7 @@ export async function callClaude<S extends z.ZodType>(
     /** When set, the reply is streamed and this receives the JSON text written so far. */
     onSnapshot?: (snapshot: string) => void;
   },
-): Promise<ProviderCall<z.infer<S>>> {
+): Promise<LlmResult<z.infer<S>>> {
   const model = llmModel(env);
   const empty = { model, inputTokens: 0, outputTokens: 0, cacheReadTokens: 0, cacheWriteTokens: 0 };
   const apiKey = anthropicKey(env);
@@ -113,4 +103,3 @@ export async function callClaude<S extends z.ZodType>(
   }
 }
 
-export type { Wire };

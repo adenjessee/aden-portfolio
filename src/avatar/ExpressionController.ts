@@ -1,6 +1,6 @@
 import type { VRM } from "@pixiv/three-vrm";
 import type { Performance } from "../scene/schema";
-import type { Viseme } from "../voice/alignmentToVisemes";
+import type { Viseme } from "../voice/visemes";
 
 const EMOTION_MAP: Record<Performance["emotion"], Record<string, number>> = {
   neutral: {},

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { gatewayUrl, llmModel, openaiKey, type WorkerEnv } from "../lib/env";
-import type { ProviderCall } from "./anthropic";
+import type { LlmResult } from "./llm";
 import type { HistoryTurn } from "./prompt";
 
 function extractJson(text: string): unknown {
@@ -16,7 +16,7 @@ function extractJson(text: string): unknown {
 export async function callOpenAi<S extends z.ZodType>(
   env: WorkerEnv,
   opts: { system: string; history: HistoryTurn[]; user: string; schema: S },
-): Promise<ProviderCall<z.infer<S>>> {
+): Promise<LlmResult<z.infer<S>>> {
   const model = llmModel(env);
   const empty = { model, inputTokens: 0, outputTokens: 0, cacheReadTokens: 0, cacheWriteTokens: 0 };
   const key = openaiKey(env);

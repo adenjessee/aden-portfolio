@@ -1,41 +1,8 @@
-import type { AnswerTrace } from "../director/answer";
 import type { FitReport } from "../director/fit";
 import type { HistoryTurn } from "../director/prompt";
-import type { Action } from "../director/wire";
-import type { Provenance } from "../rag/types";
-import type { DirectorOutput } from "../scene/schema";
-import type { StreamAlignment } from "../voice/player";
+import type { AskEvent, Meter } from "../protocol";
 
-export type Meter = {
-  live: boolean;
-  freeReason: "no_model" | "budget_exhausted" | "session_exhausted" | null;
-  questionsUsed: number;
-  questionCap: number;
-  spentUsd: number;
-  ceilingUsd: number;
-};
-
-export type AnswerEvent = {
-  type: "answer";
-  answerId: string;
-  output: DirectorOutput;
-  summary: string;
-  citations: string[];
-  action: Action;
-  provenance: Provenance[];
-  trace: AnswerTrace;
-  voiceAllowed: boolean;
-  meter: Meter;
-};
-
-export type AskEvent =
-  | { type: "status"; value: string }
-  | { type: "retrieved"; provenance: Provenance[] }
-  | AnswerEvent
-  | { type: "voice"; sampleRate: number }
-  | { type: "audio"; index: number; sampleRate: number; audio: string; alignment: StreamAlignment }
-  | { type: "voice_error"; reason: string }
-  | { type: "error"; message: string; reason?: string };
+export type { AnswerEvent, AskEvent, Meter } from "../protocol";
 
 export async function askAden(
   question: string,
@@ -121,19 +88,4 @@ export async function fetchStatus(): Promise<Status | null> {
   const response = await fetch("/api/status").catch(() => null);
   if (!response?.ok) return null;
   return (await response.json().catch(() => null)) as Status | null;
-}
-
-export async function playAnswer(answerId: string): Promise<void> {
-  const response = await fetch("/api/tts", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ answerId }),
-  }).catch(() => null);
-  if (!response?.ok || response.status === 204) return;
-  const blob = await response.blob();
-  if (blob.size < 32) return;
-  const url = URL.createObjectURL(blob);
-  const audio = new Audio(url);
-  audio.addEventListener("ended", () => URL.revokeObjectURL(url), { once: true });
-  await audio.play().catch(() => undefined);
 }

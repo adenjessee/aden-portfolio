@@ -1,29 +1,33 @@
-import { lazy, Suspense, useState } from "react";
+import { useRef, useState } from "react";
+import { emptyScene } from "../scene/registry";
 import type { DirectorOutput } from "../scene/schema";
+import { SpeechPlayer } from "../voice/player";
 import Conversation from "./Conversation";
-import { ErrorBoundary } from "./ErrorBoundary";
+import { useAvatarCanvas } from "./useAvatarCanvas";
 
-const AvatarIsland = lazy(() => import("../avatar/AvatarIsland"));
+const IDLE: DirectorOutput["performance"] = { emotion: "neutral", gesture: "idle", lookAt: "visitor" };
 
-const poster = (
-  <div className="poster">
-    <img src="/avatar-poster.svg" alt="Stylized portrait of Aden Jessee" width="640" height="720" />
-  </div>
-);
-
+/** /inspect: the avatar beside the text conversation, sharing one voice player. */
 export default function AskPanel() {
-  const [live, setLive] = useState<DirectorOutput | null>(null);
+  const { Canvas, noWebgl } = useAvatarCanvas();
+  const [pose, setPose] = useState(IDLE);
+  const player = useRef<SpeechPlayer | null>(null);
+  player.current ??= typeof window === "undefined" ? null : new SpeechPlayer();
 
   return (
     <div className="ask-grid">
       <div className="ask-stage">
-        <ErrorBoundary fallback={poster}>
-          <Suspense fallback={poster}>
-            <AvatarIsland live={live ? { performance: live.performance, sceneCommands: live.scene, talking: true } : undefined} />
-          </Suspense>
-        </ErrorBoundary>
+        <div className="avatar-stage">
+          {Canvas ? (
+            <Canvas performance={pose} scene={emptyScene()} talking={false} voice={player.current ?? undefined} />
+          ) : noWebgl ? (
+            <div className="poster">
+              <img src="/avatar-poster.svg" alt="Stylized portrait of Aden Jessee" width="640" height="720" />
+            </div>
+          ) : null}
+        </div>
       </div>
-      <Conversation onLive={setLive} />
+      <Conversation player={player.current} onLive={(output) => setPose(output.performance)} />
     </div>
   );
 }

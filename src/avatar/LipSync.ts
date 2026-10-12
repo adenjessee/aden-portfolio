@@ -1,4 +1,4 @@
-import type { Viseme } from "../voice/alignmentToVisemes";
+import type { Viseme } from "../voice/visemes";
 import type { ExpressionController } from "./ExpressionController";
 
 export type MouthSource = { mouth(): { viseme: Viseme; weight: number } };

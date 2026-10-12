@@ -1,15 +1,11 @@
 import { expect, test } from "@playwright/test";
 
-test("ask rate limit eventually degrades", async ({ request }) => {
-  const statuses: number[] = [];
-  for (let i = 0; i < 14; i += 1) {
-    const response = await request.post("/api/ask", { data: { question: `rate ${i} graph` } });
-    statuses.push(response.status());
-    const text = await response.text();
-    if (text.includes("rate_limited")) {
-      expect(text).toContain("degraded");
-      return;
-    }
+test("ask rate limit answers with an error event, not a crash", async ({ request }) => {
+  let limited = false;
+  for (let i = 0; i < 14 && !limited; i += 1) {
+    const response = await request.post("/api/ask", { data: { question: `rate ${i}` }, headers: { "x-forwarded-for": "10.9.9.9" } });
+    expect(response.status()).toBe(200);
+    limited = (await response.text()).includes("rate_limited");
   }
-  expect(statuses.every((status) => status === 200)).toBeTruthy();
+  expect(limited).toBe(true);
 });

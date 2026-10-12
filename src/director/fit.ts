@@ -1,10 +1,9 @@
 import { z } from "zod";
-import { llmProvider, type WorkerEnv } from "../lib/env";
+import type { WorkerEnv } from "../lib/env";
 import { estimateAskCost, type Usage } from "../guard/costTable";
 import { loadBundledChunks, scoreLocal, tokens } from "../rag/localIndex";
 import type { Retrieved } from "../rag/types";
-import { callClaude } from "./anthropic";
-import { callOpenAi } from "./openai";
+import { llmClient } from "./llm";
 import { formatCorpus } from "./prompt";
 import { screenQuestion } from "./screen";
 import { coerce } from "./wire";
@@ -109,10 +108,9 @@ export async function fitCheck(env: WorkerEnv, jd: string, allowLlm: boolean): P
   for (const row of lexical) for (const hit of row.hits) if (!pool.has(hit.id)) pool.set(hit.id, hit);
   const corpus = [...pool.values()].sort((a, b) => b.match - a.match).slice(0, 14);
 
-  const provider = allowLlm ? llmProvider(env) : "none";
-  if (provider !== "none" && requirements.length > 0) {
-    const call = provider === "anthropic" ? callClaude : callOpenAi;
-    const result = await call(env, {
+  const llm = allowLlm ? llmClient(env) : null;
+  if (llm && requirements.length > 0) {
+    const result = await llm.complete({
       system: fitSystem,
       history: [],
       user: `${formatCorpus(corpus)}\n\n<job_description>\n${jd.slice(0, 6000)}\n</job_description>\n\nRequirements to judge, in order:\n${requirements.map((r, i) => `${i + 1}. ${r}`).join("\n")}`,

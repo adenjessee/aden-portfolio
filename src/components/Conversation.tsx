@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { askAden, fetchStatus, playAnswer, type AnswerEvent, type AskEvent, type Meter } from "../client/askClient";
-import { listenForSpeech } from "../client/audioPlayer";
+import { askAden, fetchStatus, type AnswerEvent, type AskEvent, type Meter } from "../client/askClient";
+import { BrowserListener } from "../voice/listeners";
+import type { SpeechPlayer } from "../voice/player";
 import { limits } from "../config/site";
 import type { HistoryTurn } from "../director/prompt";
 import { noteHref } from "../rag/provenance";
@@ -46,7 +47,7 @@ function history(turns: Turn[]): HistoryTurn[] {
   });
 }
 
-export default function Conversation({ onLive }: { onLive?: (output: DirectorOutput) => void }) {
+export default function Conversation({ onLive, player }: { onLive?: (output: DirectorOutput) => void; player?: SpeechPlayer | null }) {
   const [question, setQuestion] = useState("");
   const [turns, setTurns] = useState<Turn[]>([]);
   const [meter, setMeter] = useState<Meter | null>(null);
@@ -58,7 +59,7 @@ export default function Conversation({ onLive }: { onLive?: (output: DirectorOut
   const [speech, setSpeech] = useState(false);
 
   useEffect(() => {
-    setSpeech("SpeechRecognition" in window || "webkitSpeechRecognition" in window);
+    setSpeech(BrowserListener.available());
     // Links from a note pre-fill the question; the visitor still decides to send it.
     const prefill = new URLSearchParams(window.location.search).get("q");
     if (prefill) setQuestion(prefill.slice(0, 500));
@@ -89,6 +90,8 @@ export default function Conversation({ onLive }: { onLive?: (output: DirectorOut
     const text = raw.trim();
     if (!text || busy) return;
     const prior = history(turns);
+    player?.unlock();
+    player?.stop();
     setQuestion("");
     setBusy(true);
     setTurns((current) => [
@@ -97,6 +100,7 @@ export default function Conversation({ onLive }: { onLive?: (output: DirectorOut
       { role: "aden", question: text, pending: true, status: "Searching my notes…", retrieved: [], answer: null },
     ]);
     await askAden(text, prior, (event: AskEvent) => {
+      if (event.type === "audio") player?.enqueue(event.audio, event.sampleRate, event.index, event.alignment);
       if (event.type === "status") patchLast((t) => ({ ...t, status: STATUS_COPY[event.value] ?? event.value }));
       if (event.type === "retrieved") patchLast((t) => ({ ...t, retrieved: event.provenance }));
       if (event.type === "error") patchLast((t) => ({ ...t, pending: false, error: event.message }));
@@ -105,9 +109,8 @@ export default function Conversation({ onLive }: { onLive?: (output: DirectorOut
         setMeter(event.meter);
         if (event.trace.model) setModel(event.trace.model);
         onLive?.(event.output);
-        if (event.voiceAllowed) void playAnswer(event.answerId);
       }
-    });
+    }, { voice: Boolean(player) });
     setBusy(false);
   }
 
@@ -198,10 +201,13 @@ export default function Conversation({ onLive }: { onLive?: (output: DirectorOut
               disabled={busy}
               onClick={() => {
                 setListening(true);
-                listenForSpeech((spoken) => {
-                  setListening(false);
-                  void submit(spoken);
-                });
+                void new BrowserListener()
+                  .listen({ onPartial: setQuestion })
+                  .then((spoken) => {
+                    setListening(false);
+                    if (spoken) void submit(spoken);
+                  })
+                  .catch(() => setListening(false));
               }}
             >
               {listening ? "Listening…" : "Speak"}

@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState, type ComponentType } from "react";
+import { useEffect, useRef, useState } from "react";
 import { askAden, fetchStatus, type AskEvent } from "../client/askClient";
 import { BrowserListener, ServerListener, SttFallback, type Listener } from "../voice/listeners";
 import type { HistoryTurn } from "../director/prompt";
-import { detectCapability } from "../avatar/capability";
 import { emptyScene } from "../scene/registry";
 import type { DirectorOutput } from "../scene/schema";
 import { SpeechPlayer } from "../voice/player";
+import { useAvatarCanvas } from "./useAvatarCanvas";
 
 type Row = { id: number; question: string; summary: string; state: "thinking" | "speaking" | "done" | "error"; speech: string };
 
@@ -13,20 +13,12 @@ const LOG_LINES = 7;
 const IDLE: DirectorOutput["performance"] = { emotion: "neutral", gesture: "idle", lookAt: "visitor" };
 const THINKING: DirectorOutput["performance"] = { emotion: "thinking", gesture: "think", lookAt: "visitor" };
 
-type CanvasProps = {
-  performance: DirectorOutput["performance"];
-  scene: ReturnType<typeof emptyScene>;
-  talking: boolean;
-  voice?: SpeechPlayer;
-};
-
 /**
  * The whole /ask page: the avatar fills the screen, and one input sits at the bottom with a short
  * log above it. Answers are spoken; the log shows what was asked and the gist of each answer.
  */
 export default function Stage() {
-  const [Canvas, setCanvas] = useState<ComponentType<CanvasProps> | null>(null);
-  const [noWebgl, setNoWebgl] = useState(false);
+  const { Canvas, noWebgl } = useAvatarCanvas();
   const [rows, setRows] = useState<Row[]>([]);
   const [pose, setPose] = useState(IDLE);
   const [question, setQuestion] = useState("");
@@ -43,14 +35,6 @@ export default function Stage() {
 
   useEffect(() => {
     player.current = new SpeechPlayer();
-    if (!detectCapability().canLoad3d) {
-      setNoWebgl(true);
-      return;
-    }
-    let cancelled = false;
-    void import("../avatar/AvatarCanvas").then((mod) => {
-      if (!cancelled) setCanvas(() => mod.AvatarCanvas as ComponentType<CanvasProps>);
-    });
     void fetchStatus().then((status) => {
       const canRecord = typeof MediaRecorder !== "undefined" && Boolean(navigator.mediaDevices?.getUserMedia);
       const preferServer = status?.stt === "elevenlabs" && canRecord;
@@ -60,9 +44,6 @@ export default function Stage() {
     const prefill = new URLSearchParams(window.location.search).get("q");
     if (prefill) setQuestion(prefill.slice(0, 500));
     input.current?.focus();
-    return () => {
-      cancelled = true;
-    };
   }, []);
 
   function patch(id: number, change: Partial<Row>) {

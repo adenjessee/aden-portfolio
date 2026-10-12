@@ -1,6 +1,5 @@
-import type { Viseme } from "./alignmentToVisemes";
-
-export type StreamAlignment = { chars: string[]; startsMs: number[]; endsMs: number[] } | null;
+import type { TtsAlignment } from "./ttsStream";
+import type { Viseme } from "./visemes";
 
 type MouthFrame = { start: number; end: number; viseme: Viseme; open: number };
 
@@ -63,7 +62,7 @@ export class SpeechPlayer {
     return this.ctx ? Math.max(0, this.nextTime - this.ctx.currentTime) : 0;
   }
 
-  enqueue(base64: string, sampleRate: number, index: number, alignment: StreamAlignment): void {
+  enqueue(base64: string, sampleRate: number, index: number, alignment: TtsAlignment | null): void {
     if (!this.ctx || !this.gain) return;
     const bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
     const samples = new Int16Array(bytes.buffer, 0, Math.floor(bytes.length / 2));

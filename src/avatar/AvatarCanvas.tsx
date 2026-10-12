@@ -3,7 +3,7 @@ import { Vector3 } from "three";
 import { useEffect, useRef, useState } from "react";
 import type { VRM } from "@pixiv/three-vrm";
 import type { DirectorOutput } from "../scene/schema";
-import { applyCommands, emptyScene, type SceneState } from "../scene/registry";
+import type { SceneState } from "../scene/registry";
 import { SceneObjects } from "../scene/primitives/SceneObjects";
 import { AnimationController } from "./AnimationController";
 import { ExpressionController } from "./ExpressionController";
@@ -108,10 +108,3 @@ export function AvatarCanvas({ performance, scene, talking, voice }: Props) {
   );
 }
 
-export function useScenePlayer() {
-  const [scene, setScene] = useState<SceneState>(emptyScene());
-  const apply = (output: DirectorOutput) => {
-    setScene(applyCommands(emptyScene(), output.scene));
-  };
-  return { scene, apply, setScene };
-}

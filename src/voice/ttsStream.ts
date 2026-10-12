@@ -3,6 +3,10 @@ import { elevenKey, elevenModel, elevenVoice, type WorkerEnv } from "../lib/env"
 
 export const TTS_SAMPLE_RATE = 24000;
 
+export function voiceConfigured(env: WorkerEnv): boolean {
+  return Boolean(elevenKey(env) && elevenVoice(env));
+}
+
 export type TtsAlignment = { chars: string[]; startsMs: number[]; endsMs: number[] };
 export type TtsChunk = { audio: string; alignment: TtsAlignment | null };
 
@@ -91,7 +95,7 @@ export class SpeechPipeline {
 
   constructor(
     private readonly env: WorkerEnv,
-    private readonly emit: (event: { index: number; text: string } & TtsChunk) => void,
+    private readonly emit: (event: { index: number } & TtsChunk) => void,
     private readonly lookahead = 2,
   ) {
     this.done = this.run();
@@ -147,12 +151,12 @@ export class SpeechPipeline {
         if (index === 0) {
           // The first sentence streams straight through: its first chunk is the time to first sound.
           this.characters += text.length;
-          for await (const chunk of streamSentence(this.env, text, { next: this.sentences[1] })) this.emit({ index, text, ...chunk });
+          for await (const chunk of streamSentence(this.env, text, { next: this.sentences[1] })) this.emit({ index, ...chunk });
         } else {
           if (!this.pending.has(index)) this.prefetch();
           const chunks = await this.pending.get(index)!;
           this.pending.delete(index);
-          for (const chunk of chunks) this.emit({ index, text, ...chunk });
+          for (const chunk of chunks) this.emit({ index, ...chunk });
         }
         this.next += 1;
         this.prefetch();

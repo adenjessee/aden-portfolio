@@ -7,53 +7,43 @@ test.describe("employer mode without JavaScript", () => {
     const response = await page.goto("/");
     expect(response?.ok()).toBeTruthy();
     await expect(page.getByRole("heading", { name: "Aden Jessee" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Talk to AI Aden" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Ask AI Aden" }).first()).toBeVisible();
     await expect(page.getByRole("link", { name: "GridSeak", exact: true })).toBeVisible();
     await expect(page.getByRole("link", { name: "GridSchool", exact: true })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Resume" }).first()).toBeVisible();
     await expect(page.getByRole("link", { name: "gridschool.org", exact: true })).toBeVisible();
   });
 
   test("resume is readable", async ({ page }) => {
     await page.goto("/resume");
     await expect(page.getByRole("heading", { name: "Aden Jessee" })).toBeVisible();
-    await expect(page.getByText("GridSchool", { exact: true })).toBeVisible();
   });
 
-  test("ask page degrades to a text FAQ", async ({ page }) => {
+  test("ask points to the notes when it cannot talk", async ({ page }) => {
     await page.goto("/ask");
-    await expect(page.getByRole("heading", { name: "Talk to AI Aden" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Without the live model" })).toBeVisible();
-    await expect(page.getByText("What is GridSchool?")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Ask AI Aden" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "/notes" })).toBeVisible();
+  });
+
+  test("every note is published", async ({ page }) => {
+    await page.goto("/notes");
+    await expect(page.getByRole("heading", { name: "Everything AI Aden is allowed to say" })).toBeVisible();
+    await page.getByRole("link", { name: "GridSeak" }).first().click();
+    await expect(page.getByRole("heading", { name: "GridSeak" })).toBeVisible();
+  });
+
+  test("evals are published", async ({ page }) => {
+    await page.goto("/evals");
+    await expect(page.getByRole("heading", { name: "How AI Aden is tested" })).toBeVisible();
+    await expect(page.getByText("33/33").first()).toBeVisible();
   });
 });
 
-test.describe("live path with JavaScript", () => {
-  test("health reports a bundled corpus", async ({ request }) => {
-    const response = await request.get("/api/health");
-    expect(response.ok()).toBeTruthy();
-    const body = await response.json();
-    expect(body.ok).toBeTruthy();
-    expect(body.chunks).toBeGreaterThan(0);
-  });
-
-  test("ask returns a structured answer", async ({ request }) => {
-    const response = await request.post("/api/ask", {
-      data: { question: "Why does graph engineering matter?" },
-    });
-    expect(response.ok()).toBeTruthy();
-    const text = await response.text();
-    expect(text).toContain("\"type\":\"answer\"");
-    expect(text).toContain("speech");
-  });
-
-  test("session cap returns cached degradation", async ({ request }) => {
-    let last = "";
-    for (let i = 0; i < 6; i += 1) {
-      const response = await request.post("/api/ask", { data: { question: `graph question ${i}` } });
-      expect(response.ok()).toBeTruthy();
-      last = await response.text();
-    }
-    expect(last).toMatch(/session_exhausted|degraded":true/);
-  });
+test("ask page talks: input, mic, and a log", async ({ page }) => {
+  await page.goto("/ask");
+  const input = page.getByPlaceholder("Ask Aden anything");
+  await expect(input).toBeVisible();
+  await input.fill("What is GridSeak?");
+  await input.press("Enter");
+  await expect(page.getByRole("list", { name: "Conversation" }).getByText("What is GridSeak?")).toBeVisible();
+  await expect(page.locator(".stage-log li").first()).toHaveAttribute("data-state", /speaking|done/, { timeout: 30000 });
 });

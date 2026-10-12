@@ -1,13 +1,12 @@
 import { limits } from "../config/site";
-import { llmProvider, type WorkerEnv } from "../lib/env";
+import type { WorkerEnv } from "../lib/env";
 import { estimateAskCost, type Usage } from "../guard/costTable";
 import { extractiveAnswer, queryTerms } from "../rag/localIndex";
 import { toProvenance } from "../rag/provenance";
 import { bestMatch, hasPosition } from "../rag/threshold";
 import type { Provenance, Retrieved } from "../rag/types";
 import { directorOutputSchema, type DirectorOutput } from "../scene/schema";
-import { callClaude } from "./anthropic";
-import { callOpenAi } from "./openai";
+import { llmClient } from "./llm";
 import { contactLine, pickRepresentation, systemPrompt, userPrompt, type HistoryTurn } from "./prompt";
 import { screenQuestion } from "./screen";
 import { SpeechExtractor } from "./speechStream";
@@ -120,8 +119,8 @@ export async function answerQuestion(
     });
   }
 
-  const provider = input.allowLlm ? llmProvider(env) : "none";
-  if (provider !== "none") {
+  const llm = input.allowLlm ? llmClient(env) : null;
+  if (llm) {
     const extractor = new SpeechExtractor();
     const request = {
       system: systemPrompt,
@@ -129,10 +128,10 @@ export async function answerQuestion(
       user: userPrompt(question, hits, retrievalHasPosition),
       schema: wireSchema,
     };
-    const result =
-      provider === "anthropic"
-        ? await callClaude(env, { ...request, onSnapshot: input.onSpeech ? (snapshot) => speak(extractor.feed(snapshot)) : undefined })
-        : await callOpenAi(env, request);
+    const result = await llm.complete({
+      ...request,
+      onSnapshot: input.onSpeech ? (snapshot) => speak(extractor.feed(snapshot)) : undefined,
+    });
     const usage: Usage = {
       model: result.model,
       inputTokens: result.inputTokens,
