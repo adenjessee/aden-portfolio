@@ -1,5 +1,5 @@
 import { dailyBudgetUsd, type WorkerEnv } from "../lib/env";
-import { memoryKv } from "./memoryStore";
+import { getJson, store } from "./store";
 
 export type BudgetState = {
   date: string;
@@ -15,31 +15,24 @@ function key(): string {
 }
 
 async function read(env: WorkerEnv): Promise<BudgetState> {
-  const kv = env?.SESSION && typeof env.SESSION.get === "function" ? env.SESSION : null;
-  const raw = kv ? await kv.get(key()) : await memoryKv.get(key());
-  if (!raw) return { date: today(), spentUsd: 0 };
-  try {
-    return JSON.parse(raw) as BudgetState;
-  } catch {
-    return { date: today(), spentUsd: 0 };
-  }
+  return (await getJson<BudgetState>(store(env), key())) ?? { date: today(), spentUsd: 0 };
 }
 
-export async function budgetRemaining(env: WorkerEnv): Promise<{ remaining: number; state: BudgetState; exhausted: boolean }> {
+export async function budgetRemaining(env: WorkerEnv): Promise<{ remaining: number; state: BudgetState; exhausted: boolean; ceiling: number }> {
   const state = await read(env);
   const ceiling = dailyBudgetUsd(env);
   const remaining = Math.max(0, ceiling - state.spentUsd);
-  return { remaining, state, exhausted: remaining <= 0 };
+  return { remaining, state, exhausted: remaining <= 0, ceiling };
 }
 
+/**
+ * KV has no atomic increment, so two answers finishing at once can each read the old total. At this
+ * site's traffic the overshoot is one answer's cost; the ceiling is a brake, not an invoice.
+ */
 export async function chargeBudget(env: WorkerEnv, amountUsd: number): Promise<BudgetState> {
   const state = await read(env);
+  if (amountUsd <= 0) return state;
   state.spentUsd = Number((state.spentUsd + amountUsd).toFixed(6));
-  const value = JSON.stringify(state);
-  if (env?.SESSION && typeof env.SESSION.put === "function") {
-    await env.SESSION.put(key(), value, { expirationTtl: 172800 });
-  } else {
-    await memoryKv.put(key(), value, 172800);
-  }
+  await store(env).put(key(), JSON.stringify(state), 172800);
   return state;
 }

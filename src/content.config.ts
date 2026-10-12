@@ -23,4 +23,16 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { projects };
+// The notes AI Aden answers from. Published at /notes so every citation opens its source.
+const kb = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./content/kb" }),
+  schema: z.object({
+    title: z.string(),
+    source: z.string(),
+    confidence: z.enum(["high", "medium", "low"]).default("medium"),
+    status: z.enum(["verified", "draft", "mock"]).default("draft"),
+    last_updated: z.coerce.string(),
+  }),
+});
+
+export const collections = { projects, kb };

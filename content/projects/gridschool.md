@@ -1,8 +1,8 @@
 ---
 title: GridSchool
-summary: A 12-month engineering residency for graduates who can code but cannot get hired. Real systems, public receipts, a defense in front of an engineer who did not help.
-role: Founder
-stack: [Curriculum, static site, three.js path map, coaching]
+summary: An 8-week residency for engineers who can code and are not getting hired. Each student gets a route mapped from where they stand, weekly review from a working engineer, and applied AI systems that run the busywork of the search.
+role: Founder · engineer
+stack: [TypeScript, Python, Claude API, retrieval, evals, Cloudflare]
 href: https://gridschool.org
 receipts:
   - label: Live site
@@ -11,8 +11,8 @@ featured: true
 order: 2
 ---
 
-GridSchool is the school I am building because the portfolio-as-gallery stopped working. Employers do not trust tutorial clones. Students who can already write a program still cannot prove they can inherit one.
+GridSchool is where most of my applied AI work runs in production. A map builder drafts each student's route from a module library around their goal, and rebuilds it when something happens: a rejection, a new target, an interview that went sideways.
 
-The residency is supervised real work: a live multiplayer system, a personal site with one page per project, graph-engineering fluency, and a recorded defense. A node on the map lights only when a URL exists. Hours do not light it.
+The Hire engine gives every student a daily run ordered by evidence: interview prep first, then insider referrals from their own network, warm asks, follow-ups, and roles it has already prepared. A browser extension fills applications and never submits on its own, and nothing automates a student's LinkedIn. An AI setter answers ad leads in chat and books calls inside the conversation.
 
-This site is the founder example of deliverable 3: a personal site in its own design system, plus a public trail a stranger can check in under a minute.
+The residency itself is 8 weeks of teaching and review, then a weekly 1:1 until a company hires the student. I do not promise jobs. A company's yes is still theirs.

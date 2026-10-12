@@ -20,3 +20,4 @@ for (const question of questions) {
   const speech = payload.output?.speech ?? payload.message;
   console.log(`\nQ: ${question}\nA: ${speech}\nnoPosition=${payload.output?.noPosition} degraded=${payload.degraded}`);
 }
+export {};

@@ -11,8 +11,11 @@ interface Env {
   SESSION?: KVNamespace;
   ASK_LIMIT?: RateLimit;
   TELEMETRY?: AnalyticsEngineDataset;
+  ANTHROPIC_API_KEY?: string;
   OPENAI_API_KEY?: string;
+  LLM_PROVIDER?: string;
   LLM_MODEL?: string;
+  INBOX_TOKEN?: string;
   AI_GATEWAY_URL?: string;
   ELEVENLABS_API_KEY?: string;
   ELEVENLABS_VOICE_ID?: string;
@@ -29,8 +32,11 @@ declare namespace App {
 }
 
 interface ImportMetaEnv {
+  readonly ANTHROPIC_API_KEY?: string;
   readonly OPENAI_API_KEY?: string;
+  readonly LLM_PROVIDER?: string;
   readonly LLM_MODEL?: string;
+  readonly INBOX_TOKEN?: string;
   readonly AI_GATEWAY_URL?: string;
   readonly ELEVENLABS_API_KEY?: string;
   readonly ELEVENLABS_VOICE_ID?: string;

@@ -5,6 +5,14 @@ export type Gesture = Performance["gesture"];
 
 type BoneName = "rightUpperArm" | "leftUpperArm" | "rightLowerArm" | "leftLowerArm" | "spine" | "head" | "rightHand" | "leftHand";
 
+// Arms relaxed at the sides. Every gesture is an offset from this, so "idle" is a person, not a T-pose.
+const REST: Partial<Record<BoneName, [number, number, number]>> = {
+  leftUpperArm: [0, 0, -1.2],
+  rightUpperArm: [0, 0, 1.2],
+  leftLowerArm: [0, 0, -0.12],
+  rightLowerArm: [0, 0, 0.12],
+};
+
 const POSES: Record<Gesture, Partial<Record<BoneName, [number, number, number]>>> = {
   idle: {},
   talk_neutral: { rightLowerArm: [-0.4, 0, 0.2], leftLowerArm: [-0.3, 0, -0.15] },
@@ -51,17 +59,18 @@ export class AnimationController {
 
     const from = POSES[this.current];
     const to = POSES[this.target];
-    const names = new Set([...Object.keys(from), ...Object.keys(to)]) as Set<BoneName>;
+    const names = new Set([...Object.keys(REST), ...Object.keys(from), ...Object.keys(to)]) as Set<BoneName>;
 
     for (const name of names) {
       const node = humanoid.getNormalizedBoneNode(name);
       if (!node) continue;
       const a = from[name] ?? [0, 0, 0];
       const b = to[name] ?? [0, 0, 0];
+      const rest = REST[name] ?? [0, 0, 0];
       const sway = name === "spine" ? Math.sin(this.time * 1.4) * 0.02 : 0;
-      node.rotation.x = lerp(a[0], b[0], this.mix) + sway;
-      node.rotation.y = lerp(a[1], b[1], this.mix);
-      node.rotation.z = lerp(a[2], b[2], this.mix);
+      node.rotation.x = rest[0] + lerp(a[0], b[0], this.mix) + sway;
+      node.rotation.y = rest[1] + lerp(a[1], b[1], this.mix);
+      node.rotation.z = rest[2] + lerp(a[2], b[2], this.mix);
     }
   }
 }

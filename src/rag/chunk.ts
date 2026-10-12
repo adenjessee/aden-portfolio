@@ -17,6 +17,7 @@ export function parseKbMarkdown(path: string, raw: string): { meta: Record<strin
       confidence: field(block, "confidence") || "medium",
       last_updated: field(block, "last_updated") || "1970-01-01",
       title: field(block, "title") || path,
+      status: field(block, "status") || "draft",
     },
     body,
   };
@@ -42,12 +43,15 @@ export function chunkMarkdown(path: string, raw: string, maxChars = 700): KbChun
     ? meta.confidence
     : "medium") as KbChunk["confidence"];
 
+  const status = (["verified", "draft", "mock"].includes(meta.status) ? meta.status : "draft") as KbChunk["status"];
+
   return groups.map((text, index) => ({
     id: `${path}#${index}`,
     path,
     title: meta.title,
     source: meta.source,
     confidence,
+    status,
     lastUpdated: meta.last_updated,
     text,
   }));

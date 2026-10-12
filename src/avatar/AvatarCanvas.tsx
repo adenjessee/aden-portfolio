@@ -1,4 +1,5 @@
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Vector3 } from "three";
 import { useEffect, useRef, useState } from "react";
 import type { VRM } from "@pixiv/three-vrm";
 import type { DirectorOutput } from "../scene/schema";
@@ -22,6 +23,7 @@ function AdenRig({ performance, talking }: { performance: DirectorOutput["perfor
   const face = useRef(new ExpressionController());
   const gaze = useRef(new GazeController());
   const lips = useRef(new LipSync());
+  const camera = useThree((state) => state.camera);
 
   useEffect(() => {
     let cancelled = false;
@@ -31,6 +33,7 @@ function AdenRig({ performance, talking }: { performance: DirectorOutput["perfor
           const loaded = await loadVrm(url);
           if (!cancelled) {
             gaze.current.attach(loaded);
+            frameHead(loaded, camera);
             setVrm(loaded);
             return;
           }
@@ -72,6 +75,20 @@ function AdenRig({ performance, talking }: { performance: DirectorOutput["perfor
   }
 
   return <primitive object={vrm.scene} />;
+}
+
+/**
+ * Frames head to waist from the model's own head bone, so any VRM (a 1.4 m anime model or a 1.9 m
+ * commissioned one) lands in the same shot without hand-tuned camera numbers.
+ */
+function frameHead(vrm: VRM, camera: import("three").Camera) {
+  vrm.scene.updateMatrixWorld(true);
+  const head = vrm.humanoid?.getNormalizedBoneNode("head");
+  if (!head) return;
+  const headPos = head.getWorldPosition(new Vector3());
+  const target = new Vector3(0, headPos.y - 0.22, 0);
+  camera.position.set(0, headPos.y - 0.12, 1.7);
+  camera.lookAt(target);
 }
 
 export function AvatarCanvas({ performance, scene, talking }: Props) {

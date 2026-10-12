@@ -2,45 +2,80 @@ import { limits } from "../config/site";
 
 export type WorkerEnv = Env | undefined;
 
+type EnvKey = keyof ImportMetaEnv & keyof Env;
+
+// Worker bindings win, then Vite's import.meta.env, then process.env so scripts run under tsx.
+function read(env: WorkerEnv, key: EnvKey): string | undefined {
+  const fromWorker = env?.[key];
+  if (typeof fromWorker === "string" && fromWorker) return fromWorker;
+  const meta = (import.meta as { env?: Record<string, string | undefined> }).env;
+  if (meta?.[key]) return meta[key];
+  const proc = typeof process !== "undefined" ? process.env : undefined;
+  return proc?.[key] || undefined;
+}
+
 export function readNumber(value: string | undefined, fallback: number): number {
   const n = Number(value);
   return Number.isFinite(n) && n > 0 ? n : fallback;
 }
 
 export function sessionQuestionCap(env?: WorkerEnv): number {
-  return readNumber(env?.SESSION_QUESTION_CAP ?? import.meta.env.SESSION_QUESTION_CAP, limits.sessionQuestions);
+  return readNumber(read(env, "SESSION_QUESTION_CAP"), limits.sessionQuestions);
 }
 
 export function sessionVoiceCap(env?: WorkerEnv): number {
-  return readNumber(env?.SESSION_VOICE_SECONDS ?? import.meta.env.SESSION_VOICE_SECONDS, limits.sessionVoiceSeconds);
+  return readNumber(read(env, "SESSION_VOICE_SECONDS"), limits.sessionVoiceSeconds);
 }
 
 export function dailyBudgetUsd(env?: WorkerEnv): number {
-  return readNumber(env?.DAILY_BUDGET_USD ?? import.meta.env.DAILY_BUDGET_USD, limits.dailyBudgetUsd);
+  return readNumber(read(env, "DAILY_BUDGET_USD"), limits.dailyBudgetUsd);
 }
 
-export function llmModel(env?: WorkerEnv): string {
-  return env?.LLM_MODEL || import.meta.env.LLM_MODEL || "gpt-4o-mini";
+export type LlmProvider = "anthropic" | "openai" | "none";
+
+export function anthropicKey(env?: WorkerEnv): string | undefined {
+  return read(env, "ANTHROPIC_API_KEY");
 }
 
 export function openaiKey(env?: WorkerEnv): string | undefined {
-  return env?.OPENAI_API_KEY || import.meta.env.OPENAI_API_KEY || undefined;
+  return read(env, "OPENAI_API_KEY");
+}
+
+/** LLM_PROVIDER pins a provider; otherwise the first key present wins, Anthropic first. */
+export function llmProvider(env?: WorkerEnv): LlmProvider {
+  const pinned = read(env, "LLM_PROVIDER");
+  if (pinned === "none") return "none";
+  if (pinned === "anthropic") return anthropicKey(env) ? "anthropic" : "none";
+  if (pinned === "openai") return openaiKey(env) ? "openai" : "none";
+  if (anthropicKey(env)) return "anthropic";
+  if (openaiKey(env)) return "openai";
+  return "none";
+}
+
+export function llmModel(env?: WorkerEnv): string {
+  const configured = read(env, "LLM_MODEL");
+  if (configured) return configured;
+  return llmProvider(env) === "openai" ? "gpt-4o-mini" : "claude-opus-5-5";
 }
 
 export function gatewayUrl(env?: WorkerEnv): string | undefined {
-  return env?.AI_GATEWAY_URL || import.meta.env.AI_GATEWAY_URL || undefined;
+  return read(env, "AI_GATEWAY_URL");
 }
 
 export function elevenKey(env?: WorkerEnv): string | undefined {
-  return env?.ELEVENLABS_API_KEY || import.meta.env.ELEVENLABS_API_KEY || undefined;
+  return read(env, "ELEVENLABS_API_KEY");
 }
 
 export function elevenVoice(env?: WorkerEnv): string | undefined {
-  return env?.ELEVENLABS_VOICE_ID || import.meta.env.ELEVENLABS_VOICE_ID || undefined;
+  return read(env, "ELEVENLABS_VOICE_ID");
 }
 
 export function elevenModel(env?: WorkerEnv): string {
-  return env?.ELEVENLABS_MODEL_ID || import.meta.env.ELEVENLABS_MODEL_ID || "eleven_flash_v2_5";
+  return read(env, "ELEVENLABS_MODEL_ID") || "eleven_flash_v2_5";
+}
+
+export function inboxToken(env?: WorkerEnv): string | undefined {
+  return read(env, "INBOX_TOKEN");
 }
 
 export function clientIp(request: Request): string {

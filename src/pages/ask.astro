@@ -5,27 +5,34 @@ import AskPanel from "../components/AskPanel.tsx";
 ---
 
 <Base
-  title={`Talk to AI Aden · ${site.name}`}
-  description="Ask questions answered from Aden's public corpus. Works as text without WebGL or voice."
+  title={`Ask AI Aden · ${site.name}`}
+  description="Ask Aden's AI about his work. It answers only from notes he wrote, cites them, shows how it found them and what the answer cost, and can take a message or check a job description."
   path="/ask"
 >
   <main class="section">
     <div class="wrap">
       <p class="kicker">Ask</p>
-      <h1>Talk to AI Aden</h1>
+      <h1>Ask AI Aden</h1>
       <p class="lead">
-        Answers come from writing I have signed. If I have not taken a position, it will say so. Live voice and the 3D scene are extras. This page still works as text.
+        An AI that answers for me from <a href="/notes">notes I wrote and published</a>. Every answer cites its sources and shows how it found them and what it cost. If I have not written something down, it says so instead of guessing. It can also take a message for me, or check a job description against my work.
       </p>
 
-      <section class="panel prose" id="faq">
-        <h2>Without the live model</h2>
-        <p><strong>What is GridSchool?</strong> A 12-month residency for graduates who can code and still cannot get hired. Live at <a href={site.gridschool}>gridschool.org</a>.</p>
-        <p><strong>What is GridSeak?</strong> A structural graph engine for repositories. Callers, blast radius, cycles, evidence tiers. <a href={site.gridseak}>Source</a>.</p>
-        <p><strong>Why graphs if models can read code?</strong> Generation is cheap. Knowing what a change reaches is not. A context window fails when it was never given the graph.</p>
-        <p><strong>Will this avatar invent your opinions?</strong> No. Below a retrieval threshold it says the position is not on record.</p>
-      </section>
+      <noscript>
+        <section class="panel prose" id="faq">
+          <h2>Without JavaScript</h2>
+          <p><strong>What do you build?</strong> Applied AI and agentic graph engineering systems: maps of how a codebase fits together, and agents whose changes a team can check. <a href="/notes/me/biography">Biography</a>.</p>
+          <p><strong>What is GridSeak?</strong> A local, deterministic code graph that agents query and cite by evidence tier. <a href={site.gridseak}>Source</a>.</p>
+          <p><strong>What is GridSchool?</strong> An 8-week residency for engineers who can code and are not getting hired. <a href={site.gridschool}>gridschool.org</a>.</p>
+          <p><strong>How do I reach you?</strong> <a href={`mailto:${site.email}`}>{site.email}</a>, or <a href={site.linkedin}>LinkedIn</a>.</p>
+          <p>Everything AI Aden can say is readable at <a href="/notes">/notes</a>.</p>
+        </section>
+      </noscript>
 
-      <AskPanel client:visible />
+      <AskPanel client:load />
+
+      <p class="status ask-foot">
+        How it works: <a href="/notes">the notes</a> · <a href="/evals">the evals</a> · <a href={`${site.repo}`}>the source</a> · <a href="/privacy">what is stored</a>
+      </p>
     </div>
   </main>
 </Base>

@@ -1,0 +1,74 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../config/site";
+import type { EvalReport } from "../evals/grade";
+
+// Reports are written by `npm run evals` (notes-only) and `npm run evals -- --llm` (the live model).
+const reports = import.meta.glob<{ default: EvalReport }>("../data/evals-*.json", { eager: true });
+const ordered = Object.values(reports)
+  .map((module) => module.default)
+  .sort((a, b) => (a.mode === "llm" ? -1 : b.mode === "llm" ? 1 : 0));
+
+const KIND_COPY: Record<string, string> = {
+  grounded: "Answers from the notes and cites the right one",
+  no_position: "Says it has no position when the notes are silent",
+  injection: "Refuses instructions hidden in a question",
+  guardrail: "Never states a price or promises a job",
+  placeholder: "Never states a placeholder as fact",
+};
+---
+
+<Base title={`Evals · ${site.name}`} description="How AI Aden is tested: grounded answers, honest refusals, prompt injection, and hard rules, run against the same code the site uses." path="/evals">
+  <main class="section">
+    <div class="wrap">
+      <p class="kicker">Evals</p>
+      <h1>How AI Aden is tested</h1>
+      <p class="lead">
+        Every case runs through the same retrieval and answer code the site uses, and is graded by a script anyone can read: <a href={`${site.repo}/blob/main/src/evals/grade.ts`}>grade.ts</a>. The cases are in <a href={`${site.repo}/blob/main/evals/cases.json`}>cases.json</a>. In notes-only mode the whole suite also runs inside <code>npm test</code>, so a change that breaks a case does not ship quietly.
+      </p>
+
+      {ordered.length === 0 ? <p class="panel">No report yet. Run <code>npm run evals</code>.</p> : null}
+
+      {ordered.map((report) => (
+        <section class="eval-run">
+          <div class="eval-head">
+            <h2>{report.mode === "llm" ? `Model mode · ${report.model}` : "Notes-only mode · no model"}</h2>
+            <p class="eval-score"><strong>{report.passed}/{report.total}</strong> passed</p>
+          </div>
+          <p class="status">
+            Run {report.generatedAt.slice(0, 16).replace("T", " ")} UTC · cost ${report.costUsd.toFixed(4)}
+            {report.mode === "extractive" ? " · the free fallback visitors get when the model is off or the day's budget is spent" : ""}
+          </p>
+          <div class="eval-kinds">
+            {Object.entries(report.byKind).map(([kind, tally]) => (
+              <div class="eval-kind" data-perfect={tally.passed === tally.total ? "true" : "false"}>
+                <p class="eval-kind-score">{tally.passed}/{tally.total}</p>
+                <p class="meta">{kind.replace("_", " ")}</p>
+                <p class="eval-kind-copy">{KIND_COPY[kind] ?? kind}</p>
+              </div>
+            ))}
+          </div>
+          <table class="eval-table">
+            <thead>
+              <tr><th>Result</th><th>Kind</th><th>Question</th><th>Answer</th></tr>
+            </thead>
+            <tbody>
+              {report.results.map((result) => (
+                <tr data-pass={result.pass ? "true" : "false"}>
+                  <td><span class="pill">{result.pass ? "pass" : "fail"}</span></td>
+                  <td class="mono">{result.kind.replace("_", " ")}</td>
+                  <td>{result.question}</td>
+                  <td>
+                    <p>{result.speech.length > 260 ? `${result.speech.slice(0, 259)}…` : result.speech}</p>
+                    {result.citations.length ? <p class="eval-cites">{result.citations.map((id) => <a class="cite" href={`/notes/${id.split("#")[0].replace(/\.md$/, "")}`}>{id.split("#")[0].replace(/\.md$/, "")}</a>)}</p> : null}
+                    {result.failures.length ? <p class="form-error">{result.failures.join("; ")}</p> : null}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+      ))}
+    </div>
+  </main>
+</Base>

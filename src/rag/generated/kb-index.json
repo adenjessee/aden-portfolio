@@ -1,86 +1,495 @@
 {
-  "generatedAt": "2026-10-12T17:36:40.119Z",
+  "generatedAt": "2026-10-12T18:21:28.562Z",
   "chunks": [
     {
       "id": "beliefs/ai.md#0",
       "path": "beliefs/ai.md",
-      "title": "AI",
-      "source": "Aden / ai.md",
+      "title": "Beliefs about AI",
+      "source": "Aden / beliefs/ai.md",
       "confidence": "high",
-      "lastUpdated": "2026-09-04",
-      "text": "AI is a compression of other people's text and a sampler over that compression. It is not a substitute for a model of the system you are changing.\n\nI use models as directors and drafters. I do not let them emit unconstrained code into production paths. Structured output, schemas, retrieval with provenance, and a refusal to invent my position are the minimum.\n\nThe valuable human move is representation. You decide what the situation actually is, then you choose a graph, a comparison, a test, or a sentence. The model can fill the form. It should not invent the form and the facts together."
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "My working model of a large language model is a compression of a great deal of human text plus a sampler over that compression. That makes it very good at drafting and very bad at knowing the specific system you are changing. A model needs to be given the structure of your system. It will not infer it reliably.\n\nI use models as directors and drafters, never as the source of truth. In my systems a model fills a schema, calls a typed tool, or ranks a constrained set of options. Structured output, retrieval with provenance, and a refusal to invent are the minimum before a model touches users."
     },
     {
       "id": "beliefs/ai.md#1",
       "path": "beliefs/ai.md",
-      "title": "AI",
-      "source": "Aden / ai.md",
+      "title": "Beliefs about AI",
+      "source": "Aden / beliefs/ai.md",
       "confidence": "high",
-      "lastUpdated": "2026-09-04",
-      "text": "If the knowledge base does not contain my position, the honest answer is that I have not written one down yet. Then I can reason in the open. I should not perform certainty I do not have."
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "The valuable human move in AI work is choosing the representation. You decide what the situation actually is, then choose the right form for it: a graph, a comparison, a test, or a sentence. The model can fill in the form. It should not invent the form and the facts together.\n\nUsing AI well means being able to check what it did. That is the skill I build for myself and teach at GridSchool. Agents, evals, and the structure of a codebase are the new fundamentals for engineers.\n\nWhen AI Aden does not find my position in these notes, the honest answer is that I have not written one down yet. I would rather reason in the open from what is written than perform certainty I do not have."
     },
     {
       "id": "beliefs/business.md#0",
       "path": "beliefs/business.md",
-      "title": "Business",
-      "source": "Aden / business.md",
+      "title": "Beliefs about business",
+      "source": "Aden / beliefs/business.md",
       "confidence": "high",
-      "lastUpdated": "2026-09-04",
-      "text": "I sell work I can stand next to. GridSchool's founding price is low because the asset is me, directly, and the method is still being tuned on the first students.\n\nI do not sell job-or-refund. That promise trains both sides to lie.\n\nCost is part of the design. A viral demo that bankrupts the server is not impressive. Rate limits, daily ceilings, cached paths, and a site that still works when the model is off are product decisions, not afterthoughts."
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "I sell work I can stand behind. At GridSchool the main asset is direct access to me as a working engineer, and the method is still being tuned with the founding students. The founding terms reflect that, and they rise once the founding five have defended in front of outside engineers. The price itself is quoted on a call.\n\nI will not sell a job-or-refund promise. That kind of guarantee pushes both the school and the student toward gaming the outcome. What I offer instead is a clear exit: if either side decides by the end of week 2 that it is the wrong room, the unused tuition comes back."
+    },
+    {
+      "id": "beliefs/business.md#1",
+      "path": "beliefs/business.md",
+      "title": "Beliefs about business",
+      "source": "Aden / beliefs/business.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "Cost is part of product design. Rate limits, daily spending ceilings, cached paths, and a product that works when the model is off are decisions I make up front. A viral demo that bankrupts the server is a failure.\n\nI automate busywork and keep the human parts human. GridSchool's systems prepare applications, order a student's day, and answer ad leads. They never send messages to real people on a student's behalf, never automate LinkedIn, and never submit an application on their own.\n\nAs a solo founder, I build for the buyer I have. I have made the mistake of building architecture before I had a buyer, and I now ship the narrow version first and let real use decide what comes next."
     },
     {
       "id": "beliefs/education.md#0",
       "path": "beliefs/education.md",
-      "title": "Education",
-      "source": "Aden / education.md",
+      "title": "Beliefs about education",
+      "source": "Aden / beliefs/education.md",
       "confidence": "high",
-      "lastUpdated": "2026-09-04",
-      "text": "Most \"learn to code\" products sell activity. Activity is not evidence.\n\nGridSchool is built around a different scoreboard. A node lights when a URL exists. A student leaves with a merged change to a live system, a personal site, a public trail, and a defense in front of an engineer who did not help them.\n\nI will not write a student's production code. I will sit next to the work, name the next action, and refuse a review that does not name a doubt.\n\nI do not promise a job. I promise the conditions under which a hire becomes possible: work that can be checked, a story that matches the work, and practice defending it."
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "My main belief about engineering education is that review matters more than content. Tutorials, courses, and videos are free and endless. An engineer reading your work every week and telling you the one thing to change first is scarce, and that is what moves people forward.\n\nMost \"learn to code\" products sell activity: videos watched, lessons finished, certificates earned. Activity does not show a hiring manager anything. GridSchool keeps a different scoreboard: a reviewed change to a real system, a written verdict from an outside engineer, a case study page, and a recorded defense."
+    },
+    {
+      "id": "beliefs/education.md#1",
+      "path": "beliefs/education.md",
+      "title": "Beliefs about education",
+      "source": "Aden / beliefs/education.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "I believe in a route over a fixed curriculum. Each GridSchool student gets a map built from their goal, and the map is rebuilt from what happens: a rejection, a new target, an interview that went sideways. A fixed syllabus assumes everyone starts in the same place and wants the same job.\n\nAs a teacher, I do not write a student's production code. I sit next to the work, name the next action, and send back a review with the one thing to change first. The student owns the change, which is the whole point when they later have to defend it."
+    },
+    {
+      "id": "beliefs/education.md#2",
+      "path": "beliefs/education.md",
+      "title": "Beliefs about education",
+      "source": "Aden / beliefs/education.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "I do not promise anyone a job. A company's yes is still theirs. What I can build with a student is the conditions where a hire becomes possible: work that can be checked, a story that matches the work, and practice defending it in front of an engineer who did not help."
     },
     {
       "id": "beliefs/engineering.md#0",
       "path": "beliefs/engineering.md",
-      "title": "Engineering",
-      "source": "Aden / engineering.md",
+      "title": "Engineering beliefs",
+      "source": "Aden / beliefs/engineering.md",
       "confidence": "high",
-      "lastUpdated": "2026-09-04",
-      "text": "Software engineering is the work of making a system understandable enough that the next change is safe.\n\nGeneration is cheap. Comprehension is not. A pull request that no one can defend is not finished work.\n\nI prefer deterministic methods where they exist. Tests, schemas, graphs, typed boundaries, budgets. A language model is useful after those exist. It is a liability when it is asked to be the source of truth.\n\nI do not treat a greenfield tutorial as proof. Proof is a URL a stranger can open: a live system, a failing test that would have caught the bug, a graph of what the change actually touched."
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "My core belief about software engineering is that it is the work of making a system understandable enough that the next change is safe. Writing code is part of that. Understanding what the code does, and what a change will reach, is most of it.\n\nGeneration is cheap and comprehension is expensive. A pull request that nobody can defend is unfinished work, however fast it was written. I judge my own changes by whether a reviewer could follow what changed, what it reaches, and how we would know if it were wrong."
+    },
+    {
+      "id": "beliefs/engineering.md#1",
+      "path": "beliefs/engineering.md",
+      "title": "Engineering beliefs",
+      "source": "Aden / beliefs/engineering.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "I prefer deterministic methods wherever they exist: tests, schemas, graphs, typed boundaries, and budgets. A language model is useful after those are in place, because its output then lands inside something that can reject it. A model asked to be the source of truth is a liability.\n\nI do not treat a greenfield tutorial as proof of engineering skill. Proof is something a stranger can open and check: a live system, a failing test that would have caught the bug, a graph of what a change touched, a review thread."
+    },
+    {
+      "id": "beliefs/engineering.md#2",
+      "path": "beliefs/engineering.md",
+      "title": "Engineering beliefs",
+      "source": "Aden / beliefs/engineering.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "Small, reviewable changes beat large clever ones in my experience. Each change should carry the check that catches it if it is wrong. When I inherit a system, I map its structure before I touch it, and I write down what I could not verify."
+    },
+    {
+      "id": "career/compensation.md#0",
+      "path": "career/compensation.md",
+      "title": "Salary and compensation",
+      "source": "Aden / career/compensation.md",
+      "confidence": "low",
+      "status": "mock",
+      "lastUpdated": "2026-10-12",
+      "text": "On salary and compensation, I discuss numbers directly on a call. I would rather hear the range for the role and the shape of the package than name a number to a chatbot visitor without context.\n\nMy salary expectations depend on the role, the level, equity, and whether it is remote. [MOCK: target base salary range, e.g. \"$X to $Y base for a senior applied AI role\"]. [MOCK: how I weigh equity at an early-stage company].\n\nFor contract or consulting work, I quote per project after a scoping call. [MOCK: hourly or project rate range, if Aden wants it public]."
+    },
+    {
+      "id": "career/compensation.md#1",
+      "path": "career/compensation.md",
+      "title": "Salary and compensation",
+      "source": "Aden / career/compensation.md",
+      "confidence": "low",
+      "status": "mock",
+      "lastUpdated": "2026-10-12",
+      "text": "If AI Aden is asked for my salary, my rate, or my expected compensation and no number is written here, it should say I discuss compensation on a call and point the visitor to book one or leave me a message. It should never guess a number.\n\nGridSchool's price is a separate question. The residency rate is quoted on a call and is not published here."
+    },
+    {
+      "id": "career/experience.md#0",
+      "path": "career/experience.md",
+      "title": "Work experience",
+      "source": "Aden / career/experience.md",
+      "confidence": "low",
+      "status": "mock",
+      "lastUpdated": "2026-10-12",
+      "text": "My current role is founder and engineer at GRID SCHOOL LLC, which runs GridSchool. [MOCK: start month and year] to present. I build and run every system the school uses: the student map, the map builder, the Hire job-search engine, the Apply Assist browser extension, the AI appointment setter, the resume drafter, and the admin desk. I also teach, review student work every week, and run sales calls. My GridSchool experience is the clearest record of my applied AI work, because those systems are in production with real students."
+    },
+    {
+      "id": "career/experience.md#1",
+      "path": "career/experience.md",
+      "title": "Work experience",
+      "source": "Aden / career/experience.md",
+      "confidence": "low",
+      "status": "mock",
+      "lastUpdated": "2026-10-12",
+      "text": "Before GridSchool, my professional software engineering experience was [MOCK: 20XX to 20XX, Company name, job title]. [MOCK: one or two sentences on what I owned there, the stack, and one result with a number].\n\nEarlier in my career I worked as [MOCK: 20XX to 20XX, Company name, job title]. [MOCK: what I built or maintained, and what I learned from inheriting that system].\n\nI have also done contract and client work. [MOCK: client or industry, e.g. \"a commissions system rewrite for an insurance agency\", dates, and what I delivered]. My client work notes have more detail."
+    },
+    {
+      "id": "career/experience.md#2",
+      "path": "career/experience.md",
+      "title": "Work experience",
+      "source": "Aden / career/experience.md",
+      "confidence": "low",
+      "status": "mock",
+      "lastUpdated": "2026-10-12",
+      "text": "In total I have [MOCK: N] years of professional software engineering experience, counting the years before founding GridSchool. I have shipped software people depended on since before AI coding tools existed, and I have built AI systems in production since [MOCK: year].\n\nFor education, [MOCK: degree, school, year, or \"I am self-taught\" with how I learned]. I care more about what someone has shipped than where they studied, and I hold myself to the same rule.\n\nMy resume has the exact dates. If a visitor asks for a date or employer that is not written in these notes, AI Aden should say it does not have it."
+    },
+    {
+      "id": "career/roles-i-want.md#0",
+      "path": "career/roles-i-want.md",
+      "title": "Roles I want",
+      "source": "Aden / career/roles-i-want.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "The roles I am looking for are applied AI engineer, agentic systems engineer, developer tooling engineer, and founding engineer at an early company. The common thread is building AI systems whose output a team can check before trusting it.\n\nAs an applied AI engineer, I want to work on the part of the product where a model meets real data and real users. That means retrieval, tool calling, structured output, evals, and cost controls. I have built all of those in production at GridSchool and on this site."
+    },
+    {
+      "id": "career/roles-i-want.md#1",
+      "path": "career/roles-i-want.md",
+      "title": "Roles I want",
+      "source": "Aden / career/roles-i-want.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "As an agentic systems or developer tooling engineer, the work I am best at is giving agents a structural view of a codebase. GridSeak is my example: a deterministic graph of a repository that tells an agent what a change will touch, with the evidence tier for each claim. Teams building coding agents, code review tools, or internal developer platforms are a natural fit.\n\nAs a founding engineer, I bring the habits of someone who has run a whole product alone. I can take a vague problem, ship a first version, talk to the users, and keep the costs bounded. I am comfortable owning a system end to end."
+    },
+    {
+      "id": "career/roles-i-want.md#2",
+      "path": "career/roles-i-want.md",
+      "title": "Roles I want",
+      "source": "Aden / career/roles-i-want.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "The kind of team I want is one that reviews code seriously, writes things down, and cares whether the AI output is correct as much as whether it demos well. I do my best work where engineers are trusted to own a problem and expected to explain their changes. Team size matters less to me than that culture.\n\nWhat I am less suited for is a role that is only prompt writing with no access to the system around it, or a team that measures AI work by volume of generated code. [MOCK: any roles Aden would rule out, e.g. management-only roles, specific industries].\n\nFor details on remote work, location, and start date, see my location and availability notes."
+    },
+    {
+      "id": "career/skills-and-stack.md#0",
+      "path": "career/skills-and-stack.md",
+      "title": "Skills and tech stack",
+      "source": "Aden / career/skills-and-stack.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "My main programming language is TypeScript. Most of what I ship today is TypeScript on the server and in the browser, including GridSchool, the Hire engine, and this portfolio. I also write Python, mostly for data work, scripts, and analysis around models. [MOCK: other languages I have shipped in professionally, e.g. Java, C#, Go].\n\nMy web stack for recent projects is Astro for static-first sites, React where a page needs real interactivity, and Three.js through React Three Fiber for the 3D avatar on this site. I deploy on Cloudflare Workers, with Cloudflare's AI Gateway and Workers AI embeddings in the loop for this site's retrieval. I use Zod for schemas at the boundaries."
+    },
+    {
+      "id": "career/skills-and-stack.md#1",
+      "path": "career/skills-and-stack.md",
+      "title": "Skills and tech stack",
+      "source": "Aden / career/skills-and-stack.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "For data, I work in SQL and Postgres. GridSchool runs on a relational database. [MOCK: confirm hosting, e.g. managed Postgres provider].\n\nMy applied AI skills cover LLM APIs, including Anthropic's Claude and OpenAI models, structured output against a schema, tool calling for agents, retrieval (BM25 plus vector search with citations), and evals. I build evals as fixed question sets with expected behavior, and I publish them where I can. This site has a public evals page."
+    },
+    {
+      "id": "career/skills-and-stack.md#2",
+      "path": "career/skills-and-stack.md",
+      "title": "Skills and tech stack",
+      "source": "Aden / career/skills-and-stack.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "My graph engineering and developer tooling skills come from GridSeak. I build structural graphs of code from tree-sitter parses, grep, and the language server (LSP), and I write agent tools on top of them: callers, callees, blast radius, cycles, and module coupling.\n\nOther tools I use: Git and GitHub with pull request review, Playwright for end-to-end tests, Vitest for unit tests, browser extension APIs for Apply Assist, and Claude Code as my daily coding agent. [MOCK: anything else Aden wants listed, e.g. Docker, AWS, specific cloud certifications].\n\nIf a visitor asks about a tool that is not listed here, AI Aden should say it is not in my notes. It should not assume I have used it."
+    },
+    {
+      "id": "career/strengths-and-weaknesses.md#0",
+      "path": "career/strengths-and-weaknesses.md",
+      "title": "Strengths and weaknesses",
+      "source": "Aden / career/strengths-and-weaknesses.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "My biggest strength as an engineer is making a system understandable. I can walk into an unfamiliar codebase, map how it fits together, and explain what a change will reach before anyone merges it. GridSeak is that strength turned into a tool.\n\nA second strength is shipping AI features with guardrails. I put schemas, budgets, retrieval with citations, and evals around a model before I let it touch users. This site and the GridSchool systems are working examples, with daily cost ceilings and fallbacks when the model is unavailable."
+    },
+    {
+      "id": "career/strengths-and-weaknesses.md#1",
+      "path": "career/strengths-and-weaknesses.md",
+      "title": "Strengths and weaknesses",
+      "source": "Aden / career/strengths-and-weaknesses.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "A third strength is owning a whole product. As a solo founder I have written the code, run the deploys, talked to users, handled sales, and reviewed student work. I am comfortable with ambiguity and I do not wait for someone else to define the problem.\n\nMy main weakness is a tendency to over-abstract. I have built general architecture before I had a buyer or a second use case. I correct for it now by shipping the narrow version first and waiting for a real second case before I generalize."
+    },
+    {
+      "id": "career/strengths-and-weaknesses.md#2",
+      "path": "career/strengths-and-weaknesses.md",
+      "title": "Strengths and weaknesses",
+      "source": "Aden / career/strengths-and-weaknesses.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "Another weakness is that I have worked alone for a long stretch. That made me fast, and it also means I have had fewer people reviewing my code day to day than I would on a team. I want that review back, and it is one of the reasons I am interested in joining a strong engineering team. I keep my own changes small and written up so a reviewer can follow them.\n\nA third weakness: I have written long explanations when a short one would do. Early GridSchool pages read like manifestos and did not get anyone hired. I now write to the reader's next decision and cut the rest."
+    },
+    {
+      "id": "career/working-with-me.md#0",
+      "path": "career/working-with-me.md",
+      "title": "Working with me",
+      "source": "Aden / career/working-with-me.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "Working with me as a teammate means I write things down. Before a large change I write a short plan: what I intend to change, what it touches, and how we will know it worked. After the change, the pull request says what I verified and what I did not.\n\nIn code review, I review the way I want to be reviewed. I read the change against the structure of the system, ask what else it reaches, and name the one thing I would change first. At GridSchool every written review ends as accepted or sent back with that one thing, so the author always knows the next step. I try to keep review comments about the code and the evidence."
+    },
+    {
+      "id": "career/working-with-me.md#1",
+      "path": "career/working-with-me.md",
+      "title": "Working with me",
+      "source": "Aden / career/working-with-me.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "My communication style is direct and plain. If I think a plan has a problem, I say so early and say why. If I am wrong, I want to hear it with the reason, and I change my mind when the evidence is better than mine. I prefer async written updates for most things and a short call when a decision is stuck.\n\nOn disagreements, I ask what evidence would settle the question, then go get it. A failing test, a graph of the change, or two numbers side by side usually ends an argument faster than more discussion."
+    },
+    {
+      "id": "career/working-with-me.md#2",
+      "path": "career/working-with-me.md",
+      "title": "Working with me",
+      "source": "Aden / career/working-with-me.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "For teams using AI coding agents, I hold agent output to the same review standard as human output. I am happy to help a team set up the checks that make agent changes safe to accept: tests that would catch the defect, structural context for the agent, and budgets on what it can spend.\n\nOn ownership, when I take something on I see it through to production and keep watching it after it ships. If I cannot finish something, I say so early."
+    },
+    {
+      "id": "faq/common-questions.md#0",
+      "path": "faq/common-questions.md",
+      "title": "Common questions",
+      "source": "Aden / faq/common-questions.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "Are you open to work? Am I available to hire? I am open to conversations about applied AI, agentic systems, developer tooling, and founding engineer roles. My location and availability notes have the details on remote work and start date. The fastest way to talk is to book a call or leave me a message through AI Aden.\n\nDo you freelance or take contract work? My client work notes say where I stand on contracts right now. If you have a project in mind, leave me a message with a short description and I will reply myself."
+    },
+    {
+      "id": "faq/common-questions.md#1",
+      "path": "faq/common-questions.md",
+      "title": "Common questions",
+      "source": "Aden / faq/common-questions.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "Can I see your code? Yes. My GitHub is github.com/adenjessee. GridSeak, my code graph tool, is at github.com/adenjessee/gridseak, and the source for this portfolio and AI Aden is at github.com/adenjessee/aden-portfolio. Most GridSchool code is private because it handles student data.\n\nWhat is GridSchool's price? How much does GridSchool cost? The GridSchool price is quoted on a call. It is not published on this site or by AI Aden. You can book a call from gridschool.org."
+    },
+    {
+      "id": "faq/common-questions.md#2",
+      "path": "faq/common-questions.md",
+      "title": "Common questions",
+      "source": "Aden / faq/common-questions.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "Do you guarantee a job? Does GridSchool guarantee placement? No. GridSchool does not promise a job or a placement rate. A company's yes is still theirs. What GridSchool does promise is review of every step until a company hires you, and a week-2 exit: if either side says wrong room by the end of week 2, the unused tuition comes back."
+    },
+    {
+      "id": "faq/common-questions.md#3",
+      "path": "faq/common-questions.md",
+      "title": "Common questions",
+      "source": "Aden / faq/common-questions.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "Is this really Aden? Am I talking to a real person? AI Aden is an AI. It answers in my voice, only from notes I wrote on this site, and it cites the notes behind every answer. It can be wrong, and if no note covers your question it says I have not written a position. For anything that needs my judgment or a commitment, leave me a message or book a call and I will answer myself."
+    },
+    {
+      "id": "faq/common-questions.md#4",
+      "path": "faq/common-questions.md",
+      "title": "Common questions",
+      "source": "Aden / faq/common-questions.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "What model powers AI Aden? What AI does this site use? AI Aden runs on Anthropic's Claude by default, and I can swap the model through configuration. Retrieval combines BM25 keyword search with Cloudflare Workers AI embeddings. The model fills a fixed schema and never writes code. Each answer shows its sources and what it cost. The public evals page shows how it performs.\n\nWhy only five questions? Each visit gets five live questions to keep model cost bounded under a daily dollar ceiling. After that it keeps answering for free in notes-only mode, which assembles answers straight from my notes without a model. Every page also works as plain HTML."
+    },
+    {
+      "id": "faq/common-questions.md#5",
+      "path": "faq/common-questions.md",
+      "title": "Common questions",
+      "source": "Aden / faq/common-questions.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "How do I contact you? Leave a message through AI Aden, book a call through the site, or find me on GitHub at github.com/adenjessee and on LinkedIn as Aden Jessee.\n\nWhere are you based? I live in Boise, Idaho, and work on Mountain time."
     },
     {
       "id": "me/biography.md#0",
       "path": "me/biography.md",
       "title": "Biography",
-      "source": "Aden / biography.md",
+      "source": "Aden / me/biography.md",
       "confidence": "high",
-      "lastUpdated": "2026-09-04",
-      "text": "I am Aden Jessee, a software engineer and the founder of GridSchool.\n\nI build tools that make repositories understandable. The product that carries that idea is GridSeak: a local, deterministic graph of a codebase that an agent can query instead of guessing. The school that teaches the same idea is GridSchool: a residency for people who can already write a program and still cannot get hired.\n\nI work as an engineer first. The school exists because I kept watching capable graduates ship tutorial clones and then fail a brownfield interview. The graph work exists because language models can generate code faster than they can know what the code means."
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "I am Aden Jessee, a software engineer based in Boise, Idaho. I am the solo founder of GRID SCHOOL LLC, which runs GridSchool at gridschool.org. My work is applied AI and agentic graph engineering. I build systems that map how a codebase fits together, and agents that make changes a team can check before it trusts them.\n\nI learned to build software before the AI era. I wrote systems from scratch and shipped software that people depended on before large language models were part of the job. That background is why I care about structure and evidence. When a model writes code, someone still has to know what that code touches and whether it is right."
     },
     {
       "id": "me/biography.md#1",
       "path": "me/biography.md",
       "title": "Biography",
-      "source": "Aden / biography.md",
+      "source": "Aden / me/biography.md",
       "confidence": "high",
-      "lastUpdated": "2026-09-04",
-      "text": "I am not a researcher writing papers about agents. I am someone who has to ship systems, keep costs bounded, and stay honest about what the model actually knew."
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "When the AI wave hit, it was clear that engineers would need help. The tools changed faster than anyone could explain them, and it got harder for teams to tell who was good. My response was GridSchool. I automate the busywork of a job search with the same kind of systems I build for code, and I plan a map for each engineer around their goal."
+    },
+    {
+      "id": "me/biography.md#2",
+      "path": "me/biography.md",
+      "title": "Biography",
+      "source": "Aden / me/biography.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "The main projects people ask me about are GridSeak, GridSchool, and this site. GridSeak (github.com/adenjessee/gridseak) is a local, deterministic structural graph of a repository that an agent can query instead of guessing. GridSchool is a residency where a working engineer, me, reviews every step of a student's route until a company hires them. This portfolio is the example site my students fork, and AI Aden on it answers only from notes I wrote."
+    },
+    {
+      "id": "me/biography.md#3",
+      "path": "me/biography.md",
+      "title": "Biography",
+      "source": "Aden / me/biography.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "As an engineer, my background is shipping product software and keeping it running. I am not an academic researcher writing papers about agents. I build working systems, keep their costs bounded, and try to be honest about what a model actually knew when it answered."
+    },
+    {
+      "id": "me/contact.md#0",
+      "path": "me/contact.md",
+      "title": "Contact",
+      "source": "Aden / me/contact.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "The easiest way to contact me is through this site. AI Aden can take a message for me: ask it to leave Aden a message, include your name, how to reach you, and what it is about, and I will read it myself. The site also has a way to book a call with me directly.\n\nIf you are hiring and want to talk about a role, booking a call is the fastest path. You can also paste a job description into AI Aden first. It will give an honest fit check with the matches and the gaps, each tied to a source in my notes, so we start the call with the same facts."
+    },
+    {
+      "id": "me/contact.md#1",
+      "path": "me/contact.md",
+      "title": "Contact",
+      "source": "Aden / me/contact.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "My code is on GitHub at github.com/adenjessee. GridSeak is at github.com/adenjessee/gridseak, and the source for this portfolio is at github.com/adenjessee/aden-portfolio. I am also on LinkedIn under my name, Aden Jessee.\n\nIf you are asking about GridSchool, the residency, or joining a cohort, start at gridschool.org. The price and the start dates are covered on a call, and you can book that call from the GridSchool site.\n\nAI Aden is an AI that answers from notes I wrote. It cannot make commitments for me, agree to terms, or schedule anything outside the booking flow. Anything that needs a decision from me goes through a message or a call."
+    },
+    {
+      "id": "me/how-i-work.md#0",
+      "path": "me/how-i-work.md",
+      "title": "How I work",
+      "source": "Aden / me/how-i-work.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "My working method starts with the structure of the system before I write anything. On a new codebase I map the callers, callees, and module boundaries of the area I am about to change, so I know the blast radius of the change first. GridSeak exists because I wanted that map to be cheap and repeatable.\n\nI put deterministic checks in place before I bring in a model. That means tests, schemas, typed boundaries, and budgets. Once those exist, a language model is useful as a drafter, because its output lands inside something that can reject it. Without them, the model becomes the source of truth by default, and that is where most AI projects go wrong."
+    },
+    {
+      "id": "me/how-i-work.md#1",
+      "path": "me/how-i-work.md",
+      "title": "How I work",
+      "source": "Aden / me/how-i-work.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "I work in small, reviewable changes. Each change should come with the check that would catch it if it were wrong. I write the pull request description so a reviewer can see what changed, what it reaches, and what I did not verify. I would rather ship a smaller change I can defend than a large one nobody can read.\n\nMy day to day as a solo founder covers the whole stack. I write the product code, run the deploys, answer student questions, review student work, and handle sales calls. That has made me fast at switching context and strict about writing things down, because the next person to read my notes is usually me a week later."
+    },
+    {
+      "id": "me/how-i-work.md#2",
+      "path": "me/how-i-work.md",
+      "title": "How I work",
+      "source": "Aden / me/how-i-work.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "I use AI coding agents every day, and I check their work the way I would check a new teammate's. I read the diff, run the tests, and ask what the change touched that the agent did not mention. I describe that habit in more detail in my notes on AI coding tools."
+    },
+    {
+      "id": "me/interests-outside-work.md#0",
+      "path": "me/interests-outside-work.md",
+      "title": "Interests outside work",
+      "source": "Aden / me/interests-outside-work.md",
+      "confidence": "low",
+      "status": "mock",
+      "lastUpdated": "2026-10-12",
+      "text": "Outside of work, I live in Boise, Idaho. [MOCK: what I like about living in Boise, e.g. the foothills, the river, the size of the town].\n\nFor hobbies and free time, I [MOCK: hobbies, e.g. hiking, lifting, reading, music, games]. [MOCK: one specific detail that makes this real, e.g. a trail, a book, an instrument].\n\nFor reading, I [MOCK: kinds of books or authors I return to]. On the technical side I read source code more than blog posts, because the code is where the actual decisions live.\n\nOn family and personal life, I keep the details off this site. [MOCK: optional one line Aden is comfortable sharing, or remove this paragraph]."
+    },
+    {
+      "id": "me/interests-outside-work.md#1",
+      "path": "me/interests-outside-work.md",
+      "title": "Interests outside work",
+      "source": "Aden / me/interests-outside-work.md",
+      "confidence": "low",
+      "status": "mock",
+      "lastUpdated": "2026-10-12",
+      "text": "If AI Aden is asked about something personal that is not written here, it should say I have not shared that on this site."
+    },
+    {
+      "id": "me/location-and-availability.md#0",
+      "path": "me/location-and-availability.md",
+      "title": "Location and availability",
+      "source": "Aden / me/location-and-availability.md",
+      "confidence": "low",
+      "status": "mock",
+      "lastUpdated": "2026-10-12",
+      "text": "I live in Boise, Idaho, and I work on Mountain time (MT). For calls I can usually overlap with US Pacific, Mountain, Central, and Eastern business hours. [MOCK: usual call window, e.g. 8am to 5pm MT].\n\nOn remote work, my preference is [MOCK: remote first / open to hybrid in Boise / open to relocation for the right team]. I have run GridSchool fully remote, with students and calls across time zones, so I am used to written, async communication and scheduled overlap.\n\nOn travel, I am [MOCK: willing to travel occasionally for onsites or team weeks, about N times per year]."
+    },
+    {
+      "id": "me/location-and-availability.md#1",
+      "path": "me/location-and-availability.md",
+      "title": "Location and availability",
+      "source": "Aden / me/location-and-availability.md",
+      "confidence": "low",
+      "status": "mock",
+      "lastUpdated": "2026-10-12",
+      "text": "On availability, I am [MOCK: open to full-time roles now / open to conversations / available to start in N weeks]. GridSchool is my own company and it keeps running. [MOCK: how GridSchool would fit alongside a full-time role, e.g. \"I would keep it small and run it outside working hours\" or \"I would hand off day-to-day operations\"].\n\nOn work authorization, I am [MOCK: a US citizen / authorized to work in the US without sponsorship].\n\nIf you want to talk about a role, the fastest route is to leave me a message through AI Aden or book a call through this site. I answer those myself."
     },
     {
       "id": "me/timeline.md#0",
       "path": "me/timeline.md",
       "title": "Timeline",
-      "source": "Aden / timeline.md",
-      "confidence": "medium",
-      "lastUpdated": "2026-09-04",
-      "text": "I have spent the last several years as a full-stack software engineer, then as a founder.\n\nThe sequence that matters for this site:\n\n1. I learned to ship product software and inherited enough messy systems to stop trusting greenfield demos.\n2. I started GridSeak as a structural layer over repositories: parse, graph, query, cite evidence tiers.\n3. I started GridSchool when it became obvious that hiring was failing people who could code and still could not prove it.\n4. I built this portfolio as the founder example of the site I ask students to make: evidence first, spectacle optional."
+      "source": "Aden / me/timeline.md",
+      "confidence": "low",
+      "status": "mock",
+      "lastUpdated": "2026-10-12",
+      "text": "This is my career timeline in rough order. The dates and employer names here are placeholders that I still need to fill in, so treat any bracketed item as unconfirmed.\n\nBefore AI coding tools existed, I learned to build software the slow way. I wrote systems from scratch and shipped software people depended on. [MOCK: years of experience before founding, e.g. \"about N years\"; first engineering role and year].\n\nDuring my early engineering years I worked as a full-stack engineer on product software and inherited systems I did not design. [MOCK: 20XX to 20XX, Company name, role title]. That is where I stopped trusting greenfield demos as proof of skill."
     },
     {
       "id": "me/timeline.md#1",
       "path": "me/timeline.md",
       "title": "Timeline",
-      "source": "Aden / timeline.md",
-      "confidence": "medium",
-      "lastUpdated": "2026-09-04",
-      "text": "Exact employment dates and private family details are not part of this public corpus. If someone needs a resume, they should read the resume page, not invent a CV from this file."
+      "source": "Aden / me/timeline.md",
+      "confidence": "low",
+      "status": "mock",
+      "lastUpdated": "2026-10-12",
+      "text": "I started GridSeak as a structural layer over repositories: parse the code, build a graph, query it, and cite the evidence tier for every claim. [MOCK: year GridSeak started].\n\nI founded GRID SCHOOL LLC and started GridSchool when it became obvious that hiring was failing people who could code and could not prove it. [MOCK: founding year and month]. The first version was a longer residency with a fixed curriculum. In 2026 I rebuilt it around a map: an 8-week route of teaching and review, with weekly 1:1s that continue until a company hires the student."
+    },
+    {
+      "id": "me/timeline.md#2",
+      "path": "me/timeline.md",
+      "title": "Timeline",
+      "source": "Aden / me/timeline.md",
+      "confidence": "low",
+      "status": "mock",
+      "lastUpdated": "2026-10-12",
+      "text": "In 2026 I also built the systems that run GridSchool day to day: the map builder, the Hire job-search engine, the Apply Assist browser extension, and an AI appointment setter. I built this portfolio and AI Aden as the example site students fork.\n\nMy full employment history with exact dates is in my experience notes and on my resume. If a date is not written there, AI Aden should say it does not have it rather than guess."
     },
     {
       "id": "positions/ai-agents.md#0",
@@ -88,8 +497,119 @@
       "title": "AI agents",
       "source": "Aden / positions/ai-agents.md",
       "confidence": "high",
-      "lastUpdated": "2026-09-04",
-      "text": "An agent without a structural view of the repo is a tourist. It opens files by keyword, burns tokens, and reports success in the tone of a senior.\n\nThe difference between a junior using an agent and an excellent engineer using one is the loop after the output: did we verify, what did we miss, what would a graph have shown before we spent the money.\n\nI want agents that call tools with evidence tiers, not agents that narrate. Tool calling for a 3D scene is the same idea as tool calling for a codebase. Constrained language. Validated. No arbitrary code."
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "An AI agent without a structural view of the repository behaves like a tourist. It opens files by keyword, burns tokens, and reports success in the confident tone of a senior engineer. The confidence has nothing to do with whether the change is right.\n\nThe difference between a junior using an agent and an excellent engineer using one is what happens after the output. The excellent engineer asks whether the change was verified, what it missed, and what a graph of the code would have shown before the money was spent. That loop after the output is where the value is."
+    },
+    {
+      "id": "positions/ai-agents.md#1",
+      "path": "positions/ai-agents.md",
+      "title": "AI agents",
+      "source": "Aden / positions/ai-agents.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "The agents I build call tools that return evidence, and they report which tier of evidence backs each claim. I would rather an agent say \"grep found three call sites, the language server confirmed two\" than narrate a story about the code. Agent output should be constrained and validated. In my systems, the model fills a schema or calls a typed tool, and it does not emit arbitrary code into a production path."
+    },
+    {
+      "id": "positions/ai-agents.md#2",
+      "path": "positions/ai-agents.md",
+      "title": "AI agents",
+      "source": "Aden / positions/ai-agents.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "I also give agents narrow jobs with clear limits. The GridSchool AI setter books calls and never quotes a price. Apply Assist fills applications and never submits. The Hire engine never touches a student's LinkedIn. A narrow agent with a fallback is far easier to trust than a general one.\n\nMy view on agents and trust: a team should be able to check what an agent did before it trusts the change. That means a diff a person can read, a test that would catch the defect, and a structural map of what the change reaches."
+    },
+    {
+      "id": "positions/ai-coding-tools.md#0",
+      "path": "positions/ai-coding-tools.md",
+      "title": "How I use AI coding tools",
+      "source": "Aden / positions/ai-coding-tools.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "I use AI coding agents every day. My main tool is Claude Code, Anthropic's coding agent, and I use Claude models through the API in the systems I build. I treat a coding agent like a fast new teammate whose work I always review.\n\nMy daily workflow with Claude and other agents looks like this. I write a short plan for the change first: what should change, what it touches, and how we will know it worked. I give the agent that plan plus the structural context it needs, so it does not have to rediscover the codebase. Then I read the diff, run the tests, and check what else the change reached."
+    },
+    {
+      "id": "positions/ai-coding-tools.md#1",
+      "path": "positions/ai-coding-tools.md",
+      "title": "How I use AI coding tools",
+      "source": "Aden / positions/ai-coding-tools.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "The agent does well at drafting code inside a clear boundary, writing tests from a stated behavior, searching a large codebase, and doing mechanical refactors. I keep for myself the decisions about what the system is, what the change means, and whether the evidence is good enough to merge.\n\nThe failure I watch for most with AI coding tools is confident success. An agent will report that a change is done and working when it only matched a string or skipped a test. I ask for evidence: which test ran, which call sites were found, and which were confirmed. That habit is the reason I built GridSeak."
+    },
+    {
+      "id": "positions/ai-coding-tools.md#2",
+      "path": "positions/ai-coding-tools.md",
+      "title": "How I use AI coding tools",
+      "source": "Aden / positions/ai-coding-tools.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "I sometimes run several agents in parallel on separate branches or worktrees for independent pieces of work. Parallel agents only help when the pieces are independent and each one comes back with something I can verify quickly.\n\nWhat I teach GridSchool students about AI coding tools is the same. Use them, and be able to check what they did. Using AI well means you can tell when it is wrong."
+    },
+    {
+      "id": "positions/cost-and-budgets.md#0",
+      "path": "positions/cost-and-budgets.md",
+      "title": "Cost and budgets in AI systems",
+      "source": "Aden / positions/cost-and-budgets.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "Cost is part of the design of an AI system. A demo that goes viral and bankrupts the server is a design failure. Rate limits, daily spending ceilings, cached paths, and a product that still works when the model is off are product decisions I make at the start.\n\nThis site shows how I budget AI cost. Each visit gets five live questions to AI Aden, then the site switches to a free text-only mode. There is a daily dollar ceiling on model spend. Every answer shows what it cost, so the cost is visible to the visitor as well as to me."
+    },
+    {
+      "id": "positions/cost-and-budgets.md#1",
+      "path": "positions/cost-and-budgets.md",
+      "title": "Cost and budgets in AI systems",
+      "source": "Aden / positions/cost-and-budgets.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "Graceful degradation is part of the budget. When the budget runs out or the model is unavailable, this site still serves every page as plain HTML. The GridSchool AI setter falls back to a booking link if the calendar is unavailable. Every external dependency should have a path that still works.\n\nCheap deterministic work should come before expensive model calls. A parser, a graph query, or a BM25 search costs almost nothing and is easy to verify. I use those to narrow the problem and then spend model tokens only on the part that needs a model. GridSeak exists partly to stop agents from spending tokens rediscovering what a parser already knows."
+    },
+    {
+      "id": "positions/cost-and-budgets.md#2",
+      "path": "positions/cost-and-budgets.md",
+      "title": "Cost and budgets in AI systems",
+      "source": "Aden / positions/cost-and-budgets.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "When I evaluate an AI feature, I look at cost per useful answer alongside quality. A small model with good retrieval and a strict schema often beats a larger model with a vague prompt, at a fraction of the price."
+    },
+    {
+      "id": "positions/evals-and-verification.md#0",
+      "path": "positions/evals-and-verification.md",
+      "title": "Evals and verification",
+      "source": "Aden / positions/evals-and-verification.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "Evals are how I know whether an AI feature works. An eval is a fixed set of inputs with expected behavior, run every time the prompt, the model, or the data changes. Without evals, every change to an AI system is a guess that happens to look fine in a demo.\n\nThe evals I write test behavior I can state plainly. For AI Aden on this site, that includes: does it cite a real note, does it refuse when no note covers the question, does it stay in my voice, does it avoid quoting a GridSchool price or promising a job. This site publishes those results on a public evals page."
+    },
+    {
+      "id": "positions/evals-and-verification.md#1",
+      "path": "positions/evals-and-verification.md",
+      "title": "Evals and verification",
+      "source": "Aden / positions/evals-and-verification.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "Verification comes before evals in my order of work. Deterministic checks catch most failures cheaply: schemas reject malformed output, typed boundaries reject wrong shapes, budgets stop runaway spend, and tests catch regressions in the code around the model. Evals then measure the part that only a model can get wrong.\n\nFor code changes made by an agent, verification means a test that would have caught the defect, a readable diff, and a map of what else the change reaches. At GridSchool, every student's reviewed change has to include the check that catches the defect. If you cannot show how you would know you were wrong, the change is not done."
+    },
+    {
+      "id": "positions/evals-and-verification.md#2",
+      "path": "positions/evals-and-verification.md",
+      "title": "Evals and verification",
+      "source": "Aden / positions/evals-and-verification.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "I also try to say what my numbers cannot prove. A passing eval set shows the system handles those questions. It does not show it handles the next question nobody wrote down. GridSchool case studies have a section for exactly that, and I hold my own work to it."
     },
     {
       "id": "positions/graph-engineering.md#0",
@@ -97,17 +617,109 @@
       "title": "Graph engineering",
       "source": "Aden / positions/graph-engineering.md",
       "confidence": "high",
-      "lastUpdated": "2026-09-04",
-      "text": "Graph comprehension is becoming more valuable relative to code generation.\n\nA model can write a function. It still cannot, by default, know which hidden edge will break at runtime, or which file is the blast radius of a refactor. That knowledge lives in the repository's actual structure.\n\nGraph engineering is the practice of making that structure queryable: parse, store, retrieve, cite. Then you pack only the relevant slice into a context window. When I say \"this is where the context window fails,\" I mean the model was asked to hold a graph it was never given."
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "Graph engineering is the practice of making a codebase's structure queryable: parse it, store it as a graph, retrieve from it, and cite where each fact came from. Agentic graph engineering is building agents that use that graph before they change anything.\n\nMy view is that understanding code through its graph is becoming more valuable relative to generating code. A model can write a function quickly. By default it still cannot tell which hidden edge will break at runtime, or which files sit in the blast radius of a refactor. That knowledge lives in the repository's actual structure."
+    },
+    {
+      "id": "positions/graph-engineering.md#1",
+      "path": "positions/graph-engineering.md",
+      "title": "Graph engineering",
+      "source": "Aden / positions/graph-engineering.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "Context windows fail in a predictable way on large codebases. The model is asked to reason about a graph it was never given. A graph lets you pack only the relevant slice into the context window: the function, its callers, its callees, and the modules it couples to. The agent spends tokens on the change instead of on rediscovery.\n\nEvidence tiers are central to how I do graph engineering. An edge found by a tree-sitter parse, an edge found by grep, and an edge confirmed by the language server carry different weight. A good tool keeps them apart and says which tier backs each claim, so nobody treats a string match as a proven dependency."
+    },
+    {
+      "id": "positions/graph-engineering.md#2",
+      "path": "positions/graph-engineering.md",
+      "title": "Graph engineering",
+      "source": "Aden / positions/graph-engineering.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "GridSeak (github.com/adenjessee/gridseak) is my implementation of these ideas, and nanograph is the smaller version I teach at GridSchool. Both follow the same contract: deterministic structure first, then a model that reads it."
     },
     {
       "id": "positions/hiring.md#0",
       "path": "positions/hiring.md",
-      "title": "Hiring",
+      "title": "Hiring and proof",
       "source": "Aden / positions/hiring.md",
       "confidence": "high",
-      "lastUpdated": "2026-09-04",
-      "text": "I have reviewed interns' work and I teach people who want to be hired, on the same rule: show me a URL I can check in under a minute. I do not run a hiring loop today, and I do not claim to.\n\nTake-home clones and certificate walls do not do that. A live system, a failure log, a graph of a change, a recorded defense: those do.\n\nI will not tell a student that a job is guaranteed. I will tell them whether the work in front of me would survive a skeptical engineer."
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "My position on hiring is that proof beats credentials. A reviewed change to a real system and a public case study tell a hiring manager more than a certificate does. I ask for the same thing whether I am reviewing a student or looking at my own portfolio: a link I can check in under a minute.\n\nMost junior portfolios fail hiring managers because they show tutorial clones. A to-do app or a cloned storefront shows that someone can follow steps. It does not show that they can own a change in a system they did not design, which is most of the actual job."
+    },
+    {
+      "id": "positions/hiring.md#1",
+      "path": "positions/hiring.md",
+      "title": "Hiring and proof",
+      "source": "Aden / positions/hiring.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "The evidence I trust in a candidate is concrete. A pull request with its review thread. The test that would catch the defect. A case study that says what the numbers cannot prove. A recorded defense where the person explains their work and then handles a change they did not expect. GridSchool students leave with all four.\n\nHiring also got harder to read in the AI era. When everyone can generate a polished project, a polished project stops meaning much. Teams now need signals that show judgment: can this person check what the AI did, and can they explain the change?"
+    },
+    {
+      "id": "positions/hiring.md#2",
+      "path": "positions/hiring.md",
+      "title": "Hiring and proof",
+      "source": "Aden / positions/hiring.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "I do not run a hiring loop at a company today, and I do not claim to. I teach people who want to be hired and I have reviewed a lot of early-career work. I will never tell a student a job is guaranteed. I will tell them honestly whether the work in front of me would survive a skeptical engineer.\n\nIf you are hiring and want to see how I reason about a candidate or a role, paste a job description into AI Aden. It will check my own fit against it, matches and gaps, with sources."
+    },
+    {
+      "id": "positions/juniors-and-ai.md#0",
+      "path": "positions/juniors-and-ai.md",
+      "title": "Junior engineers and AI",
+      "source": "Aden / positions/juniors-and-ai.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "Junior engineers face a harder market in the AI era, and I think the reason is specific. AI made it easy to produce code and polished projects, so those stopped being a signal. Teams cannot tell who is good from a portfolio of generated apps, and juniors with real ability get lost in the noise.\n\nMy advice to a junior engineer using AI is to use it fully and learn to check it. Agents, evals, and the structure of a codebase are the new fundamentals. A junior who can read a diff from an agent, find what it missed, and write the test that catches it is more useful than one who writes everything by hand or one who accepts whatever the agent produced."
+    },
+    {
+      "id": "positions/juniors-and-ai.md#1",
+      "path": "positions/juniors-and-ai.md",
+      "title": "Junior engineers and AI",
+      "source": "Aden / positions/juniors-and-ai.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "Juniors should spend less time building new apps from scratch and more time working inside systems they did not design. Most of the job is changing existing code safely. A reviewed change to a real codebase, with the check that would catch the defect, shows that skill directly.\n\nJuniors also need someone reading their work. Tutorials are free and endless. What is scarce is an engineer who reads your code every week and tells you the one thing to change first. That is the core of GridSchool's review model.\n\nI do not think AI ends the junior role. I think it changes what a junior has to show to get hired, and most learning material has not caught up yet."
+    },
+    {
+      "id": "positions/rag-and-grounding.md#0",
+      "path": "positions/rag-and-grounding.md",
+      "title": "RAG and grounding",
+      "source": "Aden / positions/rag-and-grounding.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "Retrieval-augmented generation, or RAG, is how I ground a model in facts it would otherwise invent. The model answers from retrieved sources, cites them, and refuses when the sources do not cover the question. Grounding only works if all three parts hold.\n\nAI Aden on this site is my clearest RAG example. Retrieval is lexical BM25 plus optional vector search over short chunks of notes I wrote. If no chunk scores above a threshold, AI Aden says I have not written a position on that. Every answer shows its sources and a graph of how they were retrieved."
+    },
+    {
+      "id": "positions/rag-and-grounding.md#1",
+      "path": "positions/rag-and-grounding.md",
+      "title": "RAG and grounding",
+      "source": "Aden / positions/rag-and-grounding.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "I start retrieval with lexical search like BM25 because it is cheap, deterministic, and easy to debug. You can see exactly why a chunk matched. Vector embeddings help with paraphrases, and I add them as a second signal rather than the only one. The same instinct drives GridSeak: deterministic structure first, fuzzy methods after.\n\nThe quality of a RAG system depends mostly on the source documents. Each chunk should stand on its own, name its subject, and use the words a reader would actually search for. Most RAG failures I have seen come from bad chunks and missing documents more than from the model."
+    },
+    {
+      "id": "positions/rag-and-grounding.md#2",
+      "path": "positions/rag-and-grounding.md",
+      "title": "RAG and grounding",
+      "source": "Aden / positions/rag-and-grounding.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "The refusal path matters as much as the answer path. A grounded system that sounds confident when it found nothing is worse than no system. I test the refusal behavior in evals the same way I test correct answers."
     },
     {
       "id": "positions/software-engineering-future.md#0",
@@ -115,8 +727,69 @@
       "title": "The future of software engineering",
       "source": "Aden / positions/software-engineering-future.md",
       "confidence": "high",
-      "lastUpdated": "2026-09-04",
-      "text": "The junior who pastes a prompt and accepts the first diff will lose to the engineer who can specify, verify, and defend.\n\nI do not think \"AI will replace engineers\" is a useful sentence. I think the job is moving toward ownership of representation: what the system is, what the change means, what evidence would falsify the claim.\n\nHiring will lag that shift. Portfolios that are still galleries of cloned apps will keep failing. Portfolios that are records of inherited systems, failures, and defenses will start to look like the job."
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "My view of the future of software engineering starts with a simple observation. Generation is cheap and comprehension is expensive. Models can produce code faster than anyone can understand it, so the scarce skill is knowing what the code does and whether a change is safe.\n\nSoftware engineering, as I define it, is making a system understandable enough that the next change is safe. That definition holds with or without AI. What AI changes is the ratio: far more code gets written, and the work of understanding it grows."
+    },
+    {
+      "id": "positions/software-engineering-future.md#1",
+      "path": "positions/software-engineering-future.md",
+      "title": "The future of software engineering",
+      "source": "Aden / positions/software-engineering-future.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "I do not find \"AI will replace engineers\" a useful prediction. I think the engineering job is moving toward ownership of representation. The engineer decides what the system is, what a change means, and what evidence would falsify the claim that the change is correct. Models can fill in the work inside that frame.\n\nThe engineer who pastes a prompt and accepts the first diff will lose ground to the engineer who can specify the change, verify it, and defend it in review. That gap is visible already in how teams use coding agents."
+    },
+    {
+      "id": "positions/software-engineering-future.md#2",
+      "path": "positions/software-engineering-future.md",
+      "title": "The future of software engineering",
+      "source": "Aden / positions/software-engineering-future.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "Hiring will lag this shift. Portfolios that are galleries of cloned apps will keep failing, because they show generation and nothing else. Portfolios that show an inherited system, a reviewed change, a failure, and a defense will start to look like the job. That is the bet GridSchool is built on."
+    },
+    {
+      "id": "projects/ai-setter.md#0",
+      "path": "projects/ai-setter.md",
+      "title": "AI appointment setter",
+      "source": "Aden / projects/ai-setter.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "The AI setter is an appointment-setting agent I built for GridSchool. When someone answers a GridSchool ad, the setter replies in chat, answers their questions about the residency, and books a call inside the conversation.\n\nThe AI setter books calls directly into my calendar from the chat. If the calendar is unavailable, for example because a calendar key cannot be read, the setter falls back to sending a booking link instead of failing. The lead always gets a way to book."
+    },
+    {
+      "id": "projects/ai-setter.md#1",
+      "path": "projects/ai-setter.md",
+      "title": "AI appointment setter",
+      "source": "Aden / projects/ai-setter.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "The setter has rules that keep it honest. It does not quote GridSchool's price, because the price is covered on the call. It does not promise a job. It also does not count the ad platform's automatic greeting as a reply from us, so the conversation state reflects what a person actually said.\n\nI built the AI setter for the same reason I build the rest of GridSchool's systems. Answering leads quickly is busywork that matters, and a well-bounded agent can do it while I spend my time on student reviews. The setter is applied AI with a narrow job, clear limits, and a fallback for every external dependency."
+    },
+    {
+      "id": "projects/client-work.md#0",
+      "path": "projects/client-work.md",
+      "title": "Client and contract work",
+      "source": "Aden / projects/client-work.md",
+      "confidence": "low",
+      "status": "mock",
+      "lastUpdated": "2026-10-12",
+      "text": "I have done client and contract software work alongside my own products. The details below are placeholders until I confirm what I can share.\n\nOne example of my client work is [MOCK: \"a rewrite of an insurance agency's commissions system\", client type, dates]. The existing system [MOCK: what was wrong, e.g. spreadsheets and manual reconciliation]. I [MOCK: what I built, stack, and how I verified the new numbers matched the old ones]. The result was [MOCK: one measurable outcome].\n\nAnother client project was [MOCK: second project or remove this paragraph]."
+    },
+    {
+      "id": "projects/client-work.md#1",
+      "path": "projects/client-work.md",
+      "title": "Client and contract work",
+      "source": "Aden / projects/client-work.md",
+      "confidence": "low",
+      "status": "mock",
+      "lastUpdated": "2026-10-12",
+      "text": "The way I approach client work is the same as my product work. I map the existing system before I change it, I build the checks that prove the new version matches the old one where it should, and I write up what changed and what I could not verify. Client names stay private unless the client has agreed to be named.\n\nOn whether I freelance or take contracts now: [MOCK: \"I take a small number of contracts in applied AI and developer tooling\" or \"I am not taking new contracts while I look for a full-time role\"]. If you have a project in mind, leave me a message or book a call through this site."
     },
     {
       "id": "projects/gridschool.md#0",
@@ -124,8 +797,59 @@
       "title": "GridSchool",
       "source": "Aden / projects/gridschool.md",
       "confidence": "high",
-      "lastUpdated": "2026-09-04",
-      "text": "GridSchool is a 12-month engineering residency. The buyer is a graduate who can code and cannot get hired.\n\nThe live product is at gridschool.org. The method is an evidence curriculum: comprehend, communicate, verify, vision. Students ship on a live multiplayer world, build their own system, learn graph engineering, publish a site and LinkedIn that match the work, and defend it.\n\nThe founding cohort is priced to fill seats while I still do the 1:1s myself. Later pricing is higher once defenses exist that outside readers have scored."
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "GridSchool is the engineering residency I run at gridschool.org through my company, GRID SCHOOL LLC. The promise on the site is \"Your next engineering role, mapped from where you stand.\" Each student gets a route built around their goal, and a working engineer, me, reviews every step until a company hires them."
+    },
+    {
+      "id": "projects/gridschool.md#1",
+      "path": "projects/gridschool.md",
+      "title": "GridSchool",
+      "source": "Aden / projects/gridschool.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "The GridSchool residency format is 8 weeks of teaching and review at 10 to 15 hours a week. After week 8, the weekly 1:1 continues until a company hires the student. Each week includes a 45-minute 1:1, up to three written reviews, a 75-minute cohort call with up to five people, and same-day answers in Discord. Every written review comes back accepted or sent back with the one thing to change first."
+    },
+    {
+      "id": "projects/gridschool.md#2",
+      "path": "projects/gridschool.md",
+      "title": "GridSchool",
+      "source": "Aden / projects/gridschool.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "GridSchool is for three kinds of engineer. The first is new to the field: a CS grad, bootcamp grad, or self-taught developer who has sent hundreds of applications and has never had a team see them own a change. The second is working but invisible outside their team, often because their best work sits behind an NDA. The third is between roles or laid off, and needs applications and warm intros moving in week one while one sharp project runs alongside."
+    },
+    {
+      "id": "projects/gridschool.md#3",
+      "path": "projects/gridschool.md",
+      "title": "GridSchool",
+      "source": "Aden / projects/gridschool.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "A GridSchool student leaves with four things. A reviewed change to a real system, with the pull request, the review thread, and the check that catches the defect. A written verdict from an engineer who did not help them, filled in live at the defense. A case study page on their own domain covering the problem, the baseline, what changed, and what the numbers cannot prove. A recorded defense judged by an outside engineer, where they explain their strongest work and then handle a change they did not see coming."
+    },
+    {
+      "id": "projects/gridschool.md#4",
+      "path": "projects/gridschool.md",
+      "title": "GridSchool",
+      "source": "Aden / projects/gridschool.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "GridSchool pricing is quoted on the call. The founding terms rise once the founding five students have defended in front of outside engineers. If either side decides by the end of week 2 that it is the wrong room, the unused tuition comes back. The one condition is to work every day. If a student goes quiet for three weeks, the spot pauses and I call them.\n\nGridSchool does not promise a job. A company's yes is still theirs. The residency is not for people who cannot yet build something end to end, people who want a job-or-refund promise, or people who will not have their work reviewed."
+    },
+    {
+      "id": "projects/gridschool.md#5",
+      "path": "projects/gridschool.md",
+      "title": "GridSchool",
+      "source": "Aden / projects/gridschool.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "Earlier versions of GridSchool were a 12-month residency with a fixed curriculum and a shared multiplayer world. Both are retired. The current residency is the 8-week route described here."
     },
     {
       "id": "projects/gridseak.md#0",
@@ -133,26 +857,149 @@
       "title": "GridSeak",
       "source": "Aden / projects/gridseak.md",
       "confidence": "high",
-      "lastUpdated": "2026-09-04",
-      "text": "GridSeak is a structural MRI for a repository. It builds a call and import graph from tree-sitter, grep, and the language server, then answers questions with those tiers intact.\n\nTools include callers, callees, blast radius, file-level blast radius, cycles, module coupling, and ranked recommendations. Every structural claim should name its tier. Flattening \"GridSeak says\" is a bug in the user of the tool.\n\nI built it because agents waste context rediscovering what a parser already knows, and because they then speak as if a string match were a proven edge."
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "GridSeak is my open source code graph tool, at github.com/adenjessee/gridseak. I describe it as a structural MRI for a repository. It builds a local, deterministic graph of how the code fits together from three sources: tree-sitter parses, grep, and the language server (LSP).\n\nGridSeak answers structural questions about a codebase through a set of tools: callers, callees, blast radius, file-level blast radius, cycles, module coupling, and ranked recommendations. An agent or an engineer can ask \"what calls this function\" or \"what does changing this file reach\" and get an answer from the graph instead of a guess."
+    },
+    {
+      "id": "projects/gridseak.md#1",
+      "path": "projects/gridseak.md",
+      "title": "GridSeak",
+      "source": "Aden / projects/gridseak.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "Every structural claim in GridSeak names its evidence tier. An edge from a tree-sitter parse, an edge found by grep, and an edge confirmed by the language server carry different weight, and GridSeak keeps them separate. Flattening all of that into \"GridSeak says\" is a mistake by the user of the tool. A grep match is a lead, and an LSP-confirmed reference is much closer to proof."
+    },
+    {
+      "id": "projects/gridseak.md#2",
+      "path": "projects/gridseak.md",
+      "title": "GridSeak",
+      "source": "Aden / projects/gridseak.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "I built GridSeak because coding agents waste context rediscovering what a parser already knows. An agent without a structural view opens files by keyword, burns tokens, and then reports success as if a string match were a proven edge. GridSeak gives the agent the structure first, so it can pack only the relevant slice of the repo into its context window and say how sure it is.\n\nGridSeak is local and deterministic on purpose. The same repository gives the same graph every time, with no model in the loop and no code leaving the machine. That makes it safe to run on private code and easy to test."
+    },
+    {
+      "id": "projects/gridseak.md#3",
+      "path": "projects/gridseak.md",
+      "title": "GridSeak",
+      "source": "Aden / projects/gridseak.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "At GridSchool I teach a student-sized version of GridSeak called nanograph. It keeps the same contract, parse, graph, query, and cite the tier, at a scale a student can build and defend in a few weeks."
+    },
+    {
+      "id": "projects/hire-engine.md#0",
+      "path": "projects/hire-engine.md",
+      "title": "Hire job-search engine",
+      "source": "Aden / projects/hire-engine.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "The Hire engine is the job-search system I built for GridSchool students. Its job is to take the busywork out of a job search so the student's time goes into the parts only they can do: preparing, talking to people, and doing the work.\n\nEach GridSchool student gets a daily run from the Hire engine, ordered by evidence. The order is prep first, then insider referrals found in the student's own LinkedIn connections export, then profile work, warm asks, follow-ups, prepared fresh roles, and finally the next step on their map. The most useful action comes first each day."
+    },
+    {
+      "id": "projects/hire-engine.md#1",
+      "path": "projects/hire-engine.md",
+      "title": "Hire job-search engine",
+      "source": "Aden / projects/hire-engine.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "The Hire engine prepares specific applications with role packs. A role pack gathers what a student needs for one application: the role, the fit against their work, and the material to send. A role matcher ranks roles against the student's goal and evidence, and a radar feed watches the Hacker News \"Who's hiring\" threads for new roles.\n\nApply Assist is a browser extension that is part of the Hire system. It fills in job applications from the student's prepared material, and it never submits on its own. The student reviews and clicks submit every time."
+    },
+    {
+      "id": "projects/hire-engine.md#2",
+      "path": "projects/hire-engine.md",
+      "title": "Hire job-search engine",
+      "source": "Aden / projects/hire-engine.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "The Hire engine has one hard rule: nothing automates a student's LinkedIn. It reads a connections export the student downloads themselves, and every message to a real person is sent by the student. Automating LinkedIn would put students' accounts at risk and would turn warm intros into spam.\n\nA resume drafter and an admin desk sit alongside the Hire engine. The drafter produces a first resume from the student's actual work, and I review it. The admin desk is where I review student runs, role packs, and drafts before they matter."
+    },
+    {
+      "id": "projects/hire-engine.md#3",
+      "path": "projects/hire-engine.md",
+      "title": "Hire job-search engine",
+      "source": "Aden / projects/hire-engine.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "The Hire engine is applied AI work in the plain sense. Models draft and rank, deterministic code orders and checks, and a human approves anything that leaves the system."
+    },
+    {
+      "id": "projects/map-builder.md#0",
+      "path": "projects/map-builder.md",
+      "title": "Map builder",
+      "source": "Aden / projects/map-builder.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "The map builder is the GridSchool system that drafts a custom route for each student. It works from a library of modules. Given a student's goal, background, and current evidence, it picks and orders the modules into a route, and I review the draft before the student sees it.\n\nThe student's home on GridSchool is the map. Each capability is a node on a grid, and the nodes connect into the student's route. Only one node is open at a time, and there is always a clear next node. When I add a feature to GridSchool, it shows up as a new node on the map."
+    },
+    {
+      "id": "projects/map-builder.md#1",
+      "path": "projects/map-builder.md",
+      "title": "Map builder",
+      "source": "Aden / projects/map-builder.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "GridSchool routes get rebuilt from what happens. A rejection, a new target company, or an interview that went sideways changes the map. The map builder drafts the new route from the same module library, so the plan follows the student.\n\nThe map builder is a good example of how I use models. The model drafts a route from a constrained set of modules, so it cannot invent a module that does not exist. Deterministic checks validate the route, and a human reviews it. The model directs, and the structure keeps it honest.\n\nMy notes on why the map matters explain why I built GridSchool around a map in the first place."
     },
     {
       "id": "projects/this-site.md#0",
       "path": "projects/this-site.md",
-      "title": "This portfolio",
+      "title": "This portfolio and AI Aden",
       "source": "Aden / projects/this-site.md",
       "confidence": "high",
-      "lastUpdated": "2026-09-04",
-      "text": "This site is the founder example of the student portfolio.\n\nEmployer mode is the default: HTML, projects, receipts, resume. The 3D avatar, voice, and live model load after the page is useful, and only if the browser can take them.\n\nLive questions go through retrieval, a schema, a budget, and a rate limit. The model is allowed to direct a scene language. It is not allowed to write JavaScript. If the corpus has no position, it says so."
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "This portfolio site is static-first. Every page is readable without JavaScript, and the projects, notes, and resume load as plain HTML. The source is public at github.com/adenjessee/aden-portfolio. The 3D avatar, voice, and live answers load only after the page is already useful.\n\nAI Aden is the avatar on this site. It answers questions in my voice, only from notes I wrote, and every answer cites the notes it used. If retrieval does not find a note above a confidence threshold, AI Aden says I have not written a position on that, rather than inventing one."
+    },
+    {
+      "id": "projects/this-site.md#1",
+      "path": "projects/this-site.md",
+      "title": "This portfolio and AI Aden",
+      "source": "Aden / projects/this-site.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "The model behind AI Aden fills a fixed schema. It never emits JavaScript or arbitrary code. Retrieval is lexical BM25 plus optional vector search over short chunks of my notes, and every answer shows the sources, a graph of how it was retrieved, and what the answer cost.\n\nCost on this site is bounded by design. Each visit gets five live questions, then the site switches to a free text-only mode. There is also a daily dollar ceiling on model spend. A public evals page shows how AI Aden performs on a fixed set of questions."
+    },
+    {
+      "id": "projects/this-site.md#2",
+      "path": "projects/this-site.md",
+      "title": "This portfolio and AI Aden",
+      "source": "Aden / projects/this-site.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "AI Aden can do three practical things. Visitors can leave me a message, book a call with me, or paste a job description for an honest fit check that lists the matches and the gaps with sources.\n\nThis portfolio is also the example site GridSchool students fork. It shows the standard I ask of them: evidence first, sources visible, costs bounded, and a site that still works when the model is off."
     },
     {
       "id": "stories/becoming-engineer.md#0",
       "path": "stories/becoming-engineer.md",
-      "title": "Becoming an engineer",
+      "title": "How I became an engineer",
       "source": "Aden / stories/becoming-engineer.md",
       "confidence": "medium",
-      "lastUpdated": "2026-09-04",
-      "text": "I did not arrive at graph engineering from a research lab. I arrived from shipping software and then having to explain, later, why a change in one file broke something three folders away.\n\nThe first time you inherit a system you did not design, the tutorial portfolio becomes obviously fake. That is the moment I still design for. Can you say what you touched, what else it reaches, and how you would know if you were wrong?"
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "I became a software engineer before the AI era. I learned by writing systems from scratch and shipping software that people depended on, before large language models could write any of it for me.\n\nI did not come to graph engineering from a research lab. I came to it from shipping software and then having to explain why a change in one file broke something three folders away. The first time you inherit a system you did not design, a portfolio of tutorial projects starts to look fake. Nothing in those projects prepared me for finding out what a change would reach."
+    },
+    {
+      "id": "stories/becoming-engineer.md#1",
+      "path": "stories/becoming-engineer.md",
+      "title": "How I became an engineer",
+      "source": "Aden / stories/becoming-engineer.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "That experience shaped the question I still design for. Can you say what you touched, what else it reaches, and how you would know if you were wrong? GridSeak is my tool for answering it about code. GridSchool is how I teach other engineers to answer it about their own work.\n\nWhen AI coding tools arrived, the question got more urgent. Code started appearing faster than anyone could read it, and agents began reporting success on changes they had not verified. Having learned to build without those tools, I could see where they were strong and where they were bluffing, and I built my work around checking them."
     },
     {
       "id": "stories/building-gridschool.md#0",
@@ -160,35 +1007,69 @@
       "title": "Building GridSchool",
       "source": "Aden / stories/building-gridschool.md",
       "confidence": "high",
-      "lastUpdated": "2026-09-04",
-      "text": "GridSchool started because I was tired of watching people who could write a program fail a hiring loop that asked for proof they had never been taught to produce.\n\nI tried several offer shapes. The one that survived is a residency, not a course. The student works every day. I review work that names a doubt. The map only lights a URL. I stay reachable after a hire.\n\nThe school is still being tuned on the founding students. That is stated in the offer. I will not pretend a brand-new method is a finished institution."
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "I started GridSchool because I kept watching capable people who could write a program fail hiring loops that asked for proof they had never been taught to produce. When the AI wave hit, it got worse. The tools changed faster than anyone could explain them, and it got harder for teams to tell who was good.\n\nGridSchool went through several shapes before the current one. The first version was a 12-month residency with a fixed evidence curriculum and a shared multiplayer world where students shipped changes. I retired both. The current version is an 8-week route of teaching and review, with weekly 1:1s that continue until a company hires the student."
+    },
+    {
+      "id": "stories/building-gridschool.md#1",
+      "path": "stories/building-gridschool.md",
+      "title": "Building GridSchool",
+      "source": "Aden / stories/building-gridschool.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "The biggest change in GridSchool was moving from a fixed curriculum to a map. Each student gets a route built around their goal, drafted by the map builder from a module library and rebuilt when something happens: a rejection, a new target, an interview that went sideways. My notes on why the map matters cover the reasoning."
+    },
+    {
+      "id": "stories/building-gridschool.md#2",
+      "path": "stories/building-gridschool.md",
+      "title": "Building GridSchool",
+      "source": "Aden / stories/building-gridschool.md",
+      "confidence": "high",
+      "status": "verified",
+      "lastUpdated": "2026-10-12",
+      "text": "The second big change was automating the job search itself. I built the Hire engine so each student gets a daily run ordered by evidence, with referrals found in their own LinkedIn connections export, role packs, follow-ups, and fresh roles. I applied the same kind of systems I build for code to the busywork of a job search, so students spend their hours on work and people.\n\nGridSchool is still being tuned with the founding students, and the offer says so. The founding terms rise once the founding five have defended in front of outside engineers. I would rather say plainly that the method is new than pretend it is a finished institution."
     },
     {
       "id": "stories/mistakes.md#0",
       "path": "stories/mistakes.md",
-      "title": "Mistakes",
+      "title": "Mistakes I have made",
       "source": "Aden / stories/mistakes.md",
-      "confidence": "high",
-      "lastUpdated": "2026-09-04",
-      "text": "I have over-abstracted. I have built the architecture before I had a buyer. I have written pages that sounded like a manifesto and did not get anyone hired.\n\nThe correction is the same each time: put a URL on the table. If a stranger cannot check it, it is not a receipt.\n\nI have also let language models write in my voice without a corpus. That is how you get a confident paragraph you would not sign. This site is the opposite of that. If I have not written the position, the avatar should not invent one."
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "The biggest mistakes I have made as an engineer and founder fall into a few patterns, and I keep them written down so I can catch them early.\n\nI have over-abstracted. I built general architecture before I had a second use case, and the abstraction cost more than it saved. Now I ship the narrow version first and generalize only when a real second case shows up.\n\nI have built the architecture before I had a buyer. The correction was to talk to the people I wanted to serve, sell the simplest offer that helped them, and build only what that offer needed."
     },
     {
-      "id": "voice/style.md#0",
-      "path": "voice/style.md",
-      "title": "Voice",
-      "source": "Aden / voice/style.md",
-      "confidence": "high",
-      "lastUpdated": "2026-09-04",
-      "text": "Speak in first person as Aden. Short sentences. Periods, not em dashes. No \"it's not X, it's Y.\" No banned filler: delve, leverage, seamless, elevate, unlock, supercharge, journey, dive in, game-changer.\n\nDo not perform corporate we. Do not invent SKUs, prices, or guarantees. If the retrieved corpus does not contain a position, say you have not written a firm view yet, then reason without pretending it is settled.\n\nWhen you explain, prefer a concrete object: a graph, two numbers, a URL, a failed check."
+      "id": "stories/mistakes.md#1",
+      "path": "stories/mistakes.md",
+      "title": "Mistakes I have made",
+      "source": "Aden / stories/mistakes.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "I have written manifesto pages that got nobody hired. Early GridSchool copy explained my philosophy at length and gave a reader nothing to check. The fix every time was to put something checkable on the table: a link, a reviewed change, a number.\n\nI have let language models write in my voice without a corpus. That produces confident paragraphs I would never sign. This site is my correction. AI Aden answers only from notes I wrote, cites them, and says when I have not written a position.\n\nI have also retired work I spent a long time on. The 12-month GridSchool residency and the shared multiplayer world are archived. The 8-week route with weekly 1:1s replaced them."
     },
     {
-      "id": "voice/vocabulary.md#0",
-      "path": "voice/vocabulary.md",
-      "title": "Vocabulary",
-      "source": "Aden / voice/vocabulary.md",
-      "confidence": "high",
-      "lastUpdated": "2026-09-04",
-      "text": "Preferred words: graph, edge, blast radius, receipt, defense, evidence, tier, corpus, budget, degrade.\n\nAvoid: synergy, holistically, cutting-edge, robust (as decoration), passion, ninja, rockstar.\n\nCCVV means comprehend, communicate, verify, vision. The map is the GridSchool path. The live world is play.gridschool.org. Do not call the public product \"the Grid.\""
+      "id": "stories/why-the-map.md#0",
+      "path": "stories/why-the-map.md",
+      "title": "Why GridSchool is a map",
+      "source": "Aden / stories/why-the-map.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "GridSchool is built around a map because every engineer starts somewhere different and wants a different job. A fixed curriculum assumes the same start and the same goal for everyone. A map lets me build a route from where a student actually stands to the role they want.\n\nOn GridSchool, the student's home is the map itself. Each capability is a node on a grid, and the nodes form the student's route. One node is open at a time, and there is always a clear next node. When I add something new to GridSchool, it becomes a node on the map."
+    },
+    {
+      "id": "stories/why-the-map.md#1",
+      "path": "stories/why-the-map.md",
+      "title": "Why GridSchool is a map",
+      "source": "Aden / stories/why-the-map.md",
+      "confidence": "medium",
+      "status": "draft",
+      "lastUpdated": "2026-10-12",
+      "text": "I chose one open node at a time on purpose. People who are stuck in a job search usually have too many things to do and no clear next step. A single open node removes that question. The student always knows what to work on today.\n\nA GridSchool map changes when life changes. A rejection, a new target company, or an interview that went sideways all feed back into the route, and the map builder drafts the new version for me to review. The plan stays tied to what is actually happening.\n\nThe map is also GridSchool's brand. I work on graphs of code all day: nodes, edges, and what a change reaches. A student's route is a graph too, with capabilities as nodes and the path to a hire as the edges."
     }
   ]
 }

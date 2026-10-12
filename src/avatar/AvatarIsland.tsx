@@ -61,7 +61,7 @@ export default function AvatarIsland({
     );
   }
 
-  const performance = live?.performance ?? cue.performance ?? idle;
+  const pose = live?.performance ?? cue.performance ?? idle;
   const commands = live?.sceneCommands ?? cue.scene;
   const scene = applyCommands(emptyScene(), commands);
 
@@ -70,7 +70,7 @@ export default function AvatarIsland({
   return (
     <div>
       <div className="avatar-stage" data-demo={playing ? "on" : "off"}>
-        <Canvas performance={performance} scene={scene} talking={Boolean(live?.talking || playing)} />
+        <Canvas performance={pose} scene={scene} talking={Boolean(live?.talking || playing)} />
       </div>
       {caption ? <p className="status scene-caption">{caption}</p> : null}
     </div>

@@ -1,31 +1,40 @@
 import type { APIRoute } from "astro";
 import { addVoiceSeconds } from "../../guard/sessionCap";
-import { chargeBudget } from "../../guard/budget";
+import { budgetRemaining, chargeBudget } from "../../guard/budget";
+import { getJson, store } from "../../guard/store";
 import { synthesizeSpeech, ttsConfigured } from "../../voice/elevenlabsStream";
 import { clientIp, sessionId } from "../../lib/env";
+import { sameOrigin } from "../../lib/http";
 import { checkRateLimit } from "../../guard/rateLimit";
 import { recordEvent } from "../../telemetry/events";
 
 export const prerender = false;
 
+/**
+ * Speaks an answer /api/ask already produced for this session, looked up by id. It never accepts text:
+ * a cloned voice that reads arbitrary input would let anyone make Aden say anything.
+ */
 export const POST: APIRoute = async ({ request, locals }) => {
+  if (!sameOrigin(request)) return new Response("cross-site", { status: 403 });
   const env = locals.runtime?.env;
   const sid = sessionId(request);
-  const ip = clientIp(request);
-  const rate = await checkRateLimit(env, ip);
+  const rate = await checkRateLimit(env, clientIp(request));
   if (!rate.ok) return new Response("rate limited", { status: 429 });
+  if (!ttsConfigured(env)) return new Response(null, { status: 204 });
 
-  const body = (await request.json().catch(() => ({}))) as { text?: string };
-  const text = (body.text || "").trim().slice(0, 1200);
-  if (!text) return new Response("missing text", { status: 400 });
+  const body = (await request.json().catch(() => ({}))) as { answerId?: unknown };
+  const answerId = typeof body.answerId === "string" ? body.answerId.slice(0, 64) : "";
+  if (!answerId) return new Response("missing answerId", { status: 400 });
 
-  if (!ttsConfigured(env)) {
-    return new Response(null, { status: 204 });
-  }
+  const s = store(env);
+  const record = await getJson<{ sid: string; text: string }>(s, `speech:${answerId}`);
+  if (!record || record.sid !== sid) return new Response(null, { status: 204 });
+  // One playback per answer.
+  await s.put(`speech:${answerId}`, JSON.stringify({ sid: "", text: "" }), 60);
 
-  const result = await synthesizeSpeech(env, text);
-  const seconds = Math.ceil(text.length / 14);
-  await addVoiceSeconds(env, sid, seconds);
+  if ((await budgetRemaining(env)).exhausted) return new Response(null, { status: 204 });
+  const result = await synthesizeSpeech(env, record.text);
+  await addVoiceSeconds(env, sid, Math.ceil(record.text.length / 14));
   await chargeBudget(env, result.costUsd);
   recordEvent(env, { name: "tts", costUsd: result.costUsd });
 

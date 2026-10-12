@@ -1,0 +1,49 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { site } from "../../config/site";
+
+const notes = await getCollection("kb");
+const order = ["me", "career", "projects", "positions", "beliefs", "stories", "faq", "voice"];
+const groups = order
+  .map((folder) => ({ folder, notes: notes.filter((note) => note.id.startsWith(`${folder}/`)).sort((a, b) => a.data.title.localeCompare(b.data.title)) }))
+  .filter((group) => group.notes.length > 0);
+const counts = {
+  verified: notes.filter((n) => n.data.status === "verified").length,
+  draft: notes.filter((n) => n.data.status === "draft").length,
+  mock: notes.filter((n) => n.data.status === "mock").length,
+};
+const words = notes.reduce((sum, note) => sum + (note.body ?? "").split(/\s+/).filter(Boolean).length, 0);
+---
+
+<Base title={`Notes · ${site.name}`} description="Everything AI Aden is allowed to say, published. If it is not in these notes, it says so." path="/notes">
+  <main class="section">
+    <div class="wrap">
+      <p class="kicker">Notes</p>
+      <h1>Everything AI Aden is allowed to say</h1>
+      <p class="lead">
+        These are the notes the avatar answers from, published as written. An answer cites the note it used, and a question these notes do not cover gets "I have not written that down." {notes.length} notes, about {Math.round(words / 100) * 100} words.
+      </p>
+      <p class="status-key">
+        <span class="badge-inline is-verified">verified · {counts.verified}</span>
+        <span class="badge-inline is-draft">draft · {counts.draft}</span>
+        <span class="badge-inline is-mock">placeholder · {counts.mock}</span>
+      </p>
+      <div class="notes-grid">
+        {groups.map((group) => (
+          <section class="panel">
+            <h2 class="notes-folder">{group.folder}</h2>
+            <ul class="notes-list">
+              {group.notes.map((note) => (
+                <li>
+                  <a href={`/notes/${note.id}`}>{note.data.title}</a>
+                  <span class={`badge-inline is-${note.data.status}`}>{note.data.status === "mock" ? "placeholder" : note.data.status}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    </div>
+  </main>
+</Base>

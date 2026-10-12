@@ -1,21 +1,25 @@
 ---
 title: This site
-summary: An employer-first portfolio that progressively enhances into a 3D AI Aden. The static page is the product. The spectacle is optional, rate-limited, and allowed to fail.
+summary: AI Aden answers for me from notes I wrote, cites them, draws how each answer was found, shows what it cost, and can take a message or check a job description against my work. Every page still works with the model off.
 role: Designer / engineer
-stack: [Astro, Cloudflare Workers, React Three Fiber, VRM, RAG]
+stack: [Astro, Cloudflare Workers, Claude API, hybrid retrieval, evals, React Three Fiber]
 href: https://github.com/adenjessee/aden-portfolio
 repo: https://github.com/adenjessee/aden-portfolio
 receipts:
-  - label: Ask Aden
+  - label: Ask AI Aden
     href: /ask
+  - label: The notes it answers from
+    href: /notes
+  - label: Evals
+    href: /evals
   - label: Privacy
     href: /privacy
 featured: true
 order: 3
 ---
 
-The first screen is ordinary HTML. Name, work, receipts, resume. Nothing 3D or generative downloads before that page is readable. LinkedIn's in-app browser gets a correct preview and a working page.
+The first screen is ordinary HTML: name, work, receipts, resume. Nothing 3D or generative downloads before that page is readable, and LinkedIn's in-app browser gets a correct preview and a working page.
 
-If someone asks a question, a Worker retrieves from a curated knowledge base, validates a scene plan, and may speak. Anonymous visitors get a hard cap. When the daily budget is gone, new visitors keep the cached demo and text. The model never emits JavaScript.
+A question goes through a deterministic screen for prompt injection, then hybrid retrieval (BM25 plus Workers AI embeddings, fused by rank) over notes I wrote and published at /notes. Claude answers into a fixed schema: speech, citations, a scene for the avatar, and at most one suggested action. Citations the retriever never returned are dropped, and an answer that cites nothing is marked as having no position on record.
 
-Students can fork this, swap the VRM, rewrite the corpus, and deploy on the Cloudflare free tier if they skip voice.
+Each visit gets five live questions under a daily dollar ceiling. Past either limit, answers keep coming for free, assembled from the notes without a model. Thirty-three eval cases cover grounding, refusals, prompt injection, and hard rules, and the notes-only suite runs inside the test command.

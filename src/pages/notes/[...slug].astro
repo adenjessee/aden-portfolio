@@ -1,0 +1,37 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { site } from "../../config/site";
+
+export async function getStaticPaths() {
+  const notes = await getCollection("kb");
+  return notes.map((note) => ({ params: { slug: note.id }, props: { note } }));
+}
+
+const { note } = Astro.props;
+const { Content } = await render(note);
+const statusCopy = {
+  verified: "Verified. Aden has confirmed this is true today.",
+  draft: "Draft. Written from Aden's work and sources; wording not yet confirmed by him.",
+  mock: "Placeholder. Anything in [MOCK …] brackets is not real yet, and AI Aden will not state it as fact.",
+} as const;
+const folder = note.id.split("/")[0];
+---
+
+<Base title={`${note.data.title} · Notes · ${site.name}`} description={`Aden's note on ${note.data.title.toLowerCase()}. AI Aden cites this when it answers.`} path={`/notes/${note.id}`}>
+  <main class="section">
+    <div class="wrap prose note">
+      <p class="kicker"><a href="/notes">Notes</a> / {folder}</p>
+      <h1>{note.data.title}</h1>
+      <p class={`note-status is-${note.data.status}`}>{statusCopy[note.data.status]}</p>
+      <Content />
+      <dl class="note-meta">
+        <div><dt>Source</dt><dd>{note.data.source}</dd></div>
+        <div><dt>Confidence</dt><dd>{note.data.confidence}</dd></div>
+        <div><dt>Updated</dt><dd>{note.data.last_updated}</dd></div>
+        <div><dt>File</dt><dd><a href={`${site.repo}/blob/main/content/kb/${note.id}.md`}>content/kb/{note.id}.md</a></dd></div>
+      </dl>
+      <p><a class="btn" href={`/ask?q=${encodeURIComponent(`Tell me about ${note.data.title.toLowerCase()}`)}`}>Ask AI Aden about this</a></p>
+    </div>
+  </main>
+</Base>

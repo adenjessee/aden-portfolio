@@ -12,10 +12,18 @@ npx wrangler kv namespace create SESSION
 # paste the returned id into wrangler.jsonc -> kv_namespaces[0].id (replaces "replace-with-kv-namespace-id")
 npx wrangler vectorize create aden-kb --dimensions=768 --metric=cosine
 # dimensions must match the embedding model in src/rag/embed.ts; check before running
+npx wrangler secret put ANTHROPIC_API_KEY   # the model; skip it and the site runs notes-only, free
+npx wrangler secret put INBOX_TOKEN         # any long random string; you read messages with it
 npm run build && npx wrangler deploy
 ```
 
-Open the `*.workers.dev` URL it prints. Check `/`, `/resume`, `/projects`, `/ask` (ask should answer "not configured" or degrade, not 500).
+Open the `*.workers.dev` URL it prints. Check `/`, `/resume`, `/notes`, `/evals`, and ask a question on `/ask`. The meter above the conversation says "Live · claude-opus-5-5" when the key works, or "Notes-only mode" when it is missing. `/api/health` shows which bindings the Worker sees.
+
+Read messages people leave through AI Aden:
+
+```sh
+INBOX_TOKEN=<the same string> npm run inbox
+```
 
 ## 2. Domain
 
@@ -35,11 +43,21 @@ Google Search Console: add the property, request indexing for `/`, `/resume`, `/
 
 ## 5. Embeddings (after the site is live)
 
+Create an API token with **Workers AI: Read** and **Vectorize: Edit**, then:
+
 ```sh
-npm run embed-kb
+CF_ACCOUNT_ID=<id> CF_API_TOKEN=<token> npm run embed-kb
 ```
 
-Only once `content/kb` is final for this round; re-run when it changes.
+Re-run whenever `content/kb` changes, after deploying, since the Worker reads note text from the bundled index and only takes the ranking from Vectorize. Retrieval works on BM25 alone until this runs.
+
+## 6. Evals against the live model
+
+```sh
+ANTHROPIC_API_KEY=<key> npm run evals -- --llm
+```
+
+About $0.50. It writes `src/data/evals-llm.json`; commit it and redeploy, and `/evals` shows the model run next to the notes-only one.
 
 ## Later, optional
 

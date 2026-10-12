@@ -16,9 +16,12 @@
     "probe-ask": "tsx scripts/probe-ask.ts",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "astro": "astro"
+    "astro": "astro",
+    "evals": "tsx scripts/run-evals.ts",
+    "inbox": "tsx scripts/inbox.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.133.0",
     "@astrojs/cloudflare": "^12.6.12",
     "@astrojs/react": "^4.4.2",
     "@pixiv/three-vrm": "^3.4.4",
@@ -34,6 +37,7 @@
   "devDependencies": {
     "@cloudflare/workers-types": "latest",
     "@playwright/test": "^1.56.1",
+    "@types/node": "^22.20.5",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "@types/three": "^0.180.0",

@@ -21,9 +21,14 @@ async function walk(dir: string): Promise<string[]> {
 const files = await walk(kbRoot);
 const chunks: KbChunk[] = [];
 
+// voice/ notes tell the model how to talk. They are published at /notes but are not answers,
+// so they stay out of retrieval; the system prompt carries the same rules.
+const NOT_RETRIEVED = ["voice/"];
+
 for (const file of files) {
   const raw = await readFile(file, "utf8");
   const path = relative(kbRoot, file);
+  if (NOT_RETRIEVED.some((prefix) => path.startsWith(prefix))) continue;
   chunks.push(...chunkMarkdown(path, raw));
 }
 

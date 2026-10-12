@@ -11,16 +11,16 @@ const projects = (await getCollection("projects")).sort((a, b) => a.data.order -
     <section class="hero">
       <div class="wrap hero-grid">
         <div>
-          <p class="kicker">Software engineer · GridSchool founder</p>
+          <p class="kicker">Applied AI engineer · GridSchool founder</p>
           <h1>{site.name}</h1>
           <p class="lead">
-            I build graph tools that make a repository understandable, and I run a residency for people who can already code and still cannot get hired.
+            I build applied AI and agentic graph engineering systems: maps of how a codebase fits together, and agents that make changes a team can check before it trusts them.
           </p>
           <p class="lead">
-            This page is the work. The 3D Aden is optional. If your browser, budget, or patience says no, you still get the receipts.
+            You can read the work below, or ask AI Aden. It answers from notes I wrote, cites them, and says so when I have not written something down.
           </p>
           <div class="actions">
-            <a class="btn btn-solid" href="/ask">Talk to AI Aden</a>
+            <a class="btn btn-solid" href="/ask">Ask AI Aden</a>
             <a class="btn" href="/resume">Resume</a>
             <a class="btn" href={site.github}>GitHub</a>
           </div>
@@ -37,7 +37,7 @@ const projects = (await getCollection("projects")).sort((a, b) => a.data.order -
     <section class="section" id="work">
       <div class="wrap">
         <p class="kicker">Work</p>
-        <h2>Three things a stranger can check</h2>
+        <h2>Three things you can check</h2>
         <div class="cards">
           {projects.map((project) => (
             <article class="card">
@@ -71,6 +71,14 @@ const projects = (await getCollection("projects")).sort((a, b) => a.data.order -
             <a href={`${site.github}/aden-portfolio`}>github.com/adenjessee/aden-portfolio</a>
           </div>
           <div class="receipt">
+            <span>Every note AI Aden answers from</span>
+            <a href="/notes">/notes</a>
+          </div>
+          <div class="receipt">
+            <span>How AI Aden is tested</span>
+            <a href="/evals">/evals</a>
+          </div>
+          <div class="receipt">
             <span>LinkedIn</span>
             <a href={site.linkedin}>linkedin.com/in/aden-jessee-4b3815189</a>
           </div>
@@ -79,15 +87,35 @@ const projects = (await getCollection("projects")).sort((a, b) => a.data.order -
     </section>
 
     <section class="section" id="method">
-      <div class="wrap prose">
-        <p class="kicker">Method</p>
-        <h2>Why an employer should care about the fallbacks</h2>
-        <p>
-          Anyone can embed a chatbot. The engineering is the failure domain. The first paint is HTML. The avatar loads only when the island is visible and the device can take WebGL. Live questions are retrieved from a corpus I can edit. The model fills a schema. It does not write JavaScript.
-        </p>
-        <p>
-          Anonymous visitors get five questions, then text. A daily dollar ceiling turns a traffic spike into cached demonstrations instead of a surprise invoice. That is the same discipline I teach: specify the bound before you enjoy the demo.
-        </p>
+      <div class="wrap">
+        <p class="kicker">How AI Aden works</p>
+        <h2>An agent you can audit</h2>
+        <div class="how-grid">
+          <article class="card">
+            <p class="how-step">01 · SCREEN</p>
+            <p>Prompt injection and "say exactly…" requests are caught before any model runs. Free, deterministic, and covered by evals.</p>
+          </article>
+          <article class="card">
+            <p class="how-step">02 · RETRIEVE</p>
+            <p>BM25 and vector search over <a href="/notes">my published notes</a>, fused by rank. Every answer draws the map of what it found.</p>
+          </article>
+          <article class="card">
+            <p class="how-step">03 · ANSWER</p>
+            <p>Claude fills a fixed schema: speech, citations, a scene, one optional action. Citations it was not given are dropped. Citing nothing means "not on record."</p>
+          </article>
+          <article class="card">
+            <p class="how-step">04 · ACT</p>
+            <p>It can take a message for me, set up a call, or check a job description line by line, gaps included. The visitor confirms every action.</p>
+          </article>
+          <article class="card">
+            <p class="how-step">05 · BOUND</p>
+            <p>Five live questions a visit and a daily dollar ceiling. Past either, answers keep coming free from the notes. Each answer shows its cost.</p>
+          </article>
+          <article class="card">
+            <p class="how-step">06 · TEST</p>
+            <p><a href="/evals">Thirty-three eval cases</a> for grounding, refusals, injection, and hard rules. The free path runs them on every test run.</p>
+          </article>
+        </div>
       </div>
     </section>
   </main>

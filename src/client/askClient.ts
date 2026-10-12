@@ -1,34 +1,57 @@
-import type { DirectorOutput } from "../scene/schema";
+import type { AnswerTrace } from "../director/answer";
+import type { FitReport } from "../director/fit";
+import type { HistoryTurn } from "../director/prompt";
+import type { Action } from "../director/wire";
 import type { Provenance } from "../rag/types";
+import type { DirectorOutput } from "../scene/schema";
+
+export type Meter = {
+  live: boolean;
+  freeReason: "no_model" | "budget_exhausted" | "session_exhausted" | null;
+  questionsUsed: number;
+  questionCap: number;
+  spentUsd: number;
+  ceilingUsd: number;
+};
+
+export type AnswerEvent = {
+  type: "answer";
+  answerId: string;
+  output: DirectorOutput;
+  citations: string[];
+  action: Action;
+  provenance: Provenance[];
+  trace: AnswerTrace;
+  voiceAllowed: boolean;
+  meter: Meter;
+};
 
 export type AskEvent =
   | { type: "status"; value: string }
-  | { type: "answer"; output: DirectorOutput; provenance: Provenance[]; voiceAllowed: boolean; degraded: boolean }
+  | { type: "retrieved"; provenance: Provenance[] }
+  | AnswerEvent
   | { type: "error"; message: string; reason?: string };
 
-export async function askAden(question: string, onEvent: (event: AskEvent) => void): Promise<void> {
-  onEvent({ type: "status", value: "retrieving" });
+export async function askAden(question: string, history: HistoryTurn[], onEvent: (event: AskEvent) => void): Promise<void> {
   const response = await fetch("/api/ask", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ question }),
-  });
+    body: JSON.stringify({ question, history }),
+  }).catch(() => null);
 
-  if (!response.ok) {
-    const payload = (await response.json().catch(() => ({}))) as { error?: string; reason?: string };
-    onEvent({ type: "error", message: payload.error || "Ask failed.", reason: payload.reason });
+  if (!response) {
+    onEvent({ type: "error", message: "Could not reach the server. The notes still work offline-first at /notes." });
     return;
   }
-
-  if (!response.body) {
-    onEvent({ type: "error", message: "No stream." });
+  if (!response.ok || !response.body) {
+    const payload = (await response.json().catch(() => ({}))) as { error?: string };
+    onEvent({ type: "error", message: payload.error || "That question did not go through." });
     return;
   }
 
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
   let buffer = "";
-
   while (true) {
     const { value, done } = await reader.read();
     if (done) break;
@@ -38,46 +61,67 @@ export async function askAden(question: string, onEvent: (event: AskEvent) => vo
     for (const part of parts) {
       const line = part.split("\n").find((entry) => entry.startsWith("data:"));
       if (!line) continue;
-      const event = JSON.parse(line.slice(5).trim()) as AskEvent;
-      onEvent(event);
+      try {
+        onEvent(JSON.parse(line.slice(5).trim()) as AskEvent);
+      } catch {
+        // A torn frame is skipped; the final answer event is what matters.
+      }
     }
   }
 }
 
-export type CachedAnswer = {
-  question: string;
-  output: DirectorOutput;
+export async function checkFit(jd: string): Promise<{ report: FitReport; meter: Meter } | { error: string }> {
+  const response = await fetch("/api/fit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ jd }),
+  }).catch(() => null);
+  if (!response) return { error: "Could not reach the server." };
+  const payload = (await response.json().catch(() => ({}))) as { report?: FitReport; meter?: Meter; error?: string };
+  if (!response.ok || !payload.report || !payload.meter) return { error: payload.error || "The fit check failed." };
+  return { report: payload.report, meter: payload.meter };
+}
+
+export type MessageDraft = {
+  kind: "message" | "book_call";
+  name: string;
+  email: string;
+  company: string;
+  message: string;
+  website: string;
+  transcript: HistoryTurn[];
 };
 
-export const cachedAnswers: CachedAnswer[] = [
-  {
-    question: "What is GridSchool?",
-    output: {
-      speech:
-        "GridSchool is a 12-month residency for graduates who can code and still cannot get hired. Real systems, public receipts, a defense in front of an engineer who did not help.",
-      performance: { emotion: "serious", gesture: "explain_small", lookAt: "residency" },
-      scene: [
-        {
-          action: "showTimeline",
-          id: "residency",
-          items: ["Learn", "Build", "Prove", "Defend"],
-          position: "avatarRight",
-        },
-      ],
-      noPosition: false,
-    },
-  },
-  {
-    question: "Why does graph engineering matter?",
-    output: {
-      speech:
-        "The problem is not generating the code. It is knowing what the code actually means. A graph tells you what a change reaches before the context window fails.",
-      performance: { emotion: "serious", gesture: "point_left", lookAt: "repositoryGraph" },
-      scene: [
-        { action: "showGraph", id: "repositoryGraph", title: "Repository graph", position: "avatarLeft" },
-        { action: "highlight", target: "hiddenDependency" },
-      ],
-      noPosition: false,
-    },
-  },
-];
+export async function sendMessage(draft: MessageDraft): Promise<{ ok: true } | { error: string }> {
+  const response = await fetch("/api/message", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(draft),
+  }).catch(() => null);
+  if (!response) return { error: "Could not reach the server." };
+  const payload = (await response.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+  return response.ok && payload.ok ? { ok: true } : { error: payload.error || "The message did not send." };
+}
+
+export type Status = Omit<Meter, "freeReason"> & { model: string | null; provider: string };
+
+export async function fetchStatus(): Promise<Status | null> {
+  const response = await fetch("/api/status").catch(() => null);
+  if (!response?.ok) return null;
+  return (await response.json().catch(() => null)) as Status | null;
+}
+
+export async function playAnswer(answerId: string): Promise<void> {
+  const response = await fetch("/api/tts", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ answerId }),
+  }).catch(() => null);
+  if (!response?.ok || response.status === 204) return;
+  const blob = await response.blob();
+  if (blob.size < 32) return;
+  const url = URL.createObjectURL(blob);
+  const audio = new Audio(url);
+  audio.addEventListener("ended", () => URL.revokeObjectURL(url), { once: true });
+  await audio.play().catch(() => undefined);
+}
