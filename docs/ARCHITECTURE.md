@@ -57,4 +57,4 @@ Visitor
 
 ## Choosing a model
 
-`LLM_MODEL` picks it; the default is `claude-opus-5-5` at low effort. `claude-haiku-5-5` costs about a fortieth as much per answer, with weaker judgment on borderline questions. Run `npm run evals -- --llm` against both before switching, and keep the one whose report you would publish.
+`LLM_MODEL` picks it; the default is `claude-haiku-5-5` with thinking off and low effort, because a talking avatar is judged on how fast it starts speaking (about 1.5 s to first audio, measured locally). `claude-sonnet-5-5` gives stronger answers on borderline questions at roughly twenty times the model cost. Run `npm run evals -- --llm` against both before switching; Haiku passes all 33 cases.

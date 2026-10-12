@@ -14,13 +14,17 @@ Past any of them, answers keep coming free from the notes. Each answer shows its
 
 | Model | Approx. per answer | Per five-question visit |
 |---|---|---|
-| `claude-opus-5-5` (default, low effort) | ~$0.01 to $0.02 | ~$0.05 to $0.10 |
-| `claude-haiku-5-5` | ~$0.0005 | ~$0.003 |
+| `claude-haiku-5-5` (default) | ~$0.0005 (measured) | ~$0.003 |
+| `claude-sonnet-5-5` | ~$0.01 | ~$0.05 |
+| `claude-opus-5-5` | ~$0.01 to $0.02 | ~$0.05 to $0.10 |
+| ElevenLabs voice, any model | ~$0.01 to $0.02 (measured) | ~$0.05 to $0.10 |
 | Notes-only mode | $0 | $0 |
 
 Those are estimates from token counts. Real numbers show up per answer in the page and in Analytics Engine once deployed. At the default ceiling a viral day costs at most $5, and then the site keeps working in notes-only mode.
 
-`npm run evals -- --llm` runs 33 model calls, about $0.50 on the default model.
+`npm run evals -- --llm` runs 33 model calls: $0.0084 on Haiku (measured), about $0.50 on Opus.
+
+Voice now costs more than the model. If the daily ceiling bites, shorter spoken answers are the first lever.
 
 ## Recurring floor
 

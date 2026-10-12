@@ -35,7 +35,7 @@ Local mode needs no API keys: answers come from the notes alone, shown as captio
 
 ```bash
 npm run evals            # 33 cases, notes-only, free
-npm run evals -- --llm   # the same cases against the configured model (~$0.50)
+npm run evals -- --llm   # the same cases against the configured model (about 1 cent on Haiku)
 INBOX_TOKEN=... npm run inbox
 ```
 

@@ -16,6 +16,10 @@ export type ProviderCall<T> = {
   failure?: string;
 };
 
+// Haiku 5.5 may run with thinking off (at effort high or below). For a short spoken answer that is
+// the difference between the avatar starting to talk at once or after a pause.
+const THINKING_OPTIONAL = /^claude-haiku-5-5/;
+
 // Opus 5.5, Opus 5, Fable 5.1 and Sonnet 5.5 accept server-side fallbacks on a policy decline.
 const FALLBACK_MODELS = /^claude-(opus-5|fable-5-1|sonnet-5-5)/;
 
@@ -67,6 +71,7 @@ export async function callClaude<S extends z.ZodType>(
       model,
       max_tokens: opts.maxTokens ?? 8000,
       ...(fallback ? { betas: ["server-side-fallback-2026-07-01"], fallbacks: "default" as const } : {}),
+      ...(THINKING_OPTIONAL.test(model) ? { thinking: { type: "disabled" as const } } : {}),
       // Chat answers do not repay deep thinking; low effort keeps the visitor's wait short.
       output_config: { effort: "low" as const, format: { type: format.type, schema: format.schema } },
       system: [{ type: "text" as const, text: opts.system, cache_control: { type: "ephemeral" as const } }],

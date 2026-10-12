@@ -55,7 +55,8 @@ export function llmProvider(env?: WorkerEnv): LlmProvider {
 export function llmModel(env?: WorkerEnv): string {
   const configured = read(env, "LLM_MODEL");
   if (configured) return configured;
-  return llmProvider(env) === "openai" ? "gpt-4o-mini" : "claude-opus-5-5";
+  // Haiku: the avatar has to start talking quickly. Sonnet 5.5 is the step up when answers need more judgment.
+  return llmProvider(env) === "openai" ? "gpt-4o-mini" : "claude-haiku-5-5";
 }
 
 export function gatewayUrl(env?: WorkerEnv): string | undefined {
