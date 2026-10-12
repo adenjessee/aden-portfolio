@@ -8,16 +8,18 @@ import { SceneObjects } from "../scene/primitives/SceneObjects";
 import { AnimationController } from "./AnimationController";
 import { ExpressionController } from "./ExpressionController";
 import { GazeController } from "./GazeController";
-import { LipSync } from "./LipSync";
+import { LipSync, type MouthSource } from "./LipSync";
 import { loadVrm, VRM_CANDIDATES } from "./loadVrm";
 
 type Props = {
   performance: DirectorOutput["performance"];
   scene: SceneState;
   talking: boolean;
+  /** Speech currently playing; drives the mouth. */
+  voice?: MouthSource & { speaking: boolean };
 };
 
-function AdenRig({ performance, talking }: { performance: DirectorOutput["performance"]; talking: boolean }) {
+function AdenRig({ performance, talking, voice }: { performance: DirectorOutput["performance"]; talking: boolean; voice?: Props["voice"] }) {
   const [vrm, setVrm] = useState<VRM | null>(null);
   const anim = useRef(new AnimationController());
   const face = useRef(new ExpressionController());
@@ -59,20 +61,15 @@ function AdenRig({ performance, talking }: { performance: DirectorOutput["perfor
 
   useFrame((state, delta) => {
     if (!vrm) return;
+    if (voice) anim.current.play(voice.speaking ? (performance.gesture === "idle" ? "talk_neutral" : performance.gesture) : performance.gesture === "think" ? "think" : "idle");
     anim.current.update(vrm, delta);
-    lips.current.update(face.current);
+    lips.current.update(face.current, voice, delta);
     face.current.update(vrm, delta, state.clock.elapsedTime);
     vrm.update(delta);
   });
 
-  if (!vrm) {
-    return (
-      <mesh position={[0, 1, 0]}>
-        <capsuleGeometry args={[0.22, 0.9, 6, 12]} />
-        <meshStandardMaterial color="#1b3348" />
-      </mesh>
-    );
-  }
+  // Nothing while the model downloads; a stand-in shape would just flash and vanish.
+  if (!vrm) return null;
 
   return <primitive object={vrm.scene} />;
 }
@@ -86,19 +83,20 @@ function frameHead(vrm: VRM, camera: import("three").Camera) {
   const head = vrm.humanoid?.getNormalizedBoneNode("head");
   if (!head) return;
   const headPos = head.getWorldPosition(new Vector3());
-  const target = new Vector3(0, headPos.y - 0.22, 0);
-  camera.position.set(0, headPos.y - 0.12, 1.7);
+  // Head about a third of the way down the frame, chest at the bottom edge behind the input dock.
+  const target = new Vector3(0, headPos.y - 0.18, 0);
+  camera.position.set(0, headPos.y - 0.1, 1.9);
   camera.lookAt(target);
 }
 
-export function AvatarCanvas({ performance, scene, talking }: Props) {
+export function AvatarCanvas({ performance, scene, talking, voice }: Props) {
   return (
     <Canvas camera={{ position: [0, 1.35, 2.6], fov: 32 }} gl={{ antialias: true, alpha: true }} dpr={[1, 1.5]}>
       <color attach="background" args={["#02060c"]} />
       <ambientLight intensity={0.45} />
       <directionalLight position={[2, 3, 2]} intensity={1.1} color="#d7f6ff" />
       <spotLight position={[-2, 4, 2]} intensity={0.6} color="#28e1ff" />
-      <AdenRig performance={performance} talking={talking} />
+      <AdenRig performance={performance} talking={talking} voice={voice} />
       <SceneObjects scene={scene} />
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
         <circleGeometry args={[3.2, 48]} />

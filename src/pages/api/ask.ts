@@ -6,9 +6,15 @@ import { guardAsk } from "../../guard/pipeline";
 import { store } from "../../guard/store";
 import { clientIp, sessionCookie, sessionId } from "../../lib/env";
 import { cleanHistory, json, sameOrigin } from "../../lib/http";
-import { retrievalQuery, retrieve } from "../../rag/retrieve";
+import { retrieveForTurn } from "../../rag/retrieve";
 import { toProvenance } from "../../rag/provenance";
 import { recordEvent } from "../../telemetry/events";
+import { SentenceSplitter } from "../../director/speechStream";
+import { addVoiceSeconds, peekSession } from "../../guard/sessionCap";
+import { budgetRemaining } from "../../guard/budget";
+import { sessionVoiceCap } from "../../lib/env";
+import { SpeechPipeline, TTS_SAMPLE_RATE } from "../../voice/ttsStream";
+import { ttsConfigured } from "../../voice/elevenlabsStream";
 
 export const prerender = false;
 
@@ -21,7 +27,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
   const env = locals.runtime?.env;
   const sid = sessionId(request);
   const ip = clientIp(request);
-  const body = (await request.json().catch(() => ({}))) as { question?: unknown; history?: unknown };
+  const body = (await request.json().catch(() => ({}))) as { question?: unknown; history?: unknown; voice?: unknown };
   const question = typeof body.question === "string" ? body.question.trim().slice(0, 500) : "";
   if (!question) return json({ error: "Missing question." }, { status: 400 });
   const history = cleanHistory(body.history, limits.historyTurns);
@@ -48,13 +54,43 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
         send({ type: "status", value: "retrieve" });
         const previous = [...history].reverse().find((turn) => turn.role === "visitor")?.text;
-        const hits = await retrieve(env, retrievalQuery(question, previous));
+        const hits = await retrieveForTurn(env, question, previous);
         // Sent before the model runs so the page can draw the retrieval while the answer is written.
         send({ type: "retrieved", provenance: toProvenance(hits) });
 
+        // Voice streams inside this response: sentences go to ElevenLabs as the model writes them,
+        // and audio comes back on the same stream, so the avatar starts talking before the answer ends.
+        const voiceOn =
+          body.voice === true &&
+          ttsConfigured(env) &&
+          !(await budgetRemaining(env)).exhausted &&
+          (await peekSession(env, sid)).voiceSeconds < sessionVoiceCap(env);
+        const splitter = new SentenceSplitter();
+        const speech = voiceOn
+          ? new SpeechPipeline(env, (chunk) =>
+              send({ type: "audio", index: chunk.index, sampleRate: TTS_SAMPLE_RATE, audio: chunk.audio, alignment: chunk.alignment }),
+            )
+          : null;
+        if (voiceOn) send({ type: "voice", sampleRate: TTS_SAMPLE_RATE });
+
         send({ type: "status", value: guard.live ? "direct" : "assemble" });
-        const answer = await answerQuestion(env, { question, history, hits, allowLlm: guard.live });
-        const budget = await chargeBudget(env, answer.trace.costUsd);
+        const answer = await answerQuestion(env, {
+          question,
+          history,
+          hits,
+          allowLlm: guard.live,
+          onSpeech: speech ? (text) => splitter.push(text).forEach((sentence) => speech.push(sentence)) : undefined,
+        });
+        let voiceCost = 0;
+        if (speech) {
+          splitter.flush().forEach((sentence) => speech.push(sentence));
+          const spoken = await speech.finish();
+          voiceCost = spoken.costUsd;
+          await addVoiceSeconds(env, sid, Math.ceil(spoken.characters / 14));
+          if (spoken.failure) send({ type: "voice_error", reason: spoken.failure });
+          recordEvent(env, { name: "tts", costUsd: voiceCost, reason: spoken.failure ?? undefined });
+        }
+        const budget = await chargeBudget(env, answer.trace.costUsd + voiceCost);
         recordEvent(env, {
           name: "ask",
           costUsd: answer.trace.costUsd,
@@ -75,11 +111,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
           type: "answer",
           answerId,
           output: answer.output,
+          summary: answer.summary,
           citations: answer.citations,
           action: answer.action,
           provenance: answer.provenance,
           trace: answer.trace,
           voiceAllowed,
+          voiceCostUsd: voiceCost,
           meter: {
             live: guard.live,
             freeReason: guard.freeReason ?? null,

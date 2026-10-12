@@ -21,7 +21,8 @@ export function coerce<T extends string>(value: string, allowed: readonly T[], f
 }
 
 export const wireSchema = z.object({
-  speech: z.string().describe("What Aden says, first person, plain text, under 120 words unless the question needs more."),
+  speech: z.string().describe("What Aden says out loud, first person, plain spoken sentences, usually under 70 words."),
+  summary: z.string().describe("The gist of the answer in three to eight words, for a one-line log."),
   citations: z.array(z.string()).describe("Ids of the notes the speech relies on, copied exactly from the corpus, e.g. positions/hiring.md#0."),
   noPosition: z.boolean().describe("True when the notes do not contain Aden's position on the question."),
   emotion: oneOf(emotions, "Facial expression for the avatar."),
@@ -48,6 +49,7 @@ export type Action = { kind: Exclude<ActionKind, "none">; reason: string } | nul
 
 export type DirectorResult = {
   output: DirectorOutput;
+  summary: string;
   citations: string[];
   action: Action;
 };
@@ -105,7 +107,14 @@ export function fromWire(wire: Wire, hits: Retrieved[]): DirectorResult {
   });
   const kind = coerce(wire.action.kind, actionKinds, "none");
   const action: Action = kind === "none" ? null : { kind, reason: cut(wire.action.reason, 160) || defaultReason(kind) };
-  return { output, citations, action };
+  return { output, summary: cut(wire.summary, 80) || summarize(output.speech), citations, action };
+}
+
+/** A one-line gist when the model did not write one: the first clause of the first sentence. */
+export function summarize(speech: string): string {
+  const first = speech.split(/(?<=[.!?])\s/)[0] ?? speech;
+  const clause = first.split(/[,:;]/)[0].trim().replace(/[.!?]$/, "");
+  return clause.length > 64 ? `${clause.slice(0, 63).trimEnd()}…` : clause;
 }
 
 export function defaultReason(kind: Exclude<ActionKind, "none">): string {

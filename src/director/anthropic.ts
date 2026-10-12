@@ -39,7 +39,16 @@ export function toMessages(history: HistoryTurn[], finalUser: string): Anthropic
 
 export async function callClaude<S extends z.ZodType>(
   env: WorkerEnv,
-  opts: { system: string; history: HistoryTurn[]; user: string; schema: S; maxTokens?: number; fetch?: typeof fetch },
+  opts: {
+    system: string;
+    history: HistoryTurn[];
+    user: string;
+    schema: S;
+    maxTokens?: number;
+    fetch?: typeof fetch;
+    /** When set, the reply is streamed and this receives the JSON text written so far. */
+    onSnapshot?: (snapshot: string) => void;
+  },
 ): Promise<ProviderCall<z.infer<S>>> {
   const model = llmModel(env);
   const empty = { model, inputTokens: 0, outputTokens: 0, cacheReadTokens: 0, cacheWriteTokens: 0 };
@@ -51,17 +60,27 @@ export async function callClaude<S extends z.ZodType>(
   const fallback = FALLBACK_MODELS.test(model);
 
   try {
-    // create() rather than parse(): parse() throws on a refusal or a cut-off reply before the stop
-    // reason or the billed usage can be read. The schema is still enforced server-side.
-    const response = await client.beta.messages.create({
+    // A plain JSON-schema format rather than the SDK's auto-parsing one: auto-parse throws on a refusal
+    // or a cut-off reply before the stop reason or the billed usage can be read. The API still enforces it.
+    const format = betaZodOutputFormat(opts.schema);
+    const params = {
       model,
       max_tokens: opts.maxTokens ?? 8000,
       ...(fallback ? { betas: ["server-side-fallback-2026-07-01"], fallbacks: "default" as const } : {}),
       // Chat answers do not repay deep thinking; low effort keeps the visitor's wait short.
-      output_config: { effort: "low", format: betaZodOutputFormat(opts.schema) },
-      system: [{ type: "text", text: opts.system, cache_control: { type: "ephemeral" } }],
+      output_config: { effort: "low" as const, format: { type: format.type, schema: format.schema } },
+      system: [{ type: "text" as const, text: opts.system, cache_control: { type: "ephemeral" as const } }],
       messages: toMessages(opts.history, opts.user),
-    });
+    };
+
+    let response: Anthropic.Beta.BetaMessage;
+    if (opts.onSnapshot) {
+      const stream = client.beta.messages.stream(params);
+      stream.on("text", (_delta, snapshot) => opts.onSnapshot?.(snapshot));
+      response = await stream.finalMessage();
+    } else {
+      response = await client.beta.messages.create(params);
+    }
 
     const usage = {
       model: response.model,

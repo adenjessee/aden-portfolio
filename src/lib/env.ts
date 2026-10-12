@@ -66,8 +66,11 @@ export function elevenKey(env?: WorkerEnv): string | undefined {
   return read(env, "ELEVENLABS_API_KEY");
 }
 
+// "Will - Relaxed Optimist", an ElevenLabs premade voice every account can use, until Aden's clone exists.
+export const DEFAULT_VOICE_ID = "bIHbv24MWmeRgasZH58o";
+
 export function elevenVoice(env?: WorkerEnv): string | undefined {
-  return read(env, "ELEVENLABS_VOICE_ID");
+  return read(env, "ELEVENLABS_VOICE_ID") || DEFAULT_VOICE_ID;
 }
 
 export function elevenModel(env?: WorkerEnv): string {

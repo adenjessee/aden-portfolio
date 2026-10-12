@@ -8,7 +8,7 @@ type Bundle = {
 
 const STOP = new Set(
   (
-    "the a an and or but to of in on at by for from is it its that this these those with as be been being are was were " +
+    "the a an and or but to of in on at by for from is it its that this these those with as be been being am im are was were " +
     "i me you we us they them he she what why how who whom when where which your yours my mine our does do did doing " +
     "can could would should will shall may might must if about into over than then there here so such just also very " +
     "any all some each much many more most other already have has had not no yes please tell explain think thoughts " +
@@ -143,8 +143,8 @@ export function queryTerms(query: string): QueryTerms {
     for (const word of words.map(stem)) {
       if (seen.has(word)) continue;
       seen.add(word);
-      // A question made only of stopwords ("who are you?") is carried entirely by its phrase.
-      out.push({ term: word, weight: originals.length ? 0.6 : 1, original: originals.length === 0 });
+      // A recognized phrase is part of what the visitor asked, so it counts like their own words.
+      out.push({ term: word, weight: 1, original: true });
     }
   }
   for (const term of originals) {

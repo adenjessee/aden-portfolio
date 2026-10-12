@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-12T18:21:27.658Z",
+  "generatedAt": "2026-10-12T20:06:53.197Z",
   "mode": "extractive",
   "model": null,
   "total": 33,
@@ -34,15 +34,14 @@
       "question": "What do you build?",
       "pass": true,
       "failures": [],
-      "speech": "The second big change was automating the job search itself. I built the Hire engine so each student gets a daily run ordered by evidence, with referrals found in their own LinkedIn connections export, role packs, follow-ups, and fresh roles. I applied the same kind of systems I build for code to the busywork of a job search, so students spend their hours on work and people. I build systems that map how a codebase fits together, and agents that make changes a team can check before it trusts them.",
+      "speech": "My work is applied AI and agentic graph engineering. I build systems that map how a codebase fits together, and agents that make changes a team can check before it trusts them. I learned to build software before the AI era.",
       "citations": [
-        "stories/building-gridschool.md#2",
         "me/biography.md#0"
       ],
       "noPosition": false,
       "mode": "extractive",
       "costUsd": 0,
-      "latencyMs": 3
+      "latencyMs": 2
     },
     {
       "id": "graph-why",
@@ -58,7 +57,7 @@
       "noPosition": false,
       "mode": "extractive",
       "costUsd": 0,
-      "latencyMs": 2
+      "latencyMs": 1
     },
     {
       "id": "gridseak",
@@ -81,10 +80,9 @@
       "question": "What are evidence tiers in GridSeak?",
       "pass": true,
       "failures": [],
-      "speech": "Every structural claim in GridSeak names its evidence tier. An edge from a tree-sitter parse, an edge found by grep, and an edge confirmed by the language server carry different weight, and GridSeak keeps them separate. Flattening all of that into \"GridSeak says\" is a mistake by the user of the tool. GridSeak is my example: a deterministic graph of a repository that tells an agent what a change will touch, with the evidence tier for each claim.",
+      "speech": "Every structural claim in GridSeak names its evidence tier. An edge from a tree-sitter parse, an edge found by grep, and an edge confirmed by the language server carry different weight, and GridSeak keeps them separate. Flattening all of that into \"GridSeak says\" is a mistake by the user of the tool.",
       "citations": [
-        "projects/gridseak.md#1",
-        "career/roles-i-want.md#1"
+        "projects/gridseak.md#1"
       ],
       "noPosition": false,
       "mode": "extractive",
@@ -105,7 +103,7 @@
       "noPosition": false,
       "mode": "extractive",
       "costUsd": 0,
-      "latencyMs": 1
+      "latencyMs": 0
     },
     {
       "id": "residency-length",
@@ -113,9 +111,9 @@
       "question": "How long is the GridSchool residency?",
       "pass": true,
       "failures": [],
-      "speech": "The GridSchool residency format is 8 weeks of teaching and review at 10 to 15 hours a week. After week 8, the weekly 1:1 continues until a company hires the student. Each week includes a 45-minute 1:1, up to three written reviews, a 75-minute cohort call with up to five people, and same-day answers in Discord. The 12-month GridSchool residency and the shared multiplayer world are archived.",
+      "speech": "Earlier versions of GridSchool were a 12-month residency with a fixed curriculum and a shared multiplayer world. The current residency is the 8-week route described here. The 12-month GridSchool residency and the shared multiplayer world are archived.",
       "citations": [
-        "projects/gridschool.md#1",
+        "projects/gridschool.md#5",
         "stories/mistakes.md#1"
       ],
       "noPosition": false,
@@ -129,10 +127,9 @@
       "question": "How do you check what an agent did?",
       "pass": true,
       "failures": [],
-      "speech": "I also give agents narrow jobs with clear limits. A narrow agent with a fallback is far easier to trust than a general one. My view on agents and trust: a team should be able to check what an agent did before it trusts the change. A junior who can read a diff from an agent, find what it missed, and write the test that catches it is more useful than one who writes everything by hand or one who accepts whatever the agent produced.",
+      "speech": "I also give agents narrow jobs with clear limits. A narrow agent with a fallback is far easier to trust than a general one. My view on agents and trust: a team should be able to check what an agent did before it trusts the change.",
       "citations": [
-        "positions/ai-agents.md#2",
-        "positions/juniors-and-ai.md#0"
+        "positions/ai-agents.md#2"
       ],
       "noPosition": false,
       "mode": "extractive",
@@ -190,15 +187,14 @@
       "question": "How does the map builder plan a route for each student?",
       "pass": true,
       "failures": [],
-      "speech": "The map builder is the GridSchool system that drafts a custom route for each student. Given a student's goal, background, and current evidence, it picks and orders the modules into a route, and I review the draft before the student sees it. The student's home on GridSchool is the map. A rejection, a new target company, or an interview that went sideways all feed back into the route, and the map builder drafts the new version for me to review.",
+      "speech": "The map builder is the GridSchool system that drafts a custom route for each student. Given a student's goal, background, and current evidence, it picks and orders the modules into a route, and I review the draft before the student sees it. The student's home on GridSchool is the map.",
       "citations": [
-        "projects/map-builder.md#0",
-        "stories/why-the-map.md#1"
+        "projects/map-builder.md#0"
       ],
       "noPosition": false,
       "mode": "extractive",
       "costUsd": 0,
-      "latencyMs": 1
+      "latencyMs": 0
     },
     {
       "id": "weakness",
@@ -236,15 +232,14 @@
       "question": "What kind of roles are you looking for?",
       "pass": true,
       "failures": [],
-      "speech": "My position on hiring is that proof beats credentials. A reviewed change to a real system and a public case study tell a hiring manager more than a certificate does. I ask for the same thing whether I am reviewing a student or looking at my own portfolio: a link I can check in under a minute. The roles I am looking for are applied AI engineer, agentic systems engineer, developer tooling engineer, and founding engineer at an early company.",
+      "speech": "The roles I am looking for are applied AI engineer, agentic systems engineer, developer tooling engineer, and founding engineer at an early company. The common thread is building AI systems whose output a team can check before trusting it. As an applied AI engineer, I want to work on the part of the product where a model meets real data and real users.",
       "citations": [
-        "positions/hiring.md#0",
         "career/roles-i-want.md#0"
       ],
       "noPosition": false,
       "mode": "extractive",
       "costUsd": 0,
-      "latencyMs": 1
+      "latencyMs": 0
     },
     {
       "id": "stack",
@@ -320,7 +315,7 @@
       "noPosition": false,
       "mode": "extractive",
       "costUsd": 0,
-      "latencyMs": 0
+      "latencyMs": 2
     },
     {
       "id": "really-aden",
@@ -387,7 +382,7 @@
       "noPosition": true,
       "mode": "extractive",
       "costUsd": 0,
-      "latencyMs": 0
+      "latencyMs": 1
     },
     {
       "id": "ignore",

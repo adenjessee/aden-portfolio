@@ -10,7 +10,8 @@ import { callClaude } from "./anthropic";
 import { callOpenAi } from "./openai";
 import { contactLine, pickRepresentation, systemPrompt, userPrompt, type HistoryTurn } from "./prompt";
 import { screenQuestion } from "./screen";
-import { defaultReason, fromWire, wireSchema, type Action } from "./wire";
+import { SpeechExtractor } from "./speechStream";
+import { defaultReason, fromWire, summarize, wireSchema, type Action } from "./wire";
 
 export type AnswerMode = "llm" | "extractive" | "screened";
 
@@ -30,6 +31,8 @@ export type AnswerTrace = {
 
 export type Answer = {
   output: DirectorOutput;
+  /** Three to eight words for the one-line conversation log. */
+  summary: string;
   citations: string[];
   action: Action;
   provenance: Provenance[];
@@ -39,10 +42,15 @@ export type Answer = {
 const CONTACT = /\b(hire|hiring|interview|recruit|reach|contact|email|call|talk to|meet|book|schedule|available|availability|open to|join)\b/i;
 const ROLE = /\b(job description|job posting|this role|the role|this opening|good fit|fit for|fit the)\b/i;
 
-function extractiveFallback(question: string, hits: Retrieved[], noPosition: boolean): { output: DirectorOutput; citations: string[]; action: Action } {
+function extractiveFallback(
+  question: string,
+  hits: Retrieved[],
+  noPosition: boolean,
+): { output: DirectorOutput; summary: string; citations: string[]; action: Action } {
   const extras = pickRepresentation(question);
   const usable = noPosition ? [] : hits;
-  const { text, usedIds } = extractiveAnswer(usable, question);
+  // Spoken aloud, so shorter than a written answer would be.
+  const { text, usedIds } = extractiveAnswer(usable, question, 420);
   const speech = noPosition
     ? `I have not written down a position on that, so I will not guess at one. Ask me about my work, how I build agents, or GridSchool, or leave me a message and I will answer it myself.`
     : text;
@@ -62,13 +70,32 @@ function extractiveFallback(question: string, hits: Retrieved[], noPosition: boo
     scene: noPosition ? [] : extras.scene,
     noPosition,
   });
-  return { output, citations: usedIds, action };
+  return { output, summary: noPosition ? "Not in my notes yet" : summarize(output.speech), citations: usedIds, action };
 }
 
 export async function answerQuestion(
   env: WorkerEnv,
-  input: { question: string; history: HistoryTurn[]; hits: Retrieved[]; allowLlm: boolean },
+  input: {
+    question: string;
+    history: HistoryTurn[];
+    hits: Retrieved[];
+    allowLlm: boolean;
+    /** Receives the spoken text as it becomes known: streamed from the model, or all at once otherwise. */
+    onSpeech?: (text: string) => void;
+  },
 ): Promise<Answer> {
+  let spoken = "";
+  const speak = (text: string) => {
+    if (!text) return;
+    spoken += text;
+    input.onSpeech?.(text);
+  };
+  // Paths that know the whole answer at once still go through speak(), and a model that failed
+  // after speaking part of an answer is not repeated from the start.
+  const finish = (answer: Answer): Answer => {
+    if (!spoken) speak(answer.output.speech);
+    return answer;
+  };
   const started = Date.now();
   const { question, hits } = input;
   const terms = queryTerms(question).filter((t) => t.original).map((t) => t.term);
@@ -83,24 +110,29 @@ export async function answerQuestion(
       scene: [],
       noPosition: true,
     });
-    return {
+    return finish({
       output,
+      summary: screen.kind === "injection" ? "Declined: instructions in the question" : "Declined: I do not repeat lines",
       citations: [],
       action: null,
       provenance: [],
       trace: { ...baseTrace, mode: "screened", model: null, usage: null, costUsd: 0, latencyMs: Date.now() - started, screened: screen.kind },
-    };
+    });
   }
 
   const provider = input.allowLlm ? llmProvider(env) : "none";
   if (provider !== "none") {
-    const call = provider === "anthropic" ? callClaude : callOpenAi;
-    const result = await call(env, {
+    const extractor = new SpeechExtractor();
+    const request = {
       system: systemPrompt,
       history: input.history.slice(-limits.historyTurns * 2),
       user: userPrompt(question, hits, retrievalHasPosition),
       schema: wireSchema,
-    });
+    };
+    const result =
+      provider === "anthropic"
+        ? await callClaude(env, { ...request, onSnapshot: input.onSpeech ? (snapshot) => speak(extractor.feed(snapshot)) : undefined })
+        : await callOpenAi(env, request);
     const usage: Usage = {
       model: result.model,
       inputTokens: result.inputTokens,
@@ -111,25 +143,25 @@ export async function answerQuestion(
     const costUsd = estimateAskCost({ usedLlm: result.inputTokens + result.outputTokens > 0, ...usage });
     if (result.value) {
       const directed = fromWire(result.value, hits);
-      return {
+      return finish({
         ...directed,
         provenance: toProvenance(hits, directed.citations),
         trace: { ...baseTrace, mode: "llm", model: result.model, usage, costUsd, latencyMs: Date.now() - started },
-      };
+      });
     }
     // The model failed or declined. Answer from the notes anyway, and still charge what was spent.
     const fallback = extractiveFallback(question, hits, !retrievalHasPosition);
-    return {
+    return finish({
       ...fallback,
       provenance: toProvenance(hits, fallback.citations),
       trace: { ...baseTrace, mode: "extractive", model: null, usage, costUsd, latencyMs: Date.now() - started, failure: result.failure },
-    };
+    });
   }
 
   const fallback = extractiveFallback(question, hits, !retrievalHasPosition);
-  return {
+  return finish({
     ...fallback,
     provenance: toProvenance(hits, fallback.citations),
     trace: { ...baseTrace, mode: "extractive", model: null, usage: null, costUsd: 0, latencyMs: Date.now() - started },
-  };
+  });
 }

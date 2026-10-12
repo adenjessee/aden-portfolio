@@ -1,38 +1,22 @@
 ---
 import Base from "../layouts/Base.astro";
 import { site } from "../config/site";
-import AskPanel from "../components/AskPanel.tsx";
+import Stage from "../components/Stage.tsx";
 ---
 
 <Base
+  bare
   title={`Ask AI Aden · ${site.name}`}
-  description="Ask Aden's AI about his work. It answers only from notes he wrote, cites them, shows how it found them and what the answer cost, and can take a message or check a job description."
+  description="Talk to Aden's AI. It answers out loud from notes Aden wrote, and says so when he has not written something down."
   path="/ask"
 >
-  <main class="section">
-    <div class="wrap">
-      <p class="kicker">Ask</p>
-      <h1>Ask AI Aden</h1>
-      <p class="lead">
-        An AI that answers for me from <a href="/notes">notes I wrote and published</a>. Every answer cites its sources and shows how it found them and what it cost. If I have not written something down, it says so instead of guessing. It can also take a message for me, or check a job description against my work.
-      </p>
-
-      <noscript>
-        <section class="panel prose" id="faq">
-          <h2>Without JavaScript</h2>
-          <p><strong>What do you build?</strong> Applied AI and agentic graph engineering systems: maps of how a codebase fits together, and agents whose changes a team can check. <a href="/notes/me/biography">Biography</a>.</p>
-          <p><strong>What is GridSeak?</strong> A local, deterministic code graph that agents query and cite by evidence tier. <a href={site.gridseak}>Source</a>.</p>
-          <p><strong>What is GridSchool?</strong> An 8-week residency for engineers who can code and are not getting hired. <a href={site.gridschool}>gridschool.org</a>.</p>
-          <p><strong>How do I reach you?</strong> <a href={`mailto:${site.email}`}>{site.email}</a>, or <a href={site.linkedin}>LinkedIn</a>.</p>
-          <p>Everything AI Aden can say is readable at <a href="/notes">/notes</a>.</p>
-        </section>
-      </noscript>
-
-      <AskPanel client:load />
-
-      <p class="status ask-foot">
-        How it works: <a href="/notes">the notes</a> · <a href="/evals">the evals</a> · <a href={`${site.repo}`}>the source</a> · <a href="/privacy">what is stored</a>
-      </p>
-    </div>
+  <main>
+    <noscript>
+      <div class="wrap section prose">
+        <h1>Ask AI Aden</h1>
+        <p>This page needs JavaScript to talk. Everything AI Aden can say is readable at <a href="/notes">/notes</a>, and the rest of the site works without it: <a href="/">home</a>, <a href="/resume">resume</a>.</p>
+      </div>
+    </noscript>
+    <Stage client:load />
   </main>
 </Base>

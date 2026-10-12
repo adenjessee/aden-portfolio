@@ -4,6 +4,7 @@ import type { HistoryTurn } from "../director/prompt";
 import type { Action } from "../director/wire";
 import type { Provenance } from "../rag/types";
 import type { DirectorOutput } from "../scene/schema";
+import type { StreamAlignment } from "../voice/player";
 
 export type Meter = {
   live: boolean;
@@ -18,6 +19,7 @@ export type AnswerEvent = {
   type: "answer";
   answerId: string;
   output: DirectorOutput;
+  summary: string;
   citations: string[];
   action: Action;
   provenance: Provenance[];
@@ -30,15 +32,25 @@ export type AskEvent =
   | { type: "status"; value: string }
   | { type: "retrieved"; provenance: Provenance[] }
   | AnswerEvent
+  | { type: "voice"; sampleRate: number }
+  | { type: "audio"; index: number; sampleRate: number; audio: string; alignment: StreamAlignment }
+  | { type: "voice_error"; reason: string }
   | { type: "error"; message: string; reason?: string };
 
-export async function askAden(question: string, history: HistoryTurn[], onEvent: (event: AskEvent) => void): Promise<void> {
+export async function askAden(
+  question: string,
+  history: HistoryTurn[],
+  onEvent: (event: AskEvent) => void,
+  opts: { voice?: boolean; signal?: AbortSignal } = {},
+): Promise<void> {
   const response = await fetch("/api/ask", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ question, history }),
+    body: JSON.stringify({ question, history, voice: opts.voice === true }),
+    signal: opts.signal,
   }).catch(() => null);
 
+  if (opts.signal?.aborted) return;
   if (!response) {
     onEvent({ type: "error", message: "Could not reach the server. The notes still work offline-first at /notes." });
     return;
@@ -53,8 +65,8 @@ export async function askAden(question: string, history: HistoryTurn[], onEvent:
   const decoder = new TextDecoder();
   let buffer = "";
   while (true) {
-    const { value, done } = await reader.read();
-    if (done) break;
+    const { value, done } = await reader.read().catch(() => ({ value: undefined, done: true as const }));
+    if (done || opts.signal?.aborted) break;
     buffer += decoder.decode(value, { stream: true });
     const parts = buffer.split("\n\n");
     buffer = parts.pop() || "";

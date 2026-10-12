@@ -1217,3 +1217,175 @@ line.trace-edge {
     transition: none !important;
   }
 }
+
+/* ---------- /ask: the stage ---------- */
+
+body.bare {
+  overflow: hidden;
+}
+
+body.bare::before {
+  display: none;
+}
+
+.stage {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(120% 90% at 50% 30%, #0a1424 0%, var(--bg) 70%);
+}
+
+.stage-avatar {
+  position: absolute;
+  inset: 0;
+}
+
+.stage-avatar canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.stage-poster {
+  position: absolute;
+  left: 50%;
+  top: 8%;
+  height: 64%;
+  width: auto;
+  transform: translateX(-50%);
+}
+
+/* A soft floor of darkness under the log so small text stays readable over the avatar. */
+.stage::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 42%;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--bg) 70%, transparent) 45%, var(--bg) 100%);
+}
+
+.stage-dock {
+  z-index: 1;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: min(720px, calc(100% - 32px));
+  transform: translateX(-50%);
+  padding-bottom: max(18px, env(safe-area-inset-bottom));
+}
+
+.stage-caption {
+  margin: 0 0 10px;
+  padding: 0 4px;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  text-shadow: 0 1px 8px #000;
+  max-height: 7.5em;
+  overflow-y: auto;
+}
+
+.stage-log {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0 6px;
+  display: grid;
+  gap: 2px;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.stage-log li {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  min-width: 0;
+  text-shadow: 0 1px 6px #000;
+  transition: opacity var(--dur-base);
+}
+
+.stage-q {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--text);
+}
+
+.stage-a {
+  flex: 0 1 45%;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: right;
+  color: var(--muted);
+}
+
+.stage-log li[data-state="thinking"] .stage-a,
+.stage-log li[data-state="speaking"] .stage-a {
+  color: var(--cyan);
+}
+
+.stage-log li[data-state="error"] .stage-a {
+  color: var(--out);
+}
+
+.stage-input {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 8px 8px 8px 18px;
+  border: 1px solid color-mix(in srgb, var(--text) 16%, transparent);
+  border-radius: 26px;
+  background: color-mix(in srgb, var(--bg2) 82%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
+}
+
+.stage-input:focus-within {
+  border-color: color-mix(in srgb, var(--cyan) 45%, transparent);
+}
+
+.stage-input textarea {
+  flex: 1;
+  min-height: 24px;
+  max-height: 120px;
+  padding: 7px 0;
+  border: 0;
+  outline: none;
+  resize: none;
+  background: transparent;
+  color: var(--white);
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+  field-sizing: content;
+}
+
+.stage-input textarea::placeholder {
+  color: var(--ghost);
+}
+
+.stage-input button {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--bg);
+  cursor: pointer;
+  transition: opacity var(--dur-fast);
+}
+
+.stage-input button:disabled {
+  opacity: 0.25;
+  cursor: default;
+}

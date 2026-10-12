@@ -34,6 +34,7 @@ describe("Claude adapter", () => {
     const hits = scoreLocal("What is GridSeak?", loadBundledChunks(), 4);
     const answer: Wire = {
       speech: "GridSeak is my code graph tool.",
+      summary: "GridSeak, my code graph tool",
       citations: [hits[0].id],
       noPosition: false,
       emotion: "Serious",

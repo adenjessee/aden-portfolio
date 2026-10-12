@@ -4,6 +4,8 @@ import react from "@astrojs/react";
 
 export default defineConfig({
   site: "https://adenjessee.com",
+  // The dev toolbar sits exactly where /ask puts its input.
+  devToolbar: { enabled: false },
   output: "static",
   adapter: cloudflare({
     imageService: "passthrough",

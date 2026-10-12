@@ -5,15 +5,19 @@ The site is static HTML first. One Cloudflare Worker deploy serves the pages and
 ```
 Visitor
   -> Astro HTML: home, work, resume, /notes (every note AI Aden can cite), /evals
-  -> /ask island
+  -> /ask: full-screen avatar, a seven-line log, one input (src/components/Stage.tsx)
+  -> /inspect: the same agent in text with sources, answer maps, cost meter and action cards
        capability check -> 3D VRM avatar, or the poster
        GET /api/status   -> meter: model, questions left, today's spend
-       POST /api/ask (SSE)
+       POST /api/ask (SSE, voice: true from /ask)
          rate limit (abuse only)
          budget and session cap -> live model, or free notes-only mode
          retrieve: BM25 + Workers AI vectors, rank-fused      -> event "retrieved" (the map draws)
          screen: injection and "say exactly" caught before any model
-         director: Claude fills the wire schema               -> event "answer"
+         director: Claude streams the wire schema; the "speech" field is read as it is written,
+           split into sentences, and each sentence goes to ElevenLabs (PCM + character timings)
+                                                              -> events "audio" (in order, as they arrive)
+                                                              -> event "answer" (summary for the log)
            citations checked against what was retrieved
            scene, emotion, gesture, one optional action
          charge the budget with the real token cost
@@ -37,6 +41,10 @@ Visitor
 | `src/avatar` | VRM load and framing, gesture FSM with a rest pose, expressions, gaze, lip sync |
 | `src/voice` | ElevenLabs proxy, visemes |
 | `src/telemetry` | Cost and degradation events to Analytics Engine |
+
+## Voice and mouth
+
+`SpeechPipeline` (`src/voice/ttsStream.ts`) streams the first sentence straight through and prefetches the next two, so audio starts after one sentence of model output plus one ElevenLabs round trip. The browser (`src/voice/player.ts`) schedules each 24 kHz PCM chunk on one AudioContext and turns the character timestamps into mouth shapes on the same clock; loudness from an analyser scales how open the mouth is. A new question interrupts the current answer. Without an ElevenLabs key, or once the day's budget is spent, the answer shows as a caption instead.
 
 ## Rules the code enforces
 

@@ -6,12 +6,15 @@ interface Props {
   title?: string;
   description?: string;
   path?: string;
+  /** No header or footer: the page is one full-screen surface (/ask). */
+  bare?: boolean;
 }
 
 const {
   title = site.title,
   description = site.description,
   path = "/",
+  bare = false,
 } = Astro.props;
 
 const canonical = new URL(path, site.url).toString();
@@ -45,7 +48,8 @@ const og = new URL(site.ogImage, site.url).toString();
       rel="stylesheet"
     />
   </head>
-  <body>
+  <body class={bare ? "bare" : undefined}>
+    {!bare && (
     <header class="site-header">
       <div class="wrap nav-row">
         <a class="mark" href="/">{site.name}</a>
@@ -58,7 +62,9 @@ const og = new URL(site.ogImage, site.url).toString();
         </nav>
       </div>
     </header>
+    )}
     <slot />
+    {!bare && (
     <footer class="site-footer">
       <div class="wrap">
         <p>
@@ -74,5 +80,6 @@ const og = new URL(site.ogImage, site.url).toString();
         </p>
       </div>
     </footer>
+    )}
   </body>
 </html>

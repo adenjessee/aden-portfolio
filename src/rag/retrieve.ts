@@ -2,6 +2,7 @@ import { limits } from "../config/site";
 import type { WorkerEnv } from "../lib/env";
 import { embedQuery } from "./embed";
 import { loadBundledChunks, scoreLocal } from "./localIndex";
+import { bestMatch, hasPosition } from "./threshold";
 import type { KbChunk, Retrieved } from "./types";
 
 // bge-base cosine: unrelated text sits near 0.45, a paraphrase of the same claim near 0.8.
@@ -57,9 +58,14 @@ export async function retrieve(env: WorkerEnv, query: string, topK = limits.retr
   return fuse(lexical, vectorHits, topK);
 }
 
-/** Short follow-ups ("why?", "and the cost?") retrieve with the previous question attached. */
-export function retrievalQuery(question: string, previousQuestion?: string): string {
-  const words = question.trim().split(/\s+/).length;
-  if (previousQuestion && words <= 6) return `${question} ${previousQuestion}`;
-  return question;
+/**
+ * Retrieval for one turn of a conversation. The question is tried on its own first; only when that
+ * finds nothing on record is the previous question attached, so "why?" or "and the cost?" still land
+ * while a new short question ("are you open to roles?") is not dragged back to the last topic.
+ */
+export async function retrieveForTurn(env: WorkerEnv, question: string, previousQuestion?: string): Promise<Retrieved[]> {
+  const alone = await retrieve(env, question);
+  if (!previousQuestion || hasPosition(alone)) return alone;
+  const joined = await retrieve(env, `${question} ${previousQuestion}`);
+  return bestMatch(joined) > bestMatch(alone) ? joined : alone;
 }

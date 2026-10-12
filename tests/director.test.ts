@@ -7,6 +7,7 @@ import { loadBundledChunks, scoreLocal } from "../src/rag/localIndex";
 
 const wire = (patch: Partial<Wire> = {}): Wire => ({
   speech: "I build graph tools.",
+  summary: "I build graph tools",
   citations: [],
   noPosition: false,
   emotion: "serious",

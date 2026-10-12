@@ -1,6 +1,6 @@
 # Aden Jessee · portfolio
 
-Employer-first personal site with **AI Aden**: an agent that answers for Aden from notes he wrote, cites them, draws how it found them, shows what each answer cost, and can take a message, set up a call, or check a job description against his work. The first paint is HTML. Every page works with JavaScript, WebGL, voice, and the model turned off.
+Employer-first personal site with **AI Aden**: an avatar that answers out loud for Aden from notes he wrote, with streamed voice and lip sync. `/ask` is just the avatar, a short log, and an input. `/inspect` shows the same agent with its wiring: sources, how it found them, what each answer cost, and actions (leave a message, request a call, check a job description). The first paint is HTML. Every page works with JavaScript, WebGL, voice, and the model turned off.
 
 This is also the GridSchool founder example. Students fork it.
 
@@ -31,7 +31,7 @@ npm run test:e2e
 npm run build
 ```
 
-Local mode needs no API keys: answers come from the notes alone. Add `ANTHROPIC_API_KEY` to `.env` (see `.env.example`) for the live model.
+Local mode needs no API keys: answers come from the notes alone, shown as captions. Put `ELEVENLABS_API_KEY` in `.env` and the avatar talks (default voice "Will" until you set `ELEVENLABS_VOICE_ID`); add `ANTHROPIC_API_KEY` for the live model. Restart `npm run dev` after editing `.env`.
 
 ```bash
 npm run evals            # 33 cases, notes-only, free

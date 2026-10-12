@@ -57,3 +57,18 @@ describe("local retrieval", () => {
     expect(hits[0].path).toBe("projects/gridseak.md");
   });
 });
+
+describe("conversation turns", () => {
+  it("does not drag a new short question back to the last topic", async () => {
+    const { retrieveForTurn } = await import("../src/rag/retrieve");
+    const hits = await retrieveForTurn(undefined, "Are you open to new roles?", "What is your favorite pizza topping?");
+    expect(hasPosition(hits)).toBe(true);
+    expect(hits.some((h) => h.path === "career/roles-i-want.md" || h.path === "faq/common-questions.md")).toBe(true);
+  });
+
+  it("carries a bare follow-up on the previous question", async () => {
+    const { retrieveForTurn } = await import("../src/rag/retrieve");
+    const hits = await retrieveForTurn(undefined, "why?", "Why does graph engineering matter?");
+    expect(hits[0].path).toBe("positions/graph-engineering.md");
+  });
+});
