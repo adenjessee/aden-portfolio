@@ -36,6 +36,8 @@ function AdenRig({ performance, talking, voice }: { performance: DirectorOutput[
           if (!cancelled) {
             gaze.current.attach(loaded);
             frameHead(loaded, camera);
+            // Dev only: lets a test read the live mouth weights from the console.
+            if (import.meta.env.DEV) (window as unknown as { __avatar?: VRM }).__avatar = loaded;
             setVrm(loaded);
             return;
           }

@@ -50,7 +50,7 @@ function extractiveFallback(
   const extras = pickRepresentation(question);
   const usable = noPosition ? [] : hits;
   // Spoken aloud, so shorter than a written answer would be.
-  const { text, usedIds } = extractiveAnswer(usable, question, 420);
+  const { text, usedIds } = extractiveAnswer(usable, question, 320);
   const speech = noPosition
     ? `I have not written down a position on that, so I will not guess at one. Ask me about my work, how I build agents, or GridSchool, or leave me a message and I will answer it myself.`
     : text;
