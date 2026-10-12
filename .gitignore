@@ -19,3 +19,6 @@ blob-report/
 public/models/aden.vrm
 public/animations/*.vrma
 !public/animations/.gitkeep
+
+# Raw exports and extraction output: personal data, never committed.
+private/

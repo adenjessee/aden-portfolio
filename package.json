@@ -16,7 +16,8 @@
     "test:e2e": "playwright test",
     "astro": "astro",
     "evals": "tsx scripts/run-evals.ts",
-    "inbox": "tsx scripts/inbox.ts"
+    "inbox": "tsx scripts/inbox.ts",
+    "ingest": "tsx scripts/ingest.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.133.0",
