@@ -17,12 +17,15 @@
     "astro": "astro",
     "evals": "tsx scripts/run-evals.ts",
     "inbox": "tsx scripts/inbox.ts",
-    "ingest": "tsx scripts/ingest.ts"
+    "ingest": "tsx scripts/ingest.ts",
+    "agent:prompt": "tsx scripts/agent-prompt.ts",
+    "agent:sync": "tsx scripts/agent-sync.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.133.0",
     "@astrojs/cloudflare": "^12.6.12",
     "@astrojs/react": "^4.4.2",
+    "@elevenlabs/client": "^1.33.0",
     "@pixiv/three-vrm": "^3.4.4",
     "@pixiv/three-vrm-animation": "^3.4.4",
     "@react-three/drei": "^10.7.6",

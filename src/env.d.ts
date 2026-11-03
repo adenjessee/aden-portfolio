@@ -17,6 +17,7 @@ interface Env {
   LLM_MODEL?: string;
   INBOX_TOKEN?: string;
   STT_PROVIDER?: string;
+  ELEVENLABS_AGENT_ID?: string;
   AI_GATEWAY_URL?: string;
   ELEVENLABS_API_KEY?: string;
   ELEVENLABS_VOICE_ID?: string;
@@ -39,6 +40,7 @@ interface ImportMetaEnv {
   readonly LLM_MODEL?: string;
   readonly INBOX_TOKEN?: string;
   readonly STT_PROVIDER?: string;
+  readonly ELEVENLABS_AGENT_ID?: string;
   readonly AI_GATEWAY_URL?: string;
   readonly ELEVENLABS_API_KEY?: string;
   readonly ELEVENLABS_VOICE_ID?: string;

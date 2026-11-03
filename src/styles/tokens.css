@@ -1439,3 +1439,18 @@ body.bare::before {
   transform-origin: left;
   transition: transform 200ms linear;
 }
+
+/* In a live call the mic is the hang-up button: lit, breathing with your voice. */
+.stage-input .stage-mic[data-state="live"] {
+  color: var(--bg);
+  background: var(--ok);
+  border-color: var(--ok);
+  box-shadow: 0 0 0 calc(3px + var(--level, 0) * 16px) color-mix(in srgb, var(--ok) 30%, transparent);
+  transition: box-shadow 80ms linear;
+}
+
+.stage-input .stage-mic[data-state="connecting"] {
+  color: var(--ok);
+  border-color: var(--ok);
+  animation: pulse-ring 0.9s ease-in-out infinite;
+}

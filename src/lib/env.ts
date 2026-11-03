@@ -85,6 +85,11 @@ export function sttProvider(env?: WorkerEnv): "browser" | "elevenlabs" {
   return read(env, "STT_PROVIDER") === "elevenlabs" && elevenKey(env) ? "elevenlabs" : "browser";
 }
 
+/** The ElevenLabs Agent behind live voice calls on /ask. */
+export function agentId(env?: WorkerEnv): string | undefined {
+  return read(env, "ELEVENLABS_AGENT_ID");
+}
+
 export function inboxToken(env?: WorkerEnv): string | undefined {
   return read(env, "INBOX_TOKEN");
 }

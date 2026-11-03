@@ -2,13 +2,13 @@ import { useEffect, useState, type ComponentType } from "react";
 import { detectCapability } from "../avatar/capability";
 import type { SceneState } from "../scene/registry";
 import type { DirectorOutput } from "../scene/schema";
-import type { SpeechPlayer } from "../voice/player";
+import type { MouthSource } from "../avatar/LipSync";
 
 export type AvatarCanvasProps = {
   performance: DirectorOutput["performance"];
   scene: SceneState;
   talking: boolean;
-  voice?: SpeechPlayer;
+  voice?: MouthSource & { speaking: boolean };
   onLoadProgress?: (fraction: number) => void;
 };
 

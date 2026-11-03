@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { budgetRemaining } from "../../guard/budget";
 import { peekSession } from "../../guard/sessionCap";
-import { llmModel, llmProvider, sessionId, sessionQuestionCap, sttProvider } from "../../lib/env";
+import { agentId, elevenKey, llmModel, llmProvider, sessionId, sessionQuestionCap, sttProvider } from "../../lib/env";
 import { json } from "../../lib/http";
 
 export const prerender = false;
@@ -20,5 +20,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
     spentUsd: budget.state.spentUsd,
     ceilingUsd: budget.ceiling,
     stt: sttProvider(env),
+    /** Real-time voice calls with the ElevenLabs agent are configured. */
+    liveCall: Boolean(agentId(env) && elevenKey(env)),
   });
 };

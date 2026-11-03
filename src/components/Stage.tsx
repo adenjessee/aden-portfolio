@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { askAden, fetchStatus, type AskEvent } from "../client/askClient";
+import { summarize } from "../director/wire";
+import { LiveCall, LiveUnavailable } from "../voice/liveCall";
 import { BrowserListener, ServerListener, SttFallback, type Listener } from "../voice/listeners";
 import type { HistoryTurn } from "../director/prompt";
 import { emptyScene } from "../scene/registry";
@@ -30,7 +32,9 @@ export default function Stage() {
   const input = useRef<HTMLTextAreaElement>(null);
   const nextId = useRef(1);
   const listener = useRef<Listener | null>(null);
-  const [mic, setMic] = useState<"off" | "idle" | "listening" | "transcribing">("off");
+  const [mic, setMic] = useState<"off" | "idle" | "listening" | "transcribing" | "connecting" | "live">("off");
+  const live = useRef<LiveCall | null>(null);
+  const liveRow = useRef<number | null>(null);
   const [level, setLevel] = useState(0);
   const [loaded, setLoaded] = useState(0);
 
@@ -40,7 +44,8 @@ export default function Stage() {
       const canRecord = typeof MediaRecorder !== "undefined" && Boolean(navigator.mediaDevices?.getUserMedia);
       const preferServer = status?.stt === "elevenlabs" && canRecord;
       listener.current = preferServer ? new ServerListener() : BrowserListener.available() ? new BrowserListener() : canRecord ? new ServerListener() : null;
-      setMic(listener.current ? "idle" : "off");
+      if (status?.liveCall && canRecord) live.current = new LiveCall();
+      setMic(live.current || listener.current ? "idle" : "off");
     });
     const prefill = new URLSearchParams(window.location.search).get("q");
     if (prefill) setQuestion(prefill.slice(0, 500));
@@ -51,8 +56,61 @@ export default function Stage() {
     setRows((current) => current.map((row) => (row.id === id ? { ...row, ...change } : row)));
   }
 
+  /** A live call: full-duplex voice with the agent. Talk, pause, it answers; talk over it and it stops. */
+  async function toggleLive() {
+    const call = live.current!;
+    if (call.active) {
+      await call.end();
+      return;
+    }
+    player.current?.stop();
+    inflight.current?.abort();
+    setMic("connecting");
+    try {
+      await call.start({
+        onUserSaid: (text) => {
+          const id = nextId.current++;
+          liveRow.current = id;
+          setRows((current) => [...current, { id, question: text, summary: "", state: "thinking", speech: "" } as Row].slice(-LOG_LINES));
+        },
+        onAgentSaid: (text) => {
+          const id = liveRow.current;
+          setAnnounce(text);
+          if (id === null) return; // the greeting: nothing was asked yet
+          setRows((current) =>
+            current.map((row) => (row.id === id ? { ...row, summary: summarize(text), speech: row.speech ? `${row.speech} ${text}` : text, state: "speaking" } : row)),
+          );
+        },
+        onMode: (mode) => {
+          if (mode === "listening" && liveRow.current !== null) {
+            const id = liveRow.current;
+            setRows((current) => current.map((row) => (row.id === id && row.state !== "thinking" ? { ...row, state: "done" } : row)));
+          }
+        },
+        onEnded: () => {
+          liveRow.current = null;
+          setMic("idle");
+          setLevel(0);
+        },
+      });
+      setMic("live");
+      const tick = () => {
+        if (!call.active) return;
+        setLevel(call.speaking ? 0 : call.inputLevel());
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    } catch (error) {
+      // No live calls right now (not set up, budget, visit limit): fall back to push-to-talk.
+      if (error instanceof LiveUnavailable) live.current = null;
+      setMic(listener.current ? "idle" : "off");
+      if (error instanceof LiveUnavailable && listener.current) void toggleMic();
+    }
+  }
+
   /** Talking interrupts the avatar, like it would in conversation; a pause ends the question. */
   async function toggleMic() {
+    if (live.current) return toggleLive();
     if (mic === "listening") {
       listener.current?.stop();
       return;
@@ -94,6 +152,15 @@ export default function Stage() {
   async function send(spoken?: string) {
     const text = (spoken ?? question).trim();
     if (!text) return;
+    if (live.current?.active) {
+      // In a call, typing is just another way to talk.
+      setQuestion("");
+      const id = nextId.current++;
+      liveRow.current = id;
+      setRows((current) => [...current, { id, question: text, summary: "", state: "thinking", speech: "" } as Row].slice(-LOG_LINES));
+      live.current.send(text);
+      return;
+    }
     // Inside the key press, so the browser lets the audio play.
     player.current?.unlock();
     // A new question interrupts the current answer, the way it would in conversation.
@@ -145,7 +212,13 @@ export default function Stage() {
     <div className="stage">
       <div className="stage-avatar" aria-hidden="true">
         {Canvas ? (
-          <Canvas performance={pose} scene={emptyScene()} talking={false} voice={player.current ?? undefined} onLoadProgress={setLoaded} />
+          <Canvas
+            performance={pose}
+            scene={emptyScene()}
+            talking={false}
+            voice={(mic === "live" ? live.current : player.current) ?? undefined}
+            onLoadProgress={setLoaded}
+          />
         ) : noWebgl ? (
           <img className="stage-poster" src="/avatar-poster.svg" alt="" />
         ) : null}
@@ -185,7 +258,9 @@ export default function Stage() {
             rows={1}
             value={question}
             maxLength={500}
-            placeholder={mic === "listening" ? "Listening…" : mic === "transcribing" ? "One moment…" : "Ask Aden anything"}
+            placeholder={
+              mic === "live" ? "Live: just talk, or type" : mic === "connecting" ? "Connecting…" : mic === "listening" ? "Listening…" : mic === "transcribing" ? "One moment…" : "Ask Aden anything"
+            }
             onChange={(event) => setQuestion(event.target.value)}
             onKeyDown={(event) => {
               if (event.key === "Escape" && mic === "listening") listener.current?.cancel();
@@ -200,10 +275,10 @@ export default function Stage() {
               type="button"
               className="stage-mic"
               data-state={mic}
-              aria-label={mic === "listening" ? "Stop listening" : "Talk"}
-              aria-pressed={mic === "listening"}
+              aria-label={mic === "live" ? "End the call" : mic === "listening" ? "Stop listening" : live.current ? "Start a live conversation" : "Talk"}
+              aria-pressed={mic === "listening" || mic === "live"}
               onClick={() => void toggleMic()}
-              disabled={mic === "transcribing"}
+              disabled={mic === "transcribing" || mic === "connecting"}
               style={{ ["--level" as string]: level.toFixed(2) }}
             >
               <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
