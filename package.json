@@ -19,7 +19,8 @@
     "inbox": "tsx scripts/inbox.ts",
     "ingest": "tsx scripts/ingest.ts",
     "agent:prompt": "tsx scripts/agent-prompt.ts",
-    "agent:sync": "tsx scripts/agent-sync.ts"
+    "agent:sync": "tsx scripts/agent-sync.ts",
+    "avatar:compare": "scripts/avatar/compare.sh"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.133.0",

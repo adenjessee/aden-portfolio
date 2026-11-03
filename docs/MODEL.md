@@ -50,3 +50,20 @@ Gestures are procedural poses on a rest pose (`src/avatar/AnimationController.ts
 ## The file
 
 `public/models/aden.vrm` is gitignored so a work-in-progress model is never published by accident. When you're happy with it, remove that line from `.gitignore` and commit it, or host it on R2 and point `VRM_CANDIDATES` at the URL.
+
+## The match loop (photos vs. model)
+
+`npm run avatar:compare -- ~/Documents/me.vrm` cuts the backgrounds out of the photos in `private/avatar/photos/` (Apple Vision, on device, once per photo), renders the VRM in Blender from the same angles, and writes `private/avatar/compare_head.png` (photos on top, model below) and `compare_body.png`. Export from VRoid, run it, fix one thing, repeat. Needs Blender 4.5 with the VRM add-on and `uv`.
+
+### Aden's targets (from the 2026-11-03 photos)
+
+**Hair.** Short, textured, dark brown. Roughly 2.5 to 3 inches on top, shorter at the sides, tapered at the nape.
+- Color: base `#3d2f25`, shadow `#241b15`, a faint highlight `#5a4a3c`. Not orange: the default light brown reads as a different person.
+- Top: lifted at the roots, pieces pushed up and back, then falling forward and slightly to his right. No smooth helmet dome; the silhouette is a little taller than wide.
+- Fringe: loose, uneven pieces that reach the brow on the side profiles and leave the forehead partly showing from the front. Never a straight-across bowl line.
+- Sides: short and close to the head. The ears are fully visible; nothing covers them.
+- Back: follows the skull and tapers into the neck. The hairline at the nape is natural, not a poof.
+
+**Face and skin.** Square, strong jaw and chin; wide neck; light stubble on the jaw and upper lip (paint it in the face texture at low opacity). Skin light and warm (`#edc9a5` lit), not pink. Eyes grey-green.
+
+**Body.** Adult build, not teen: smaller head relative to body, thicker neck, broader shoulders, fuller chest and arms. Height: Aden's real height.
