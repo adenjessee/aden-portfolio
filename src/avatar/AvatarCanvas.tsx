@@ -22,7 +22,7 @@ type Props = {
   onLoadProgress?: (fraction: number) => void;
 };
 
-function AdenRig({ performance, talking, voice, onLoadProgress }: Omit<Props, "scene">) {
+function AdenRig({ performance, talking, voice, onLoadProgress, onFramed }: Omit<Props, "scene"> & { onFramed: () => void }) {
   const [vrm, setVrm] = useState<VRM | null>(null);
   const anim = useRef(new AnimationController());
   const face = useRef(new ExpressionController());
@@ -39,6 +39,7 @@ function AdenRig({ performance, talking, voice, onLoadProgress }: Omit<Props, "s
           if (!cancelled) {
             gaze.current.attach(loaded);
             frameHead(loaded, camera);
+            onFramed();
             // Dev only: lets a test read the live mouth weights from the console.
             if (import.meta.env.DEV) (window as unknown as { __avatar?: VRM }).__avatar = loaded;
             setVrm(loaded);
@@ -95,10 +96,18 @@ function frameHead(vrm: VRM, camera: import("three").Camera) {
 }
 
 export function AvatarCanvas({ performance, scene, talking, voice, onLoadProgress }: Props) {
+  // The camera only gets its real framing once the model's head is known, so the stage stays hidden
+  // until then; otherwise the grid shows from the default camera and visibly jumps when the model lands.
+  const [framed, setFramed] = useState(false);
   return (
-    <Canvas camera={{ position: [0, 1.35, 2.6], fov: 32 }} gl={{ antialias: false, alpha: false }} dpr={[1, 1.5]}>
+    <Canvas
+      camera={{ position: [0, 1.35, 2.6], fov: 32 }}
+      gl={{ antialias: false, alpha: false }}
+      dpr={[1, 1.5]}
+      style={{ opacity: framed ? 1 : 0, transition: "opacity 400ms ease-out" }}
+    >
       <TronStage />
-      <AdenRig performance={performance} talking={talking} voice={voice} onLoadProgress={onLoadProgress} />
+      <AdenRig performance={performance} talking={talking} voice={voice} onLoadProgress={onLoadProgress} onFramed={() => setFramed(true)} />
       <SceneObjects scene={scene} />
     </Canvas>
   );
