@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { askAden, fetchStatus, type AskEvent } from "../client/askClient";
+import { stripAudioTags } from "@elevenlabs/client";
 import { summarize } from "../director/wire";
 import { LiveCall, LiveUnavailable } from "../voice/liveCall";
 import { BrowserListener, ServerListener, SttFallback, type Listener } from "../voice/listeners";
@@ -73,7 +74,9 @@ export default function Stage() {
           liveRow.current = id;
           setRows((current) => [...current, { id, question: text, summary: "", state: "thinking", speech: "" } as Row].slice(-LOG_LINES));
         },
-        onAgentSaid: (text) => {
+        onAgentSaid: (raw) => {
+          // The voice model's delivery cues ("[excited]") shape how it sounds, not what it says.
+          const text = stripAudioTags(raw).replace(/\s+/g, " ").trim();
           const id = liveRow.current;
           setAnnounce(text);
           if (id === null) return; // the greeting: nothing was asked yet

@@ -54,6 +54,7 @@ const response = await fetch(`https://api.elevenlabs.io/v1/convai/agents/${agent
   method: "PATCH",
   headers: { "xi-api-key": key, "Content-Type": "application/json" },
   body: JSON.stringify(config),
+  signal: AbortSignal.timeout(90_000),
 });
 if (!response.ok) throw new Error(`Agent update failed (${response.status}): ${await response.text()}`);
 console.log(`Synced ${agentId}: ${prompt.length} chars of prompt, ${config.conversation_config.agent.prompt.llm}, voice ${voiceId}.`);
